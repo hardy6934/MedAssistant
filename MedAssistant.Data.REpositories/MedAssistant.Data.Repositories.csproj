@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MedAssistant.Core\MedAssistant.Core.csproj" />
+    <ProjectReference Include="..\MedAssistant.DataBase\MedAssistant.DataBase.csproj" />
+  </ItemGroup>
+
+</Project>

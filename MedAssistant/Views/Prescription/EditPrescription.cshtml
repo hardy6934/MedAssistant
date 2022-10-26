@@ -1,0 +1,43 @@
+﻿@model CreatePrescriptionModel
+
+@{
+    ViewData["Title"] = "Update Prescription";
+}
+
+<div>
+    <h1>Edit User</h1>
+
+    <form asp-controller="Prescription" asp-action="EditPrescription" method="post">
+
+        <div class="mb-3">
+            <label asp-for="Dosage" class="form-label">Dosage of Prescription</label>
+            <input asp-for="Dosage"  type="text"  id="Dosage" required>
+            <span asp-validation-for="Dosage" class="text-danger"></span>
+
+        </div>
+        <div class="mb-3">
+            <label asp-for="Bought" >Bought</label>
+            <input asp-for="Bought"  type="checkbox" id="Bought">
+            <span asp-validation-for="Bought" class="text-danger"></span>
+        </div>  
+
+        
+        <select asp-for="MedicineId" class="form-select" aria-label="Default select example" >
+            
+            @foreach(var name in Model.Medicine)
+            {
+                <option value="@name.Value">@name.Text </option> 
+            }
+        </select>
+         
+
+        <input type="submit" class="btn btn-primary" value="Submit">
+
+    </form>
+</div>
+
+@section Scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

@@ -1,0 +1,39 @@
+﻿@model RegistrationModel
+
+@{
+    ViewData["Title"] = "Registration";
+}
+
+<div>
+    <h1>Registration</h1>
+
+    <form asp-controller="Accounts" asp-action="Registration" method="post">
+        <div class="mb-3">
+            <label for="Login" class="form-label">Email</label>
+            <input asp-for="Login" type="Login" class="form-control" id="Login" required>
+            <span asp-validation-for="Login" class="text-danger"></span>
+
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" asp-for="Password" class="form-control" id="password">
+            <span asp-validation-for="Password" class="text-danger"></span>
+
+        </div>
+        <div class="mb-3">
+            <label for="PasswordConfirmation" class="form-label">PasswordConfirmation</label>
+            <input type="PasswordConfirmation" asp-for="PasswordConfirmation" class="form-control" id="PasswordConfirmation">
+            <span asp-validation-for="PasswordConfirmation" class="text-danger"></span>
+
+        </div>
+    
+        <input type="submit" class="btn btn-primary" value="Submit">
+       
+    </form>
+</div>
+
+@section Scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

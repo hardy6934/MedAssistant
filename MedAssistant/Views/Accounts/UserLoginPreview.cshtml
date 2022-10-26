@@ -1,0 +1,36 @@
+﻿@model UserShortDataModel
+
+ @{
+    Layout = null;
+  }
+
+ @if( Model == null)
+  {
+     <div class="dropdown">
+             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                 Login 
+             </button>
+    
+
+             <ul class = "dropdown-menu">
+                  <li><a class = "dropdown-item" asp-action = "Authentication" asp-controller ="Accounts">Login</a></li>
+                  <li> <a class = "dropdown-item" asp-action = "Registration" asp-controller ="Accounts">Register</a></li>
+             </ul>
+      </div>
+
+       
+  }
+  else {
+  
+      <div style="display:block; float:left; list-style:none;">
+           
+             <a style="text-decoration:none" class = "text-dark" asp-action ="UserView" asp-controller = "User">Hello @Model.FullName</a> |
+             
+             <a style="text-decoration:none" class = "text-dark" asp-controller ="Accounts"  asp-action = "Logout">Logout</a>
+          
+     </div>
+  }
+
+
+
+   
