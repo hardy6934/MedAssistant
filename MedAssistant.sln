@@ -11,9 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedAssistant.Buisness", "Me
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedAssistant.DataBase", "MedAssistant.DataBase\MedAssistant.DataBase.csproj", "{A7225997-E83C-41CF-A345-DB8612045FAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedAssistant.Data.Repositories", "MedAssistant.Data.REpositories\MedAssistant.Data.Repositories.csproj", "{D460EBAF-E72C-4265-B23A-9D3CB326BB2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedAssistant.Data.Repositories", "MedAssistant.Data.REpositories\MedAssistant.Data.Repositories.csproj", "{D460EBAF-E72C-4265-B23A-9D3CB326BB2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedAssistant.Data.Abstractions", "MedAssistant.Data.Abstractions\MedAssistant.Data.Abstractions.csproj", "{245853C1-486C-416D-85DE-AF759904DBED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedAssistant.Data.Abstractions", "MedAssistant.Data.Abstractions\MedAssistant.Data.Abstractions.csproj", "{245853C1-486C-416D-85DE-AF759904DBED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedAssistant.WebAPI", "MedAssistant.WebAPI\MedAssistant.WebAPI.csproj", "{BB51000F-942B-4E76-BDDC-2A32E1F705C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{245853C1-486C-416D-85DE-AF759904DBED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{245853C1-486C-416D-85DE-AF759904DBED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{245853C1-486C-416D-85DE-AF759904DBED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB51000F-942B-4E76-BDDC-2A32E1F705C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB51000F-942B-4E76-BDDC-2A32E1F705C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB51000F-942B-4E76-BDDC-2A32E1F705C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB51000F-942B-4E76-BDDC-2A32E1F705C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

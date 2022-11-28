@@ -1,0 +1,45 @@
+﻿@model   List<DoctorModel>
+
+@{
+    ViewData["Title"] = "Doctors";
+}
+
+<div>
+    <h1>All Doctors</h1>
+
+     @foreach(var n in Model)
+     {
+        <div style= "border:solid 1px " class ="vaccination-preview">
+            <div >
+                <label asp-for="@n.FullName" >FullName</label> <br/>
+                <label asp-for = "@n.FullName" >@n.FullName</label>
+            </div>
+
+            <div>
+                 <label asp-for="@n.PhoneNumber">PhoneNumber</label> <br/>
+                <label asp-for="@n.PhoneNumber">@n.PhoneNumber</label>
+            </div>
+          
+            <div >
+                <label asp-for="@n.DoctorType">DoctorType</label> <br/>
+                <label asp-for="@n.DoctorType" >@n.DoctorType </label>
+            </div>
+
+             <div >
+                <label asp-for="@n.MedicalInstitutionName" >MedicalInstitutionName</label> <br/>
+                <label asp-for="@n.MedicalInstitutionName" >@n.MedicalInstitutionName</label>
+            </div>
+        
+            <a class="btn btn-primary" asp-area="" asp-controller="Vaccination" asp-action="AddVaccination">AddNewVaccination</a>
+            <a class="btn btn-primary" asp-area="" asp-controller="Vaccination" asp-action="EditVaccination" asp-route-id = "@n.Id">EditVaccination</a>
+            <a class="btn btn-primary" asp-area="" asp-controller="Vaccination" asp-action="RemoveVaccination" asp-route-id = "@n.Id">RemoveVaccination</a>
+       </div>
+        
+     }   
+
+ @section Scripts
+ {
+    <script src = "~/js/dom.js" asp-append-version = "true"></script>
+ }
+ 
+</div>

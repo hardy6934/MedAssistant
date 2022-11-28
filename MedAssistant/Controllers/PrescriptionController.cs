@@ -25,11 +25,11 @@ namespace MedAssistant.Controllers
 
         public async Task<IActionResult> PrescriptionViewAsync()
         {
-            try
-            { 
+            //try
+            //{ 
                 var emailAddress = HttpContext.User.Identity.Name.ToString();
 
-                var Dtos = await prescriptionService.GetVaccinationsbyUserEmailAsync(emailAddress);
+                var Dtos = await prescriptionService.GetPrescriptionsbyUserEmailAsync(emailAddress);
 
                 if (Dtos != null)
                 {
@@ -39,19 +39,19 @@ namespace MedAssistant.Controllers
                 }
                 else
                     return NotFound();
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-                return NotFound();
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+            //    return NotFound();
+            //}
         }
 
         [HttpGet]
         public async Task<IActionResult> AddPrescriptionAsync()
         {
-            try
-            {
+            //try
+            //{
 
                 var model = new CreatePrescriptionModel();
 
@@ -60,12 +60,12 @@ namespace MedAssistant.Controllers
                 model.Medicine = vaccinationTypes.Select(dto => new SelectListItem(dto.Name, dto.Id.ToString())).ToList();
 
                 return View(model);
-            }
-            catch (Exception ex) {
+            //}
+            //catch (Exception ex) {
 
-                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-                return BadRequest();
-            }
+            //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+            //    return BadRequest();
+            //}
 
         }
 
@@ -73,7 +73,7 @@ namespace MedAssistant.Controllers
         [HttpPost]
         public async Task<IActionResult> AddPrescriptionAsync(PrescriptionModel prescriptionModel)
         {
-            try { 
+            //try { 
              
                     var emailAddress = HttpContext.User.Identity.Name.ToString();
                  
@@ -91,12 +91,12 @@ namespace MedAssistant.Controllers
 
                     return BadRequest();
 
-            }
-            catch (Exception ex) {
+            //}
+            //catch (Exception ex) {
 
-                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-                return BadRequest();
-            }
+            //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+            //    return BadRequest();
+            //}
 
 }
 
@@ -105,8 +105,8 @@ namespace MedAssistant.Controllers
         [HttpGet]
         public async Task<IActionResult> EditPrescriptionAsync(int id)
         {
-            try
-            {
+            //try
+            //{
 
                 var model = await prescriptionService.GetPrescriptionByIdAsync(id);
 
@@ -118,13 +118,13 @@ namespace MedAssistant.Controllers
 
                 return View(ent);
 
-            }
-            catch (Exception ex)
-            {
+            //}
+            //catch (Exception ex)
+            //{
 
-                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-                return NotFound();
-            }
+            //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+            //    return NotFound();
+            //}
 
         }        
 
@@ -133,7 +133,8 @@ namespace MedAssistant.Controllers
         [HttpPost]
         public async Task<IActionResult> EditPrescriptionAsync(PrescriptionModel prescriptionModel)
         {
-            try { 
+            //try
+            //{ 
                 if (ModelState.IsValid)
                 {
                     var emailAddress = HttpContext.User.Identity.Name.ToString();
@@ -153,13 +154,13 @@ namespace MedAssistant.Controllers
                 }
                 return BadRequest();
 
-            }
-            catch (Exception ex)
-            {
+            //}
+            //catch (Exception ex)
+            //{
 
-                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-                return BadRequest();
-            }
+            //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+            //    return BadRequest();
+            //}
 
         }
 
@@ -169,7 +170,7 @@ namespace MedAssistant.Controllers
         [HttpGet]
         public async Task<IActionResult> RemovePrescriptionAsync(int id)
         {
-            try {
+            //try {
 
                 var Dto = await prescriptionService.GetPrescriptionByIdAsync(id);
 
@@ -179,13 +180,13 @@ namespace MedAssistant.Controllers
                 }
                 return NotFound();
 
-            }
-            catch (Exception ex)
-            {
+            //}
+            //catch (Exception ex)
+            //{
 
-                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-                return NotFound();
-            }
+            //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+            //    return NotFound();
+            //}
 
         }
 
@@ -193,8 +194,8 @@ namespace MedAssistant.Controllers
         [HttpPost]
         public async Task<IActionResult> RemovePrescriptionAsync(PrescriptionModel prescriptionModel)
         {
-            try
-            {
+            //try
+            //{
                 if (prescriptionModel.Id != 0)
                 {
 
@@ -206,12 +207,12 @@ namespace MedAssistant.Controllers
                         return NotFound();
                 }
                 return NotFound();
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-                return NotFound();
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+            //    return NotFound();
+            //}
 
         }
 

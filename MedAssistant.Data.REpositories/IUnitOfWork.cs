@@ -17,7 +17,11 @@ namespace MedAssistant.Data.Repositories
         IRepository<Prescription> Prescription { get; }
         IRepository<VaccinationType> VaccinationType { get; }
         IRepository<Medicine> Medicines { get; }
-       
+        IRepository<MedicalInstitution> MedicalInstitution { get; }
+        IRepository<Doctor> Doctor { get; }
+        IRepository<Note> Note { get; }
+        IRepository<NoteType> NoteType { get; }
+        IRepository<DoctorType> DoctorType { get; }
 
         Task<int> Commit();
     }

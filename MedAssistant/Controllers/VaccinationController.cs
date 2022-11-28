@@ -23,7 +23,7 @@ namespace MedAssistant.Controllers
 
         public async Task<IActionResult> VaccinationViewAsync()
         {
-            List<VaccinationModel> vaccinationModels = new List<VaccinationModel>();
+            List<VaccinationModel> vaccinationModels = new();
             var emailAddress =   HttpContext.User.Identity.Name.ToString();
 
             var Dtos = await vaccinationService.GetVaccinationsbyUserEmailAsync(emailAddress);
@@ -35,11 +35,11 @@ namespace MedAssistant.Controllers
                 {
                     vaccinationModels.Add(mapper.Map<VaccinationModel>(n));
                 }
-
-
+                 
                 return View("VaccinationView", vaccinationModels);
             }
             return NotFound();
+
         }
 
         [HttpGet]
@@ -53,8 +53,7 @@ namespace MedAssistant.Controllers
             model.Types = vaccinationTypes.Select(dto => new SelectListItem(dto.Type,dto.Id.ToString())).ToList();
 
             return View(model);
-
-          
+             
         }
 
         [HttpPost]
@@ -69,8 +68,7 @@ namespace MedAssistant.Controllers
                 vaccinationModel.UserId = await userid;
 
                 var entity = await vaccinationService.CreateVaccinationAsync(mapper.Map<VaccinationDTO>(vaccinationModel));
-                 
- 
+                  
                 if (entity > 0)
                 {
                     return RedirectToAction("VaccinationView", "Vaccination");
@@ -94,8 +92,7 @@ namespace MedAssistant.Controllers
             model.Types = vaccinationTypes.Select(dto => new SelectListItem(dto.Type, dto.Id.ToString())).ToList();
 
             return View(mapper.Map<CreateVaccinationModel>(model));
-
-
+             
         }
 
         [HttpPost]
@@ -110,8 +107,7 @@ namespace MedAssistant.Controllers
                 vaccinationModel.UserId = await userid;
 
                 var entity = await vaccinationService.UpdateVaccinationAsync(mapper.Map<VaccinationDTO>(vaccinationModel));
-
-
+                 
                 if (entity > 0)
                 {
                     return RedirectToAction("VaccinationView", "Vaccination");
@@ -126,8 +122,7 @@ namespace MedAssistant.Controllers
         [HttpGet]
         public async Task<IActionResult> RemoveVaccinationAsync(int id)
         { 
-
-
+             
             var Dto = await vaccinationService.GetVaccinationByIdAsync(id);
 
             if (Dto != null)
@@ -135,16 +130,14 @@ namespace MedAssistant.Controllers
                 return View("RemoveVaccination", mapper.Map<VaccinationModel>(Dto));
             }
             return NotFound();
-
-
+             
         }
 
 
         [HttpPost]
         public async Task<IActionResult> RemoveVaccinationAsync(VaccinationModel vaccinationModel)
         {
-
-            
+             
             if (vaccinationModel.Id != 0)
             {
 
@@ -156,10 +149,8 @@ namespace MedAssistant.Controllers
                     return NotFound();
             }
             return NotFound();
-
-
+             
         }
-
-
+         
     }
 }

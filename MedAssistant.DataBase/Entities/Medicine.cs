@@ -10,11 +10,7 @@ namespace MedAssistant.DataBase.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public byte[]? Picture { get; set; }
-        public string? Description { get; set; }
-
-        public int MedicineTypeId { get; set; }
-        public MedicineType MedicineType { get; set; }
+        public string? MedecineUrl { get; set; }
 
         public List<Prescription> Prescriptions { get; set; }
 

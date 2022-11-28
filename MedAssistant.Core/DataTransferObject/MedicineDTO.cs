@@ -10,11 +10,8 @@ namespace MedAssistant.Core.DataTransferObject
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public byte[]? Picture { get; set; }
-        public string? Description { get; set; }
+        public string? MedecineUrl { get; set; }
 
-        public int MedicineTypeId { get; set; }
-        public MedicineTypeDTO MedicineTypeDTO { get; set; }
 
         public List<PrescriptionDTO> PrescriptionsDTO { get; set; }
 

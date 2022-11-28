@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MedAssistant.WebAPI</name>
+    </assembly>
+    <members>
+        <member name="M:MedAssistant.WebAPI.Controllers.MedecinesController.AddMedicines">
+            <summary>
+            Add new medecines from tabletka.by Monthly
+            </summary>
+            <returns>OK</returns>
+        </member>
+        <member name="M:MedAssistant.WebAPI.Controllers.VaccinationController.GetVaccinationsByEmail(System.String)">
+            <summary>
+             Get all vaccinations for concret User by email
+             </summary>
+             <param name="email">User's email</param>
+             <returns></returns>
+        </member>
+        <member name="M:MedAssistant.WebAPI.Controllers.VaccinationController.GetVaccinationById(System.Int32)">
+            <summary>
+             Get concret vaccination with Id
+             </summary>
+             <param name="id">User's id</param>
+             <returns></returns>
+        </member>
+    </members>
+</doc>

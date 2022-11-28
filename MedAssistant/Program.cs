@@ -38,7 +38,7 @@ namespace MedAssistant
                 
 
 
-            var connectionString = "Server=.\\SQLEXPRESS;Database=MedAssistantDataBase;Trusted_Connection=True;";
+            var connectionString = builder.Configuration.GetConnectionString("Default");
 
 
             //dependency Injection DataBase
@@ -53,8 +53,13 @@ namespace MedAssistant
             builder.Services.AddScoped<IAccountService, AccountService>();
             builder.Services.AddScoped<IRoleService, RoleService>();
             builder.Services.AddScoped<IVaccinationService, VaccinationService>();
-            builder.Services.AddScoped<IVaccinationService, VaccinationService>();
             builder.Services.AddScoped<IPrescriptionService, PrescriptionService>();
+            builder.Services.AddScoped<IDoctorService, DoctorService>();
+            builder.Services.AddScoped<IMedicalInstitutionService, MedicalInstitutionService>();
+            builder.Services.AddScoped<INoteSetvice, NoteService>();
+            builder.Services.AddScoped<INoteTypeService, NoteTypeService>();
+            builder.Services.AddScoped<IDoctorTypeService, DoctorTypeService>();
+            builder.Services.AddScoped<IMedicineService, MedicineService>();
 
             //Dependency Injection GenericRepository
             builder.Services.AddScoped<IRepository<User>, Repository<User>>();
@@ -64,6 +69,11 @@ namespace MedAssistant
             builder.Services.AddScoped<IRepository<VaccinationType>, Repository<VaccinationType>>();
             builder.Services.AddScoped<IRepository<Prescription>, Repository<Prescription>>();
             builder.Services.AddScoped<IRepository<Medicine>, Repository<Medicine>>();
+            builder.Services.AddScoped<IRepository<MedicalInstitution>, Repository<MedicalInstitution>>();
+            builder.Services.AddScoped<IRepository<Doctor>, Repository<Doctor>>();
+            builder.Services.AddScoped<IRepository<Note>, Repository<Note>>();
+            builder.Services.AddScoped<IRepository<NoteType>, Repository<NoteType>>();
+            builder.Services.AddScoped<IRepository<DoctorType>, Repository<DoctorType>>();
 
             //Dependency Injection UnitOfWork
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();

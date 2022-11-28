@@ -1,0 +1,39 @@
+﻿@model   VaccinationModel
+
+@{
+    ViewData["Title"] = "Remove Vaccinations";
+}
+
+<div>
+    <h1>Vaccination</h1>
+
+     <form asp-controller="Vaccination" asp-action="RemoveVaccination" method="post">
+
+        <div style= "border:solid 1px ">
+            <div >
+                <label asp-for="@Model.date" >Vaccination Date</label> <br/>
+                <label asp-for = "@Model.date" >@Model.date</label>
+            </div>
+
+            <div>
+                 <label asp-for="@Model.Remind">Remind</label> <br/>
+                <input asp-for="@Model.Remind" type="checkbox"  value = "@Model.Remind"/>
+            </div>
+          
+            <div >
+                <label asp-for="@Model.RemindDate">RemindDate</label> <br/>
+                <label asp-for="@Model.RemindDate" >@Model.RemindDate </label>
+            </div>
+
+             <div >
+                <label asp-for="@Model.VaccinationType" >VaccinationType</label> <br/>
+                <label asp-for="@Model.VaccinationType" >@Model.VaccinationType</label>
+            </div>
+          
+       </div>
+
+        <input type="submit" class="btn btn-primary" value="Submit">
+
+    </form>
+ 
+</div>

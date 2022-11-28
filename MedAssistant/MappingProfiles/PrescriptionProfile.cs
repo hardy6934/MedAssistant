@@ -11,8 +11,7 @@ namespace MedAssistant.MappingProfiles
         {
 
             CreateMap<Prescription, PrescriptionDTO>()
-                .ForMember(dto => dto.MedicineName, opt => opt.MapFrom(prescription => prescription.Medicine.Name))
-                .ForMember(dto =>dto.MedicineType, opt =>opt.MapFrom(prescription =>prescription.Medicine.MedicineType.Type));
+                .ForMember(dto => dto.MedicineName, opt => opt.MapFrom(prescription => prescription.Medicine.Name));
             CreateMap<PrescriptionDTO, Prescription>();
 
 
@@ -20,7 +19,7 @@ namespace MedAssistant.MappingProfiles
             CreateMap<PrescriptionModel, PrescriptionDTO>();
 
             CreateMap<PrescriptionDTO, CreatePrescriptionModel>().ForMember(model => model.Medicine, opt => opt.MapFrom(dto => dto.Names));
-            CreateMap<CreatePrescriptionModel, PrescriptionDTO>().ForMember(dto => dto.Names, opt => opt.MapFrom(model => model.Medicine)); ;
+            CreateMap<CreatePrescriptionModel, PrescriptionDTO>().ForMember(dto => dto.Names, opt => opt.MapFrom(model => model.Medicine));
 
         } 
     }

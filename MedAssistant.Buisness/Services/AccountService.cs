@@ -4,12 +4,8 @@ using MedAssistant.Core.DataTransferObject;
 using MedAssistant.Data.Repositories;
 using MedAssistant.DataBase.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Security.Cryptography;
+
 
 namespace MedAssistant.Buisness.Services
 {
@@ -105,13 +101,11 @@ namespace MedAssistant.Buisness.Services
         {
             var passwordSalt =  "qwe";
 
-            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
-            {
-                var inputBytes = System.Text.Encoding.UTF8.GetBytes(password + passwordSalt);
-                var hashBytes = md5.ComputeHash(inputBytes);
+            using MD5 md5 = MD5.Create();
+            var inputBytes = System.Text.Encoding.UTF8.GetBytes(password + passwordSalt);
+            var hashBytes = md5.ComputeHash(inputBytes);
 
-                return Convert.ToHexString(hashBytes);
-            }
+            return Convert.ToHexString(hashBytes);
         }
 
 

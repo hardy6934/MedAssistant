@@ -1,0 +1,51 @@
+﻿@model CreateVaccinationModel
+
+@{
+    ViewData["Title"] = "Update User";
+}
+
+<div>
+    <h1>Edit User</h1>
+
+    <form asp-controller="Vaccination" asp-action="EditVaccination" method="post">
+
+        <div class="mb-3">
+            <label asp-for="date" class="form-label">Date of Vaccination</label>
+            <input asp-for="date" type="text"  id="date" required>
+            <span asp-validation-for="date" class="text-danger"></span>
+
+        </div>
+        <div class="mb-3">
+            <label asp-for="Remind" class="form-label">Remind</label>
+            <input asp-for="Remind" type="checkbox"   id="Remind">
+            <span asp-validation-for="Remind" class="text-danger"></span>
+        </div>
+
+            
+             
+        <div class="mb-3">
+            <label asp-for="RemindDate" class="form-label">RemindDate</label>
+            <input type="datetime"  asp-for="RemindDate"  id="RemindDate">
+            <span asp-validation-for="RemindDate" class="text-danger"></span>
+        </div>
+
+        
+        <select asp-for="VaccinationTypeId" >
+            
+            @foreach(var n in Model.Types)
+            {
+                <option  value="@n.Value">@n.Text </option> 
+            }
+        </select>
+         
+
+        <input type="submit" class="btn btn-primary" value="Submit">
+
+    </form>
+</div>
+
+@section Scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

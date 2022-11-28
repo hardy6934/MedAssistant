@@ -17,5 +17,7 @@ namespace MedAssistant.Core.DataTransferObject
         public int AccountId { get; set; }
         public string AccountLogin { get; set; }
 
+      
+         
     }
 }

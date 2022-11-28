@@ -9,7 +9,8 @@ namespace MedAssistant.MappingProfiles
     {
         public UserProfile() {
             
-            CreateMap<User, UserDTO >();
+            CreateMap<User, UserDTO >().ForMember(dto => dto.AccountLogin, opt => opt.MapFrom(acc => acc.Account.Login))
+          .ForMember(dto => dto.RoleName, opt => opt.MapFrom(acc => acc.Role.Name)); 
             CreateMap<UserDTO, User>();
 
 

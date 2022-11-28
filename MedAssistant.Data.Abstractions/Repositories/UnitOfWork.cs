@@ -21,6 +21,12 @@ namespace MedAssistant.Data.Abstractions.Repositories
         public IRepository<VaccinationType> VaccinationType { get; }
         public IRepository<Prescription> Prescription { get; }
         public IRepository<Medicine> Medicines { get; }
+        public IRepository<MedicalInstitution> MedicalInstitution { get; }
+        public IRepository<Doctor> Doctor { get; }
+        public IRepository<Note> Note { get; }
+        public IRepository<NoteType> NoteType { get; }
+        public IRepository<DoctorType> DoctorType { get; }
+
 
         public UnitOfWork(MedAssistantContext context,
             IRepository<User> users,
@@ -29,7 +35,12 @@ namespace MedAssistant.Data.Abstractions.Repositories
             IRepository<Vaccination> vaccination,
             IRepository<VaccinationType> vaccinationType,
             IRepository<Prescription> prescription,
-            IRepository<Medicine> medicines)
+            IRepository<Medicine> medicines,
+            IRepository<MedicalInstitution> medicalInstitution,
+            IRepository<Doctor> doctor,
+            IRepository<Note> note,
+            IRepository<NoteType> noteType,
+            IRepository<DoctorType> doctorType)
         {
             _context = context;
             Users = users;
@@ -39,6 +50,11 @@ namespace MedAssistant.Data.Abstractions.Repositories
             VaccinationType = vaccinationType;
             Prescription = prescription;
             Medicines = medicines;
+            MedicalInstitution = medicalInstitution;
+            Doctor = doctor;
+            Note = note;
+            NoteType = noteType;
+            DoctorType = doctorType;
         }
 
 

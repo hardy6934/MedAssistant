@@ -15,8 +15,7 @@ namespace MedAssistant.DataBase
         public DbSet<DoctorType> DoctorTypes { get; set; }
         public DbSet<MedicalInstitution> MedicalInstitutions { get; set; }
         public DbSet<Medicine> Medicines { get; set; }
-        public DbSet<MedicineType> MedicineTypes { get; set; }
-        public DbSet<Note> Notes { get; set; }
+         public DbSet<Note> Notes { get; set; }
         public DbSet<NoteType> NoteTypes { get; set; }
         public DbSet<Prescription> Prescriptions { get; set; }
         public DbSet<User> Users { get; set; }
