@@ -1,0 +1,32 @@
+﻿@model VaccinationTypeModel
+
+@{
+    ViewData["Title"] = "Remove Vaccination Type";
+}
+
+<div>
+    <h1>Remove Vaccination Type</h1>
+
+     <form asp-controller="VaccinationType" asp-action="RemoveVaccinationType" method="post">
+            
+            <div > 
+                <input asp-for = "@Model.Id" type="hidden"> </input>
+            </div>
+
+            <div >
+                <label asp-for="@Model.Type" >Vaccination Type</label> <br/>
+                <label asp-for = "@Model.Type" >@Model.Type</label>
+            </div>
+
+            <div >
+                <label asp-for="@Model.Description" >Description of vaccination type</label> <br/>
+                <label asp-for = "@Model.Description" >@Model.Description</label>
+            </div> 
+              
+
+               
+        <input type="submit" class="btn btn-primary" value="Submit">
+
+    </form>
+ 
+</div>

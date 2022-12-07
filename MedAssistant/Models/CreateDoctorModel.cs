@@ -10,10 +10,10 @@ namespace MedAssistant.Models
         public string? PhoneNumber { get; set; }
 
         public int DoctorTypeId { get; set; }        
-        public List<SelectListItem> DoctorTypes { get; set; }
+        public List<SelectListItem> ListOfDoctorTypes { get; set; }
 
         public int MedicalInstitutionId { get; set; }
-        public List<SelectListItem> MedicalInstitutionName { get; set; }
+        public List<SelectListItem> ListOfMedicalInstitutionName { get; set; }
 
 
  

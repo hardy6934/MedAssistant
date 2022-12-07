@@ -51,11 +51,11 @@ namespace MedAssistant.Controllers
                     if (entity > 0)
                     {
                         var accountId = await accountService.GetIdAccountByEmailAsync(email);
-                        var IdRole = await roleService.FindRoleIdByRoleName("Admin");
+                        var IdRole = await roleService.FindRoleIdByRoleName("User");
                         var defaultuser = userService.CreateDefaultUserUserAsync(accountId, IdRole);
-                        var Userrntity = await userService.CreateUserAsync(defaultuser);
+                        var Userentity = await userService.CreateUserAsync(defaultuser);
 
-                        if (Userrntity > 0)
+                        if (Userentity > 0)
                         {
                             await Authenticate(email);
                             return RedirectToAction("Index", "Home");

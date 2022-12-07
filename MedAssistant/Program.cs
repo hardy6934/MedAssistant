@@ -2,7 +2,6 @@ using MedAssistant.Core.Abstractions;
 using MedAssistant.Data.Abstractions.Repositories;
 using MedAssistant.Data.Repositories.Repositories;
 using MedAssistant.Buisness.Services;
-
 using Microsoft.EntityFrameworkCore;
 using MedAssistant.Data.Repositories;
 using MedAssistant.DataBase.Entities;
@@ -10,6 +9,7 @@ using MedAssistant.DataBase;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Serilog;
 using Serilog.Events;
+using Microsoft.AspNetCore.Rewrite;
 
 namespace MedAssistant
 {
@@ -56,10 +56,11 @@ namespace MedAssistant
             builder.Services.AddScoped<IPrescriptionService, PrescriptionService>();
             builder.Services.AddScoped<IDoctorService, DoctorService>();
             builder.Services.AddScoped<IMedicalInstitutionService, MedicalInstitutionService>();
-            builder.Services.AddScoped<INoteSetvice, NoteService>();
+            builder.Services.AddScoped<INoteService, NoteService>();
             builder.Services.AddScoped<INoteTypeService, NoteTypeService>();
             builder.Services.AddScoped<IDoctorTypeService, DoctorTypeService>();
             builder.Services.AddScoped<IMedicineService, MedicineService>();
+            builder.Services.AddScoped<IVaccinationTypeService, VaccinationTypeService>();
 
             //Dependency Injection GenericRepository
             builder.Services.AddScoped<IRepository<User>, Repository<User>>();
@@ -77,12 +78,11 @@ namespace MedAssistant
 
             //Dependency Injection UnitOfWork
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-           
-
+             
 
             var app = builder.Build();
-
+             
+             
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
@@ -94,16 +94,22 @@ namespace MedAssistant
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+             
+
             app.UseRouting();
 
+ 
 
             app.UseAuthentication(); // Set HttpContex.User
             app.UseAuthorization();  // Check Users Succes 
 
+            
 
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            
 
             app.Run();
         }

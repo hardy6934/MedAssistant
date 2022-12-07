@@ -1,45 +1,46 @@
-﻿@model CreateVaccinationModel
+﻿ @model CreateDoctorModel
 
 @{
-    ViewData["Title"] = "Update User";
+    ViewData["Title"] = "Update Doctor";
 }
 
 <div>
-    <h1>Edit User</h1>
+    <h1>Create Doctor</h1>
 
-    <form asp-controller="Vaccination" asp-action="EditVaccination" method="post">
+    <form asp-controller="Doctor" asp-action="UpdateDoctor" method="post">
 
         <div class="mb-3">
-            <label asp-for="date" class="form-label">Date of Vaccination</label>
-            <input asp-for="date" type="text"  id="date" required>
-            <span asp-validation-for="date" class="text-danger"></span>
+            <label asp-for="FullName" >Full Name</label>
+            <input asp-for="FullName" type="text" id="FullName" required>
+            <span asp-validation-for="FullName" class="text-danger"></span>
+        </div>
 
+        <div class="mb-3">
+            <label asp-for="PhoneNumber" >Phone Number</label>
+            <input asp-for="PhoneNumber" type="text" id="PhoneNumber" required>
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
         </div>
         <div class="mb-3">
-            <label asp-for="Remind" class="form-label">Remind</label>
-            <input asp-for="Remind" type="checkbox"   id="Remind">
-            <span asp-validation-for="Remind" class="text-danger"></span>
+            <select asp-for="DoctorTypeId" >
+                 <option selected="selected" disabled = "disabled">Select doctor's type</option>
+                @foreach(var n in Model.ListOfDoctorTypes)
+                {
+                    <option  value="@n.Value">@n.Text </option> 
+                }
+            </select>
         </div>
-
-            
-             
         <div class="mb-3">
-            <label asp-for="RemindDate" class="form-label">RemindDate</label>
-            <input type="datetime"  asp-for="RemindDate"  id="RemindDate">
-            <span asp-validation-for="RemindDate" class="text-danger"></span>
-        </div>
-
-        
-        <select asp-for="VaccinationTypeId" >
-            
-            @foreach(var n in Model.Types)
-            {
-                <option  value="@n.Value">@n.Text </option> 
-            }
-        </select>
-         
+            <select asp-for="MedicalInstitutionId" >
+                 <option selected="selected" disabled = "disabled">Select medical institution</option>
+                @foreach(var n in Model.ListOfMedicalInstitutionName)
+                {
+                    <option  value="@n.Value">@n.Text </option> 
+                }
+            </select>
+        </div>  
 
         <input type="submit" class="btn btn-primary" value="Submit">
+ 
 
     </form>
 </div>

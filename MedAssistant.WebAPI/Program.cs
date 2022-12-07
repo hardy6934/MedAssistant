@@ -69,7 +69,7 @@ namespace MedAssistant.WebAPI
             builder.Services.AddScoped<IPrescriptionService, PrescriptionService>();
             builder.Services.AddScoped<IDoctorService, DoctorService>();
             builder.Services.AddScoped<IMedicalInstitutionService, MedicalInstitutionService>();
-            builder.Services.AddScoped<INoteSetvice, NoteService>();
+            builder.Services.AddScoped<INoteService, NoteService>();
             builder.Services.AddScoped<INoteTypeService, NoteTypeService>();
             builder.Services.AddScoped<IDoctorTypeService, DoctorTypeService>();
             builder.Services.AddScoped<IMedicineService, MedicineService>();

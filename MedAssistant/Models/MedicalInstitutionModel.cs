@@ -7,9 +7,10 @@ namespace MedAssistant.Models
 
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Location { get; set; }
+        public string? Location { get; set; }
+        public string InfoUrl { get; set; }
 
-        public List<DoctorDTO> DoctorsDTO { get; set; }
+         
 
     }
 }

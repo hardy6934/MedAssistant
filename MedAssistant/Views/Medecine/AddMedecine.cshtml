@@ -1,0 +1,36 @@
+﻿ @model MedicineModel
+
+@{
+    ViewData["Title"] = "Add Medecine";
+}
+
+<div>
+    <h1>Add Medecine</h1>
+
+    <form asp-controller="Medecine" asp-action="AddMedecine" method="post">
+
+
+        <div class="mb-3">
+            <label asp-for="Name" >Name</label>
+            <input asp-for="Name" type="text" id="Name" required>
+            <span asp-validation-for="Name" class="text-danger"></span> 
+        </div>
+
+
+        <div class="mb-3">
+           <label asp-for="MedecineUrl" >Ссылка на информацию</label>
+            <input asp-for="MedecineUrl" type="text"   id="MedecineUrl">
+            <span asp-validation-for="MedecineUrl" class="text-danger"></span>
+        </div> 
+          <input type="submit" class="btn btn-primary" value="Submit">
+    </form>
+         
+       
+   
+</div>
+
+@section Scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

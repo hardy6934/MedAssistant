@@ -1,0 +1,30 @@
+﻿@model NoteTypeModel
+
+@{
+    ViewData["Title"] = "Add Note Type";
+}
+
+<div>
+    <h1>Add Doctor Type</h1>
+
+    <form asp-controller="NoteType" asp-action="AddNoteType" method="post">
+         
+        <div class="mb-3">
+            <label asp-for="Type" >Note Type</label>
+            <input asp-for="Type" type="text" id="Type" required>
+            <span asp-validation-for="Type" class="text-danger"></span> 
+        </div>
+          
+         <input type="submit" class="btn btn-primary" value="Submit">
+
+    </form>
+         
+       
+   
+</div>
+
+@section Scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

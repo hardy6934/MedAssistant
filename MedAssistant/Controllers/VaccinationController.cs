@@ -63,9 +63,9 @@ namespace MedAssistant.Controllers
             {
                 var emailAddress = HttpContext.User.Identity.Name.ToString();
 
-                var userid = vaccinationService.GetUserIdByEmailAdressAsync(emailAddress);
+                var userid = await vaccinationService.GetUserIdByEmailAdressAsync(emailAddress);
 
-                vaccinationModel.UserId = await userid;
+                vaccinationModel.UserId = userid;
 
                 var entity = await vaccinationService.CreateVaccinationAsync(mapper.Map<VaccinationDTO>(vaccinationModel));
                   
@@ -102,9 +102,9 @@ namespace MedAssistant.Controllers
             {
                 var emailAddress = HttpContext.User.Identity.Name.ToString();
 
-                var userid = vaccinationService.GetUserIdByEmailAdressAsync(emailAddress);
+                var userid = await vaccinationService.GetUserIdByEmailAdressAsync(emailAddress);
 
-                vaccinationModel.UserId = await userid;
+                vaccinationModel.UserId = userid;
 
                 var entity = await vaccinationService.UpdateVaccinationAsync(mapper.Map<VaccinationDTO>(vaccinationModel));
                  

@@ -1,0 +1,62 @@
+﻿@model   NoteModel
+
+@{
+    ViewData["Title"] = "Remove Note";
+}
+
+<div>
+    <h1>Remove Note</h1>
+
+     <form asp-controller="Note" asp-action="RemoveNote" method="post">
+
+        <div style= "border:solid 1px " class ="vaccination-preview">
+            
+            <div >
+                <label asp-for="@Model.NoteType" >NoteType</label> <br/>
+                <label asp-for="@Model.NoteType" >@Model.NoteType</label>
+            </div> 
+
+             <div >
+                <label asp-for="@Model.Description" >Description</label> <br/>
+                <label asp-for="@Model.Description" >@Model.Description</label>
+            </div>
+
+            <div >
+                <label asp-for="@Model.DoctorName" >Doctors Name</label> <br/>
+                <label asp-for="@Model.DoctorName" >@Model.DoctorName</label>
+            </div>
+
+            <div >
+                <label asp-for="@Model.DoctorPhone" >Doctor's Phone</label> <br/>
+                <label asp-for="@Model.DoctorPhone" >@Model.DoctorPhone</label>
+            </div>
+
+            <div >
+                <label asp-for="@Model.MedicalInstitution" >MedicalInstitution</label> <br/>
+                <label asp-for="@Model.MedicalInstitution" >@Model.MedicalInstitution</label>
+            </div>
+           
+            <div>
+                 <label asp-for="@Model.Remind">Remind</label> <br/>
+                <input asp-for="@Model.Remind" type="checkbox"  value = "@Model.Remind"/>
+            </div>
+
+            <div >
+                <label asp-for="@Model.RemindDate">RemindDate</label> <br/>
+                <label asp-for="@Model.RemindDate" >@Model.RemindDate </label>
+            </div>
+              
+       </div>
+
+        <input type="submit" class="btn btn-primary" value="Submit">
+ 
+
+    </form>
+         
+
+ @section Scripts
+ {
+    <script src = "~/js/dom.js" asp-append-version = "true"></script>
+ }
+ 
+</div>

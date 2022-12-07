@@ -10,18 +10,16 @@ namespace MedAssistant.MappingProfiles
         public DoctorProfile() {
 
             CreateMap<Doctor, DoctorDTO>()
-                .ForMember(dto => dto.DoctorType, opt => opt.MapFrom(prescription => prescription.DoctorType.Type))
-                .ForMember(dto => dto.MedicalInstitutionName, opt => opt.MapFrom(prescription => prescription.MedicalInstitution.Name));
+                .ForMember(dto => dto.DoctorType, opt => opt.MapFrom(doctor => doctor.DoctorType.Type))
+                .ForMember(dto => dto.MedicalInstitutionName, opt => opt.MapFrom(doctor => doctor.MedicalInstitution.Name));
             CreateMap<DoctorDTO, Doctor>();
 
 
             CreateMap<DoctorDTO, DoctorModel>();
             CreateMap<DoctorModel, DoctorDTO>();
 
-            //CreateMap<DoctorDTO, CreateDoctorModel>()
-            //    .ForMember(model => model.DoctorTypes, opt => opt.MapFrom(dto => dto.DoctorType))
-            //    .ForMember(model => model.MedicalInstitutionName, opt => opt.MapFrom(dto => dto.MedicalInstitutionDTO.));
-            //CreateMap<CreateDoctorModel, DoctorDTO>().ForMember(dto => dto., opt => opt.MapFrom(model => model.Medicine));
+            CreateMap<DoctorDTO, CreateDoctorModel>();
+            CreateMap<CreateDoctorModel, DoctorDTO>();
 
         } 
     }

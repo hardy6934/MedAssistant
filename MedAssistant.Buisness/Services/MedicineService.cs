@@ -28,17 +28,15 @@ namespace MedAssistant.Buisness.Services
 
         }
 
-         
-
+        
         public async Task GetAllMedecinesFromTabletkaAsync()
         {
             try { 
                 List<MedicineDTO> dtos = new();
-                var web = new HtmlWeb();
-            
-             
-                string[] leters = new string[] { "А","Б","В","Г","Д","Е","Ё","Ж","З","И","Й","К","Л","М","Н","О","П","Р","С","Т","У","Ф","Х","Ц","Ч","Ш","Ц","Щ","Э","Ю","Я","AZ","1" };
+                var web = new HtmlWeb(); 
 
+                string[] leters = new string[] { "А","Б","В","Г","Д","Е","Ё","Ж","З","И","Й","К","Л","М","Н","О","П","Р","С","Т","У","Ф","Х","Ц","Ч","Ш","Ц","Щ","Э","Ю","Я","AZ","1" };
+                 
                 for (int i = 0; i < leters.Length; i++)
                 {
                     int k = 1;
@@ -84,6 +82,84 @@ namespace MedAssistant.Buisness.Services
             }
         }
 
+
+        public async Task<MedicineDTO> GetMedecineByIdAsync(int id)
+        {
+            try
+            {
+                var entity = mapper.Map<MedicineDTO>(await unitOfWork.Medicines.GetByIdAsync(id));
+                 
+                return entity;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<List<MedicineDTO>> GetAllMedecinesFromDataBaseAsync()
+        {
+            try
+            {
+                var Dtos = await unitOfWork.Medicines.GetAllAsync();
+                return Dtos.Select(x => mapper.Map<MedicineDTO>(x)).ToList();
+                 
+            }
+            catch (Exception)
+            { 
+                throw;
+            }
+            
+        }
+        public async Task<int> AddMedecineAsync(MedicineDTO dto)
+        {
+            try
+            {
+                await unitOfWork.Medicines.AddAsync(mapper.Map<Medicine>(dto));
+                var result = await unitOfWork.Commit();
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
+        }
+         
+        public async Task<int> UpdateMedecineAsync(MedicineDTO dto)
+        {
+            try
+            {
+                unitOfWork.Medicines.Update(mapper.Map<Medicine>(dto));
+                var result = await unitOfWork.Commit();
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<int> RemoveMedecineAsync(MedicineDTO dto)
+        {
+            try
+            {
+                unitOfWork.Medicines.Remove(mapper.Map<Medicine>(dto));
+                var result = await unitOfWork.Commit();
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        
+
         //Вытягивание производителя из tabletka.by плохо сделано, вдруг прийдет что-нибудь в голову
         //public async Task GetMonufactureToMedecinesAsync()
         //{
@@ -102,9 +178,9 @@ namespace MedAssistant.Buisness.Services
         //            .ToList();
         //            k++;
         //            Console.WriteLine(k+"         -----//////////////////////////////////");
-                    
-                     
-                    
+
+
+
         //            if (nodes.Any())
         //            { 
         //                var monufacturer = nodes[0]?.InnerText.Trim().Split('\n').First().Trim();

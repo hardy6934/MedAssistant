@@ -22,18 +22,40 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Vaccination" asp-action="VaccinationView">Vaccination</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Prescription" asp-action="PrescriptionView">Prescription</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Doctor" asp-action="DoctorView">Doctors</a>
-                        </li>
+                        @if(User.Identity.IsAuthenticated)
+                        { 
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Note" asp-action="NoteView">Notes</a>
+                            </li> 
+                             <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Vaccination" asp-action="VaccinationView">Vaccinations</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Prescription" asp-action="PrescriptionView">Prescriptions</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Doctor" asp-action="DoctorView">Doctors</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Medecine" asp-action="MedecinesView">Medecines</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="MedicalInstitution" asp-action="MedicalInstitutionView">Medical Institutions</a>
+                            </li> 
+                             
+                            @if(User.IsInRole("Admin") || User.IsInRole("Moderator"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="VaccinationType" asp-action="VaccinationTypeView">Vaccination types</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="DoctorType" asp-action="DoctorTypeView">Doctor types</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="NoteType" asp-action="NoteTypeView">Note types</a>
+                                </li>
+                            }
+                        }
                     </ul>
                 </div>
                 <div>

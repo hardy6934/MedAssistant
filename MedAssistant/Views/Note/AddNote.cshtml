@@ -1,0 +1,58 @@
+﻿ @model CreateNoteModel
+
+@{
+    ViewData["Title"] = "Add Note";
+}
+
+<div>
+    <h1>Create Note</h1>
+
+    <form asp-controller="Note" asp-action="AddNote" method="post">
+
+        <div class="mb-3">
+            <label asp-for="Description" >Description</label> <br />
+            <input asp-for="Description" type="text" id="Description" required>
+            <span asp-validation-for="Description" class="text-danger"></span> 
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Remind" >Remind</label> <br />
+            <input asp-for="Remind" type="checkbox"   id="Remind">
+            <span asp-validation-for="Remind" class="text-danger"></span>
+        </div>
+         
+        <div class="mb-3">
+            <label asp-for="RemindDate" >RemindDate</label> <br />
+            <input type="datetime" asp-for="RemindDate" id="RemindDate">
+            <span asp-validation-for="RemindDate" class="text-danger"></span>
+        </div>
+
+        
+        <select asp-for="DoctorId" >
+             <option selected="selected" disabled = "disabled">Choose your doctor</option>
+            @foreach(var n in Model.ListOfDoctors)
+            {
+                <option  value="@n.Value">@n.Text </option> 
+            }
+        </select>
+        <br />
+        <select asp-for="NoteTypeId" >
+             <option selected="selected" disabled = "disabled">Choose type of note</option>
+            @foreach(var n in Model.ListOfNoteTypes)
+            {
+                <option  value="@n.Value">@n.Text </option> 
+            }
+        </select>
+          <br />
+
+        <input type="submit" class="btn btn-primary" value="Submit">
+ 
+
+    </form>
+</div>
+
+@section Scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

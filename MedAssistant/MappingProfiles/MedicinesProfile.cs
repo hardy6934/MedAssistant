@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MedAssistant.Core.DataTransferObject;
 using MedAssistant.DataBase.Entities;
+using MedAssistant.Models;
 
 namespace MedAssistant.MappingProfiles
 {
@@ -13,8 +14,8 @@ namespace MedAssistant.MappingProfiles
             CreateMap<MedicineDTO, Medicine>();
 
 
-            //CreateMap<MedicineDTO, MedicineModel>();
-            //CreateMap<MedicineModel, MedicineDTO>();
+            CreateMap<MedicineDTO, MedicineModel>();
+            CreateMap<MedicineModel, MedicineDTO>();
 
         }
 

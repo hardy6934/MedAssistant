@@ -1,39 +1,47 @@
-﻿@model   VaccinationModel
+﻿@model DoctorModel
 
 @{
-    ViewData["Title"] = "Remove Vaccinations";
+    ViewData["Title"] = "Remove Doctor";
 }
 
 <div>
-    <h1>Vaccination</h1>
+    <h1>Remove Doctor</h1>
 
-     <form asp-controller="Vaccination" asp-action="RemoveVaccination" method="post">
-
-        <div style= "border:solid 1px ">
+      <form asp-controller="Doctor" asp-action="RemoveDoctor" method="post">
+         
+        <div style= "border:solid 1px " class ="vaccination-preview">
             <div >
-                <label asp-for="@Model.date" >Vaccination Date</label> <br/>
-                <label asp-for = "@Model.date" >@Model.date</label>
+                <input asp-for = "@Model.Id" type="hidden"/>
+            </div>
+            <div >
+                <label asp-for="@Model.FullName" >FullName</label> <br/>
+                <label asp-for = "@Model.FullName" >@Model.FullName</label>
             </div>
 
             <div>
-                 <label asp-for="@Model.Remind">Remind</label> <br/>
-                <input asp-for="@Model.Remind" type="checkbox"  value = "@Model.Remind"/>
+                 <label asp-for="@Model.PhoneNumber">PhoneNumber</label> <br/>
+                <label asp-for="@Model.PhoneNumber">@Model.PhoneNumber</label>
             </div>
           
             <div >
-                <label asp-for="@Model.RemindDate">RemindDate</label> <br/>
-                <label asp-for="@Model.RemindDate" >@Model.RemindDate </label>
+                <label asp-for="@Model.DoctorType">DoctorType</label> <br/>
+                <label asp-for="@Model.DoctorType" >@Model.DoctorType </label>
             </div>
 
              <div >
-                <label asp-for="@Model.VaccinationType" >VaccinationType</label> <br/>
-                <label asp-for="@Model.VaccinationType" >@Model.VaccinationType</label>
+                <label asp-for="@Model.MedicalInstitutionName" >MedicalInstitutionName</label> <br/>
+                <label asp-for="@Model.MedicalInstitutionName" >@Model.MedicalInstitutionName</label>
             </div>
-          
-       </div>
+         
+            </div>
 
-        <input type="submit" class="btn btn-primary" value="Submit">
+            <input type="submit" class="btn btn-primary" value="Submit">
 
     </form>
+
+ @section Scripts
+ {
+    <script src = "~/js/dom.js" asp-append-version = "true"></script>
+ }
  
 </div>

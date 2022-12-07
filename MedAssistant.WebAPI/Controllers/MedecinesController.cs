@@ -3,6 +3,7 @@ using MedAssistant.Core.Abstractions;
 using MedAssistant.WebAPI.Models.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace MedAssistant.WebAPI.Controllers
 {
@@ -31,8 +32,9 @@ namespace MedAssistant.WebAPI.Controllers
 
             }
             catch (Exception ex)
-            { 
-                return StatusCode(500, ex.Message);
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return StatusCode(500);
             }
         }
     }

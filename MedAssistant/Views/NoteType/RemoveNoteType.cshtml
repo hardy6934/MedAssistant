@@ -1,0 +1,29 @@
+﻿@model NoteTypeModel
+
+@{
+    ViewData["Title"] = "Remove Note Type";
+}
+
+<div>
+    <h1>Remove Note Type</h1>
+
+     <form asp-controller="NoteType" asp-action="RemoveNoteType" method="post">
+            
+            <div > 
+                <input asp-for = "@Model.Id" type="hidden"/>
+            </div>
+
+            <div >
+                <label asp-for="@Model.Type" >Note Type</label> <br/>
+                <label asp-for = "@Model.Type" >@Model.Type</label>
+            </div>
+
+             
+              
+
+               
+        <input type="submit" class="btn btn-primary" value="Submit">
+
+    </form>
+ 
+</div>

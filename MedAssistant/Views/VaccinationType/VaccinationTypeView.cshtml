@@ -1,0 +1,38 @@
+﻿@model  List<VaccinationTypeModel>
+
+@{
+    ViewData["Title"] = "Vaccination Types";
+}
+
+<div>
+    <h1>All Vaccination Types</h1>
+     
+   <a class="btn btn-primary" asp-area="" asp-controller="VaccinationType" asp-action="AddVaccinationType">Add vaccination type</a>
+     
+     @foreach(var n in Model)
+     { 
+            <div style= "border:solid 1px " class ="vaccination-preview">
+
+                <div >  
+                    <label asp-for="@n.Type">Vaccination Type</label> <br/>
+                    <label asp-for = "@n.Type" >@n.Type</label>
+                </div>
+
+                <div>
+                 <label asp-for="@n.Description">Description of vaccination type</label> <br/>
+                 <label asp-for = "@n.Description" >@n.Description</label>
+                </div> 
+                 
+             
+                
+                <a class="btn btn-primary" asp-area="" asp-controller="VaccinationType" asp-action="UpdateVaccinationType" asp-route-id = "@n.Id">Update vaccination type</a>
+                <a class="btn btn-primary" asp-area="" asp-controller="VaccinationType" asp-action="RemoveVaccinationType" asp-route-id = "@n.Id">Remove vaccination type</a>
+           </div> 
+       
+     }     
+     
+ </div>
+
+ 
+   
+    

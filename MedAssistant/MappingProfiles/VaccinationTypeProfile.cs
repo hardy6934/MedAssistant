@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MedAssistant.Core.DataTransferObject;
 using MedAssistant.DataBase.Entities;
+using MedAssistant.Models;
 
 namespace MedAssistant.MappingProfiles
 {
@@ -13,9 +14,9 @@ namespace MedAssistant.MappingProfiles
             CreateMap<VaccinationTypeDTO, VaccinationType>();
 
 
-            //CreateMap<VaccinationTypeDTO, VaccinationTypeModel>();
-            //CreateMap<VaccinationTypeModel, VaccinationTypeDTO>();
-             
+            CreateMap<VaccinationTypeDTO, VaccinationTypeModel>();
+            CreateMap<VaccinationTypeModel, VaccinationTypeDTO>();
+
         }
          
     }

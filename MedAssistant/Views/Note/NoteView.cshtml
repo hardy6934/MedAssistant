@@ -1,0 +1,63 @@
+﻿@model   List<NoteModel>
+
+@{
+    ViewData["Title"] = "Notes";
+}
+
+<div>
+    <h1>All Vaccinations</h1>
+
+    <a class="btn btn-primary" asp-area="" asp-controller="Note" asp-action="AddNote">Add New Note</a>
+
+     @foreach(var n in Model)
+     {
+        <div style= "border:solid 1px " class ="vaccination-preview">
+            
+            <div >
+                <label asp-for="@n.NoteType" >NoteType</label> <br/>
+                <label asp-for="@n.NoteType" >@n.NoteType</label>
+            </div> 
+
+             <div >
+                <label asp-for="@n.Description" >Description</label> <br/>
+                <label asp-for="@n.Description" >@n.Description</label>
+            </div>
+
+            <div >
+                <label asp-for="@n.DoctorName" >Doctors Name</label> <br/>
+                <label asp-for="@n.DoctorName" >@n.DoctorName</label>
+            </div>
+
+            <div >
+                <label asp-for="@n.DoctorPhone" >Doctor's Phone</label> <br/>
+                <label asp-for="@n.DoctorPhone" >@n.DoctorPhone</label>
+            </div>
+
+            <div >
+                <label asp-for="@n.MedicalInstitution" >MedicalInstitution</label> <br/>
+                <label asp-for="@n.MedicalInstitution" >@n.MedicalInstitution</label>
+            </div>
+           
+            <div>
+                 <label asp-for="@n.Remind">Remind</label> <br/>
+                <input asp-for="@n.Remind" type="checkbox"  value = "@n.Remind"/>
+            </div>
+
+            <div >
+                <label asp-for="@n.RemindDate">RemindDate</label> <br/>
+                <label asp-for="@n.RemindDate" >@n.RemindDate </label>
+            </div>
+             
+            
+            <a class="btn btn-primary" asp-area="" asp-controller="Note" asp-action="UpdateNote" asp-route-id = "@n.Id">Update Note</a>
+            <a class="btn btn-primary" asp-area="" asp-controller="Note" asp-action="RemoveNote" asp-route-id = "@n.Id">Remove Note</a>
+       </div>
+        
+     }   
+
+ @section Scripts
+ {
+    <script src = "~/js/dom.js" asp-append-version = "true"></script>
+ }
+ 
+</div>

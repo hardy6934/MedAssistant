@@ -1,0 +1,36 @@
+﻿@model MedicalInstitutionModel
+
+@{
+    ViewData["Title"] = "Remove MedicalInstitution";
+}
+
+<div>
+    <h1>Medecine</h1>
+
+     <form asp-controller="MedicalInstitution" asp-action="RemoveMedicalInstitution" method="post">
+            
+            <div > 
+                <input asp-for = "@Model.Id" type="hidden"> </input>
+            </div>
+
+            <div >
+                <label asp-for="@Model.Name" >Medical institution name</label> <br/>
+                <label asp-for = "@Model.Name" >@Model.Name</label>
+            </div>
+
+            <div >
+                <label asp-for="@Model.Location" >Location of medical institution</label> <br/>
+                <label asp-for = "@Model.Location" >@Model.Location</label>
+            </div> 
+
+            <div class="mb-3">
+                <label asp-for="InfoUrl" >location of medical institution</label>
+                <label asp-for = "@Model.InfoUrl" >@Model.InfoUrl</label> 
+            </div> 
+
+               
+        <input type="submit" class="btn btn-primary" value="Submit">
+
+    </form>
+ 
+</div>
