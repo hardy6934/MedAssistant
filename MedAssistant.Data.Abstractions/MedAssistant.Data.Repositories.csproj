@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MedAssistant.Data.REpositories\MedAssistant.Data.Repositories.csproj" />
+    <ProjectReference Include="..\MedAssistant.Data.REpositories\MedAssistant.Data.Abstractions.csproj" />
     <ProjectReference Include="..\MedAssistant.DataBase\MedAssistant.DataBase.csproj" />
   </ItemGroup>
 

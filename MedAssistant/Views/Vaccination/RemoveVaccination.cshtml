@@ -22,12 +22,20 @@
           
             <div >
                 <label asp-for="@Model.RemindDate">RemindDate</label> <br/>
-                <label asp-for="@Model.RemindDate" >@Model.RemindDate </label>
+                @if (@Model.RemindDate != null)
+                {
+                    <label asp-for="@Model.RemindDate" >@Model.RemindDate </label>
+                }
+                else 
+                {
+                    <label asp-for="@Model.RemindDate" >empty</label>
+                }
             </div>
 
              <div >
                 <label asp-for="@Model.VaccinationType" >VaccinationType</label> <br/>
                 <label asp-for="@Model.VaccinationType" >@Model.VaccinationType</label>
+
             </div>
           
        </div>

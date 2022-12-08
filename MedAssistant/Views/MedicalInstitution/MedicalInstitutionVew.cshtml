@@ -8,11 +8,14 @@
 <div>
     <h1>All Medecines</h1>
      
-   <a class="btn btn-primary" asp-area="" asp-controller="MedicalInstitution" asp-action="AddMedicalInstitution">Add medical institution</a>
+   @if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
+     {
+        <a class="btn btn-primary" asp-area="" asp-controller="MedicalInstitution" asp-action="AddMedicalInstitution">Add medical institution</a> 
+     }
      
      @foreach(var n in Model.MedicalInstitutionModels)
      { 
-            <div style= "border:solid 1px " class ="vaccination-preview">
+            <div style= "border:solid 1px; margin-bottom:20px " class ="vaccination-preview" >
 
                 <div >  
                     <label asp-for="@n.Name">Medical institution name</label> <br/>
@@ -25,13 +28,16 @@
                 </div> 
                 
                 <div>
-                    <a href ="@n.InfoUrl" style="text-decoration:none">More about medical institution</a> 
+                    <a class="btn btn-primary" href ="@n.InfoUrl" style="text-decoration:none">More about medical institution</a> 
                 </div>
              
+                @if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
+                {
+                    <a class="btn btn-primary" asp-area="" asp-controller="MedicalInstitution" asp-action="UpdateMedicalInstitution" asp-route-id = "@n.Id">Update medical institution</a>
+                    <a class="btn btn-primary" asp-area="" asp-controller="MedicalInstitution" asp-action="RemoveMedicalInstitution" asp-route-id = "@n.Id">Remove medical institution</a>
+                }
                 
-                <a class="btn btn-primary" asp-area="" asp-controller="MedicalInstitution" asp-action="UpdateMedicalInstitution" asp-route-id = "@n.Id">Update medical institution</a>
-                <a class="btn btn-primary" asp-area="" asp-controller="MedicalInstitution" asp-action="RemoveMedicalInstitution" asp-route-id = "@n.Id">Remove medical institution</a>
-           </div> 
+           </div > 
        
      }     
     

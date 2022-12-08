@@ -35,7 +35,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MedAssistant.Buisness\MedAssistant.Buisness.csproj" />
     <ProjectReference Include="..\MedAssistant.Core\MedAssistant.Core.csproj" />
-    <ProjectReference Include="..\MedAssistant.Data.Abstractions\MedAssistant.Data.Abstractions.csproj" />
+    <ProjectReference Include="..\MedAssistant.Data.Abstractions\MedAssistant.Data.Repositories.csproj" />
     <ProjectReference Include="..\MedAssistant.DataBase\MedAssistant.DataBase.csproj" />
     <ProjectReference Include="..\MedAssistant\MedAssistant.csproj" />
   </ItemGroup>

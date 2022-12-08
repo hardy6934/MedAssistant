@@ -19,12 +19,21 @@
 
             <div>
                  <label asp-for="@n.Remind">Remind</label> <br/>
-                <input asp-for="@n.Remind" type="checkbox"  value = "@n.Remind"/>
+                 <input asp-for="@n.Remind" type="checkbox"  value = "@n.Remind"/>
             </div>
           
             <div >
                 <label asp-for="@n.RemindDate">RemindDate</label> <br/>
-                <label asp-for="@n.RemindDate" >@n.RemindDate </label>
+                @if (@n.RemindDate != null)
+                {
+                    <label asp-for="@n.RemindDate" >@n.RemindDate </label>
+                }
+                else 
+                {
+                    <label asp-for="@n.RemindDate" >empty</label>
+                }
+                
+                
             </div>
 
              <div >

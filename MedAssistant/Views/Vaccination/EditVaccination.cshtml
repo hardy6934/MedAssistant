@@ -11,13 +11,13 @@
 
         <div class="mb-3">
             <label asp-for="date" class="form-label">Date of Vaccination</label>
-            <input asp-for="date" class="form-control" asp-for="DateTime" value="@DateTime.Now" >
-            <span asp-validation-for="date" class="text-danger"></span>
+            <input asp-for="date" class="form-control" value=@Model.date.ToString("yyyy-MM-dd HH:mm:ss") >  
+             <span asp-validation-for="date" class="text-danger"></span>
 
         </div>
         <div class="mb-3">
             <label asp-for="Remind" class="form-label">Remind</label>
-            <input asp-for="Remind" type="checkbox"   id="Remind">
+            <input asp-for="Remind" type="checkbox"   id="Remind" value = "@Model.Remind">
             <span asp-validation-for="Remind" class="text-danger"></span>
         </div>
 
@@ -25,7 +25,7 @@
              
         <div class="mb-3">
             <label asp-for="RemindDate" class="form-label">RemindDate</label>
-            <input asp-for="RemindDate" class="form-control" asp-for="DateTime" value="@DateTime.Now" >
+            <input asp-for="RemindDate" class="form-control" value=@Model.RemindDate?.ToString("yyyy-MM-dd HH:mm:ss") >
             <span asp-validation-for="RemindDate" class="text-danger"></span>
         </div>
 
@@ -34,7 +34,7 @@
             
             @foreach(var n in Model.Types)
             {
-                <option  value="@n.Value">@n.Text </option> 
+                <option  value="@n.Value">@n.Text</option> 
             }
         </select>
          
