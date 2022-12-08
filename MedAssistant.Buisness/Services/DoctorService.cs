@@ -32,15 +32,12 @@ namespace MedAssistant.Buisness.Services
         public async Task<List<DoctorDTO>> GetAllDoctorsByEmailAsync(string email)
         {
             try
-            {
-
+            { 
                 var accountid = await accountService.GetIdAccountByEmailAsync(email);
                 var user = await userService.GetUsersByAccountId(accountid);
                 var doctors = await unitOfWork.Doctor.FindBy(doc => doc.UserId.Equals(user.Id), x => x.MedicalInstitution, x => x.DoctorType).ToListAsync();
-
-               
-                return doctors.Select(x => mapper.Map<DoctorDTO>(x)).ToList();
-               
+                 
+                return doctors.Select(x => mapper.Map<DoctorDTO>(x)).ToList(); 
             }
             catch (Exception)
             {
@@ -60,8 +57,7 @@ namespace MedAssistant.Buisness.Services
             catch (Exception)
             {
                 throw;
-            }
-
+            } 
         }
 
         public async Task<List<DoctorTypeDTO>> GetAllDoctorTypesAsync()

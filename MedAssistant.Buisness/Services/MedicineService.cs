@@ -68,8 +68,7 @@ namespace MedAssistant.Buisness.Services
                             break; 
                         } 
                     } 
-                }
-
+                } 
                 var oldMedecines = unitOfWork.Medicines.Get().Select(x => x.Name).Distinct().ToArray(); 
                 var entities = dtos.Where(x => !oldMedecines.Contains(x.Name)).Select(dto => mapper.Map<Medicine>(dto)).ToArray();
 
@@ -92,8 +91,7 @@ namespace MedAssistant.Buisness.Services
                 return entity;
             }
             catch (Exception)
-            {
-
+            { 
                 throw;
             }
         }
@@ -103,8 +101,7 @@ namespace MedAssistant.Buisness.Services
             try
             {
                 var Dtos = await unitOfWork.Medicines.GetAllAsync();
-                return Dtos.Select(x => mapper.Map<MedicineDTO>(x)).ToList();
-                 
+                return Dtos.Select(x => mapper.Map<MedicineDTO>(x)).ToList(); 
             }
             catch (Exception)
             { 
@@ -121,8 +118,7 @@ namespace MedAssistant.Buisness.Services
                 return result;
             }
             catch (Exception)
-            {
-
+            { 
                 throw;
             }
             
@@ -137,8 +133,7 @@ namespace MedAssistant.Buisness.Services
                 return result;
             }
             catch (Exception)
-            {
-
+            { 
                 throw;
             }
         }
@@ -152,8 +147,7 @@ namespace MedAssistant.Buisness.Services
                 return result;
             }
             catch (Exception)
-            {
-
+            { 
                 throw;
             }
         }

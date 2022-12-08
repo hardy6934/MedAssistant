@@ -30,42 +30,67 @@ namespace MedAssistant.Buisness.Services
 
         public UserDTO CreateDefaultUserUserAsync(int IdAccount, int IdRole)
         {
-            var user = new UserDTO { FullName = "User", Location = "", Birthday = null, AccountId = IdAccount, RoleId = IdRole };
-             
-            return user;
+            try
+            {
+                var user = new UserDTO { FullName = "User", Location = "", Birthday = null, AccountId = IdAccount, RoleId = IdRole };
+                return user;
+            }
+            catch (Exception)
+            { 
+                throw;
+            } 
         }
 
         public async Task<int> CreateUserAsync(UserDTO dto)
-        {   
-
-            await _unitOfWork.Users.AddAsync(_mapper.Map<User>(dto));
-            return await _unitOfWork.Commit();
-
+        {
+            try
+            {
+                await _unitOfWork.Users.AddAsync(_mapper.Map<User>(dto));
+                return await _unitOfWork.Commit();
+            }
+            catch (Exception)
+            { 
+                throw;
+            } 
         }
 
         public async Task<UserDTO> GetUsersByAccountId(int Accountid)
         {
-
-            var user = await _unitOfWork.Users.FindBy(us => us.AccountId.Equals(Accountid), user => user.Account, us =>us.Role).FirstOrDefaultAsync();
-
-          
-            return _mapper.Map<UserDTO>(user);
-
+            try
+            {
+                var user = await _unitOfWork.Users.FindBy(us => us.AccountId.Equals(Accountid), user => user.Account, us => us.Role).FirstOrDefaultAsync(); 
+                return _mapper.Map<UserDTO>(user);
+            }
+            catch (Exception)
+            { 
+                throw;
+            } 
         }
 
         public async Task<UserDTO> GetUserByIdAsync(int id)
         {
-
-            return _mapper.Map<UserDTO>(await _unitOfWork.Users.GetByIdAsync(id));
-                 
+            try
+            {
+                return _mapper.Map<UserDTO>(await _unitOfWork.Users.GetByIdAsync(id));
+            }
+            catch (Exception)
+            { 
+                throw;
+            } 
         }
 
         public async Task<int> UpdateUserAsync(UserDTO dto)
         {
-           
-            _unitOfWork.Users.Update(_mapper.Map<User>(dto));
-
-            return await _unitOfWork.Commit();
+            try
+            {
+                _unitOfWork.Users.Update(_mapper.Map<User>(dto)); 
+                return await _unitOfWork.Commit();
+            }
+            catch (Exception)
+            { 
+                throw;
+            }
+            
         }
 
 

@@ -29,88 +29,92 @@ namespace MedAssistant.Buisness.Services
          
         public async Task<int> GetUserIdByEmailAdressAsync(string email)
         {
-            //try
-            //{
-            var idaccount = await accountService.GetIdAccountByEmailAsync(email);
-            return userService.GetUsersByAccountId(idaccount).Result.Id;
-            //}
-            //catch (Exception)
-            //{
-            //    throw;
-            //}
+            try
+            {
+                var idaccount = await accountService.GetIdAccountByEmailAsync(email);
+                return userService.GetUsersByAccountId(idaccount).Result.Id;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
 
         public async Task<List<DoctorDTO>> GetAllDoctorsForUserByEmailAsync(string email)
         {
-            //try
-            //{   
+            try
+            {
                 var userId = await GetUserIdByEmailAdressAsync(email);
                 var doctors = await unitOfWork.Doctor.FindBy(doc => doc.UserId.Equals(userId), x => x.MedicalInstitution, x => x.DoctorType).ToListAsync();
                 
-                return doctors.Select(x => mapper.Map<DoctorDTO>(x)).ToList(); 
-            //}
-            //catch (Exception)
-            //{
-            //    throw;
-            //}
-        }
+                return doctors.Select(x => mapper.Map<DoctorDTO>(x)).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+}
 
         public async Task<List<NoteTypeDTO>> GetAllNoteTypesAsync()
         {
-            //try
-            //{
+            try
+            {
                 return await unitOfWork.NoteType.Get().Select(x => mapper.Map<NoteTypeDTO>(x)).ToListAsync();
-            //}
-            //catch (Exception) {
-            //    throw ; 
-            //}
+            }
+            catch (Exception)
+            {
+                throw; 
+            }
         }
 
         public async Task<NoteDTO> GetNoteByIdAsync(int id)
         {
-            //try {
+            try
+            {
                 var dto = await unitOfWork.Note.FindBy(x => x.Id.Equals(id), x => x.Doctor, x => x.User, x => x.NoteType, x => x.Doctor.MedicalInstitution).FirstOrDefaultAsync();
                 return mapper.Map<NoteDTO>(dto);
-            //}
-            //catch (Exception)
-            //{
-            //    throw;
-            //}
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<List<NoteDTO>> GetNotesbyUserEmailAsync(string email)
         {
-            //try
-            //{   
+            try
+            {
                 var userId =  await GetUserIdByEmailAdressAsync(email);
                 var doctors = await unitOfWork.Note.FindBy(doc => doc.UserId.Equals(userId), x => x.Doctor, x => x.User, x=>x.NoteType, x=>x.Doctor.MedicalInstitution).ToListAsync();
 
                 return doctors.Select(x => mapper.Map<NoteDTO>(x)).ToList();
-            //}
-            //catch (Exception)
-            //{
-            //    throw;
-            //}
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
 
         public async Task<int> CreateNoteAsync(NoteDTO noteDTO)
         {
-            //try {
+            try
+            {
                 await unitOfWork.Note.AddAsync(mapper.Map<Note>(noteDTO));
                 return await unitOfWork.Commit();
-            //}
-            //catch (Exception)
-            //{
-            //    throw;
-            //}    
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
 
         public async Task<int> RemoveNoteAsync(int id)
         {
-            //try {
+            try
+            {
                 var entity = await unitOfWork.Note.GetByIdAsync(id);
 
                 if (entity != null)
@@ -118,23 +122,25 @@ namespace MedAssistant.Buisness.Services
                     unitOfWork.Note.Remove(entity);
                 }
                 return await unitOfWork.Commit();
-            //}
-            //catch (Exception)
-            //{
-            //    throw;
-            //}
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public Task<int> UpdateNoteAsync(NoteDTO noteDTO)
         {
-            //try {
+            try
+            {
                 unitOfWork.Note.Update(mapper.Map<Note>(noteDTO));
                 return unitOfWork.Commit();
-            //}
-            //catch (Exception)
-            //{
-            //    throw;
-            //}
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
+
     }
 }

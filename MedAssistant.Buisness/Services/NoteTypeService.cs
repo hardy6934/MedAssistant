@@ -30,8 +30,7 @@ namespace MedAssistant.Buisness.Services
                 return result;
             }
             catch (Exception)
-            {
-
+            { 
                 throw;
             }
         }
@@ -41,8 +40,7 @@ namespace MedAssistant.Buisness.Services
             try
             {
                 var Dtos = await unitOfWork.NoteType.GetAllAsync();
-                return Dtos.Select(x => mapper.Map<NoteTypeDTO>(x)).ToList();
-
+                return Dtos.Select(x => mapper.Map<NoteTypeDTO>(x)).ToList(); 
             }
             catch (Exception)
             {

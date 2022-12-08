@@ -28,8 +28,7 @@ namespace MedAssistant.Buisness.Services
                 return result;
             }
             catch (Exception)
-            {
-
+            { 
                 throw;
             }
         }
@@ -57,8 +56,7 @@ namespace MedAssistant.Buisness.Services
                 return entity;
             }
             catch (Exception)
-            {
-
+            { 
                 throw;
             }
         }
@@ -72,8 +70,7 @@ namespace MedAssistant.Buisness.Services
                 return result;
             }
             catch (Exception)
-            {
-
+            { 
                 throw;
             }
         }
@@ -87,8 +84,7 @@ namespace MedAssistant.Buisness.Services
                 return result;
             }
             catch (Exception)
-            {
-
+            { 
                 throw;
             }
         }

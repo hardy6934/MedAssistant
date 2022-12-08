@@ -4,6 +4,7 @@ using MedAssistant.Core.DataTransferObject;
 using MedAssistant.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace MedAssistant.Controllers
 {
@@ -27,34 +28,37 @@ namespace MedAssistant.Controllers
         [Authorize(Roles = "Moderator,Admin")]
         public async Task<IActionResult> NoteTypeViewAsync()
         {
-            //try { 
-
-            var dTOs = await noteTypeService.GetAllNoteTypes();
-            if (dTOs != null)
+            try
             {
-                var models = dTOs.Select(x => mapper.Map<NoteTypeModel>(x)).ToList();
-                return View("NoteTypeView", models);
-            }
+                var dTOs = await noteTypeService.GetAllNoteTypes();
+                if (dTOs != null)
+                {
+                    var models = dTOs.Select(x => mapper.Map<NoteTypeModel>(x)).ToList();
+                    return View("NoteTypeView", models);
+                }
 
-            return BadRequest();
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return BadRequest();
+            } 
         }
 
         [Authorize(Roles = "Moderator,Admin")]
         [HttpGet]
         public IActionResult AddNoteType()
         {
-            //try
-            //{
-
+            try
+            {
                 return View("AddNoteType");
-
-            //}
-            //catch (Exception ex) {
-
-            //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-            //    return BadRequest();
-            //}
-
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return BadRequest();
+            } 
         }
 
 
@@ -62,26 +66,24 @@ namespace MedAssistant.Controllers
         [Authorize(Roles = "Moderator,Admin")]
         public async Task<IActionResult> AddNoteTypeAsync(NoteTypeModel noteTypeModel)
         {
-            //try { 
+            try
+            {
                 if (ModelState.IsValid)
                 {
                     var entity = await noteTypeService.AddNoteTypeAsync(mapper.Map<NoteTypeDTO>(noteTypeModel));
                     if (entity > 0)
                     {
                         return RedirectToAction("NoteTypeView", "NoteType");
-                    }
-
+                    } 
                     return BadRequest();
                 }
                 return BadRequest();
-
-            //}
-            //catch (Exception ex) {
-
-            //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-            //    return BadRequest();
-            //}
-
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return BadRequest();
+            } 
         }
 
 
@@ -89,9 +91,8 @@ namespace MedAssistant.Controllers
         [HttpGet]
         public async Task<IActionResult> UpdateNoteTypeAsync(int id)
         {
-            //try
-            //{
-
+            try
+            {
                 var entity = mapper.Map<NoteTypeModel>(await noteTypeService.GetNoteTypeByIdAsync(id));
                 if (entity != null)
                 {
@@ -101,15 +102,12 @@ namespace MedAssistant.Controllers
                 {
                     return NotFound();
                 }
-
-            //}
-            //catch (Exception ex)
-            //{
-
-            //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-            //    return NotFound();
-            //}
-
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return BadRequest();
+            } 
         }
 
 
@@ -117,30 +115,24 @@ namespace MedAssistant.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateNoteTypeAsync(NoteTypeModel noteTypeModel)
         {
-            //try
-            //{ 
+            try
+            {
                 if (ModelState.IsValid)
                 {
                     var entity = await noteTypeService.UpdateNoteTypeAsync(mapper.Map<NoteTypeDTO>(noteTypeModel));
                     if (entity > 0)
                     {
                         return RedirectToAction("NoteTypeView", "NoteType");
-                    }
-
+                    } 
                     return BadRequest();
-                }
-
+                } 
                 return BadRequest();
-
-            //}
-            //catch (Exception ex)
-            //{
-
-            //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-            //    return BadRequest();
-            //}
-
-
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return BadRequest();
+            } 
         }
 
 
@@ -148,8 +140,8 @@ namespace MedAssistant.Controllers
         [HttpGet]
         public async Task<IActionResult> RemoveNoteTypeAsync(int id)
         {
-            //try {
-
+            try
+            {
                 var entity = mapper.Map<NoteTypeModel>(await noteTypeService.GetNoteTypeByIdAsync(id));
                 if (entity != null)
                 {
@@ -159,23 +151,20 @@ namespace MedAssistant.Controllers
                 {
                     return NotFound();
                 }
-
-            //}
-            //catch (Exception ex)
-            //{
-
-            //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-            //    return NotFound();
-            //}
-
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return BadRequest();
+            } 
         }
 
         [Authorize(Roles = "Moderator,Admin")]
         [HttpPost]
         public async Task<IActionResult> RemoveNoteTypeAsync(NoteTypeModel noteTypeModel)
         {
-            //try
-            //{
+            try
+            {
                 if (noteTypeModel.Id != 0)
                 {
 
@@ -187,13 +176,12 @@ namespace MedAssistant.Controllers
                         return NotFound();
                 }
                 return NotFound();
-            //}
-            //catch (Exception ex)
-            //{
-            //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-            //    return NotFound();
-            //}
-
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return BadRequest();
+            } 
         }
     }
 }

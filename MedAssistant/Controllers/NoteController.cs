@@ -2,11 +2,14 @@
 using MedAssistant.Core.Abstractions;
 using MedAssistant.Core.DataTransferObject;
 using MedAssistant.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Serilog;
 
 namespace MedAssistant.Controllers
 {
+    [Authorize(Roles = "User,Moderator,Admin")]
     public class NoteController : Controller
     {
         private readonly IMapper mapper;
@@ -19,18 +22,26 @@ namespace MedAssistant.Controllers
 
         public async Task<IActionResult> NoteViewAsync()
         {
-             
-            var emailAddress = HttpContext.User.Identity.Name.ToString();
-
-            var Dtos = await noteService.GetNotesbyUserEmailAsync(emailAddress);
-
-            if (Dtos != null)
+            try
             {
-                var models = Dtos.Select(x=>mapper.Map<NoteModel>(x)).ToList();
+                var emailAddress = HttpContext.User.Identity.Name.ToString();
 
-                return View("NoteView", models );
+                var Dtos = await noteService.GetNotesbyUserEmailAsync(emailAddress);
+
+                if (Dtos != null)
+                {
+                    var models = Dtos.Select(x => mapper.Map<NoteModel>(x)).ToList();
+
+                    return View("NoteView", models);
+                }
+                return NotFound();
             }
-            return NotFound();
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return NotFound();
+            }
+
 
         }
 
@@ -38,41 +49,58 @@ namespace MedAssistant.Controllers
         [HttpGet]
         public async Task<IActionResult> AddNoteAsync()
         {
+            try
+            {
+                var model = new CreateNoteModel();
 
-            var model = new CreateNoteModel();
+                var emailAddress = HttpContext.User.Identity.Name.ToString();
 
-            var emailAddress = HttpContext.User.Identity.Name.ToString();
+                var doctors = await noteService.GetAllDoctorsForUserByEmailAsync(emailAddress);
+                var notetypes = await noteService.GetAllNoteTypesAsync();
 
-            var doctors = await noteService.GetAllDoctorsForUserByEmailAsync(emailAddress);
-            var notetypes = await noteService.GetAllNoteTypesAsync();
+                model.ListOfDoctors = doctors.Select(dto => new SelectListItem(dto.FullName, dto.Id.ToString())).ToList();
+                model.ListOfNoteTypes = notetypes.Select(dto => new SelectListItem(dto.Type, dto.Id.ToString())).ToList();
 
-            model.ListOfDoctors = doctors.Select(dto => new SelectListItem(dto.FullName, dto.Id.ToString())).ToList();
-            model.ListOfNoteTypes = notetypes.Select(dto => new SelectListItem(dto.Type, dto.Id.ToString())).ToList();
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return NotFound();
+            }
 
-            return View(model);
 
         }
 
         [HttpPost]
         public async Task<IActionResult> AddNoteAsync(NoteModel noteModel)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var emailAddress = HttpContext.User.Identity.Name.ToString();
-
-                var userid = await noteService.GetUserIdByEmailAdressAsync(emailAddress);
-
-                noteModel.UserId =  userid;
-
-                var entity = await noteService.CreateNoteAsync(mapper.Map<NoteDTO>(noteModel));
-
-                if (entity > 0)
+                if (ModelState.IsValid)
                 {
-                    return RedirectToAction("NoteView", "Note");
-                }
+                    var emailAddress = HttpContext.User.Identity.Name.ToString();
 
+                    var userid = await noteService.GetUserIdByEmailAdressAsync(emailAddress);
+
+                    noteModel.UserId = userid;
+
+                    var entity = await noteService.CreateNoteAsync(mapper.Map<NoteDTO>(noteModel));
+
+                    if (entity > 0)
+                    {
+                        return RedirectToAction("NoteView", "Note");
+                    }
+
+                }
+                return BadRequest();
             }
-            return BadRequest();
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return NotFound();
+            }
+
 
         }
 
@@ -80,70 +108,97 @@ namespace MedAssistant.Controllers
         [HttpGet]
         public async Task<IActionResult> UpdateNoteAsync(int id)
         {
+            try
+            {
+                var model = mapper.Map<CreateNoteModel>(await noteService.GetNoteByIdAsync(id));
 
-            var model = mapper.Map<CreateNoteModel>(await noteService.GetNoteByIdAsync(id));
+                var emailAddress = HttpContext.User.Identity.Name.ToString();
 
-            var emailAddress = HttpContext.User.Identity.Name.ToString();
+                var doctors = await noteService.GetAllDoctorsForUserByEmailAsync(emailAddress);
+                var notetypes = await noteService.GetAllNoteTypesAsync();
 
-            var doctors = await noteService.GetAllDoctorsForUserByEmailAsync(emailAddress);
-            var notetypes = await noteService.GetAllNoteTypesAsync();
+                model.ListOfDoctors = doctors.Select(dto => new SelectListItem(dto.FullName, dto.Id.ToString())).ToList();
+                model.ListOfNoteTypes = notetypes.Select(dto => new SelectListItem(dto.Type, dto.Id.ToString())).ToList();
 
-            model.ListOfDoctors = doctors.Select(dto => new SelectListItem(dto.FullName, dto.Id.ToString())).ToList();
-            model.ListOfNoteTypes = notetypes.Select(dto => new SelectListItem(dto.Type, dto.Id.ToString())).ToList();
-
-            return View(model);
-
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return NotFound();
+            } 
         }
 
         [HttpPost]
         public async Task<IActionResult> UpdateNoteAsync(NoteModel noteModel)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var emailAddress = HttpContext.User.Identity.Name.ToString();
-
-                var userid = await noteService.GetUserIdByEmailAdressAsync(emailAddress);
-
-                noteModel.UserId = userid;
-
-                var entity = await noteService.UpdateNoteAsync(mapper.Map<NoteDTO>(noteModel));
-
-                if (entity > 0)
+                if (ModelState.IsValid)
                 {
-                    return RedirectToAction("NoteView", "Note");
+                    var emailAddress = HttpContext.User.Identity.Name.ToString();
+
+                    var userid = await noteService.GetUserIdByEmailAdressAsync(emailAddress);
+
+                    noteModel.UserId = userid;
+
+                    var entity = await noteService.UpdateNoteAsync(mapper.Map<NoteDTO>(noteModel));
+
+                    if (entity > 0)
+                    {
+                        return RedirectToAction("NoteView", "Note");
+                    }
+
                 }
-
+                return BadRequest();
             }
-            return BadRequest();
-
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return NotFound();
+            } 
         }
 
         [HttpGet]
         public async Task<IActionResult> RemoveNoteAsync(int id)
         {
-            var dto = await noteService.GetNoteByIdAsync(id);
-            var model = mapper.Map<NoteModel>(dto);
+            try
+            {
+                var dto = await noteService.GetNoteByIdAsync(id);
+                var model = mapper.Map<NoteModel>(dto);
 
-            return View(model);
-
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return NotFound();
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> RemoveNoteAsync(NoteModel noteModel)
         {
-            if (noteModel.Id != 0)
+            try
             {
-                var entity = await noteService.RemoveNoteAsync(noteModel.Id);
-
-                if (entity > 0)
+                if (noteModel.Id != 0)
                 {
-                    return RedirectToAction("NoteView", "Note");
+                    var entity = await noteService.RemoveNoteAsync(noteModel.Id);
+
+                    if (entity > 0)
+                    {
+                        return RedirectToAction("NoteView", "Note");
+                    }
+                    return BadRequest();
                 }
+
                 return BadRequest();
             }
-
-            return BadRequest();
-
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return NotFound();
+            } 
         }
     }
 }

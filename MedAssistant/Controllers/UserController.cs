@@ -4,6 +4,7 @@ using MedAssistant.Core.DataTransferObject;
 using MedAssistant.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using System.Security.Claims;
 
 namespace MedAssistant.Controllers
@@ -26,42 +27,63 @@ namespace MedAssistant.Controllers
 
         public async Task<IActionResult> UserView()
         {
-            var emailAddress =   HttpContext.User.Identity.Name.ToString();
-              
-            var idaccount = await accountService.GetIdAccountByEmailAsync(emailAddress);
-            
-            var model = await _userService.GetUsersByAccountId(idaccount);
-          
-            if (model != null)
+            try
             {
-                
+                var emailAddress = HttpContext.User.Identity.Name.ToString();
 
-                return View(_mapper.Map<UserModel>(model));
+                var idaccount = await accountService.GetIdAccountByEmailAsync(emailAddress);
+
+                var model = await _userService.GetUsersByAccountId(idaccount);
+
+                if (model != null)
+                {
+
+
+                    return View(_mapper.Map<UserModel>(model));
+                }
+                return NotFound();
             }
-            return NotFound();
-            
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return NotFound();
+            } 
         }
 
         [HttpGet]
         public async Task<IActionResult> EditUsersAsync(int id)
         {
-             
-            var model = await _userService.GetUserByIdAsync(id);
-            return View(_mapper.Map<UserModel>(model));
+            try
+            {
+                var model = await _userService.GetUserByIdAsync(id);
+                return View(_mapper.Map<UserModel>(model));
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return NotFound();
+            } 
         }
 
         [HttpPost]
         public async Task<IActionResult> EditUsersAsync(UserModel model)
         {
-            
-            var entity = await _userService.UpdateUserAsync(_mapper.Map<UserDTO>(model));
+            try
+            {
+                var entity = await _userService.UpdateUserAsync(_mapper.Map<UserDTO>(model));
 
-            if (entity > 0)
-            { 
-             return RedirectToAction("UserView", "User");
+                if (entity > 0)
+                {
+                    return RedirectToAction("UserView", "User");
+                }
+                return BadRequest();
             }
-            return BadRequest();
-
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return NotFound();
+            }  
         }
+
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using System.Security.Claims;
 
 namespace MedAssistant.Controllers
@@ -33,37 +34,53 @@ namespace MedAssistant.Controllers
         [HttpGet]
         public IActionResult Registration()
         {
-            return View();
+            try
+            {
+                return View();
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return BadRequest();
+            } 
         }
 
         [HttpPost]
         public async Task<IActionResult> RegistrationAsync(RegistrationModel model)
         {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var email = model.Login;
 
-            if (ModelState.IsValid)
-            { 
-                var email = model.Login;
-                 
-                if (accountService.IsEmailExist(email) == false)
-                {  
-                    var entity =  await accountService.CreateAccountAsync(mapper.Map<AccountDTO>(model));
-
-                    if (entity > 0)
+                    if (accountService.IsEmailExist(email) == false)
                     {
-                        var accountId = await accountService.GetIdAccountByEmailAsync(email);
-                        var IdRole = await roleService.FindRoleIdByRoleName("User");
-                        var defaultuser = userService.CreateDefaultUserUserAsync(accountId, IdRole);
-                        var Userentity = await userService.CreateUserAsync(defaultuser);
+                        var entity = await accountService.CreateAccountAsync(mapper.Map<AccountDTO>(model));
 
-                        if (Userentity > 0)
+                        if (entity > 0)
                         {
-                            await Authenticate(email);
-                            return RedirectToAction("Index", "Home");
+                            var accountId = await accountService.GetIdAccountByEmailAsync(email);
+                            var IdRole = await roleService.FindRoleIdByRoleName("User");
+                            var defaultuser = userService.CreateDefaultUserUserAsync(accountId, IdRole);
+                            var Userentity = await userService.CreateUserAsync(defaultuser);
+
+                            if (Userentity > 0)
+                            {
+                                await Authenticate(email);
+                                return RedirectToAction("Index", "Home");
+                            }
                         }
                     }
                 }
+                return View(model);
             }
-            return View(model);
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return NotFound();
+            }
+            
 
         }
 
@@ -71,58 +88,88 @@ namespace MedAssistant.Controllers
         [HttpGet]
         public IActionResult Authentication()
         {
-            return View();
+            try
+            {
+                return View();
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return BadRequest();
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> AuthenticationAsync(AuthenticationModel model)
         {
-            var isPasswordCorrect = await accountService.CheckUserPassword(mapper.Map<AccountDTO>(model));
-            if (isPasswordCorrect)
+            try
             {
-                await Authenticate(model.Login);
-                return RedirectToAction("Index", "Home");
+                var isPasswordCorrect = await accountService.CheckUserPassword(mapper.Map<AccountDTO>(model));
+                if (isPasswordCorrect)
+                {
+                    await Authenticate(model.Login);
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    return View(model);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return View(model);
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return BadRequest();
             }
+           
         }
 
 
         [HttpGet]
-        public async Task<IActionResult> Logout( )
+        public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync();
+            try
+            {
+                await HttpContext.SignOutAsync();
 
-            return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return BadRequest();
+            }
+            
         }
-
-
-
+         
         private async Task Authenticate(string email)
         {
-            var accountId = await accountService.GetIdAccountByEmailAsync(email);
-
-            var UserValuesWithIncludes = await userService.GetUsersByAccountId(accountId);
-
-            var claims = new List<Claim>()
+            try
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, UserValuesWithIncludes.AccountLogin),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, UserValuesWithIncludes.RoleName)
-            };
+                var accountId = await accountService.GetIdAccountByEmailAsync(email);
 
-            if (claims != null)
-            { 
-                var identity = new ClaimsIdentity(claims,
-                    "ApplicationCookie",
-                    ClaimsIdentity.DefaultNameClaimType,
-                    ClaimsIdentity.DefaultRoleClaimType
-                );
-          
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                    new ClaimsPrincipal(identity));
+                var UserValuesWithIncludes = await userService.GetUsersByAccountId(accountId);
+
+                var claims = new List<Claim>()
+                {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, UserValuesWithIncludes.AccountLogin),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, UserValuesWithIncludes.RoleName) };
+
+                if (claims != null)
+                {
+                    var identity = new ClaimsIdentity(claims,
+                        "ApplicationCookie",
+                        ClaimsIdentity.DefaultNameClaimType,
+                        ClaimsIdentity.DefaultRoleClaimType);
+
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                        new ClaimsPrincipal(identity));
+                }
             }
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}"); 
+            }
+            
         }
 
 
@@ -130,54 +177,76 @@ namespace MedAssistant.Controllers
         [HttpGet]
         public  ActionResult  IsLoggedIn()
         {
-
-            if (!string.IsNullOrEmpty(HttpContext.User.Identity.Name))
+            try
             {
-                return Ok(true);    
+                if (!string.IsNullOrEmpty(HttpContext.User.Identity.Name))
+                {
+                    return Ok(true);
+                }
+                else return Ok(false);
             }
-            else return Ok(false);
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return NotFound();
+            }
+
+            
         
         }
 
         [HttpGet]
         public async Task<IActionResult> UserLoginPreview()
         {
-            if (User.Identities.Any(identity => identity.IsAuthenticated))
-            {  
-
-                var accountEmail = User.Identity?.Name;
-
-                if (string.IsNullOrEmpty(accountEmail))
+            try
+            {
+                if (User.Identities.Any(identity => identity.IsAuthenticated))
                 {
-                    return BadRequest();
+
+                    var accountEmail = User.Identity?.Name;
+
+                    if (string.IsNullOrEmpty(accountEmail))
+                    {
+                        return NotFound();
+                    }
+
+                    var accountId = await accountService.GetIdAccountByEmailAsync(accountEmail);
+
+                    var user = mapper.Map<UserShortDataModel>(await userService.GetUsersByAccountId(accountId));
+
+                    return View(user);
                 }
-
-                var accountId = await accountService.GetIdAccountByEmailAsync(accountEmail);
-
-                var user = mapper.Map<UserShortDataModel>(await userService.GetUsersByAccountId(accountId));
-
-                return View(user);
+                return View();
             }
-            return View();
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return NotFound();
+            }
+            
         }
 
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> GetUserDataAsync()
         {
-            var accountEmail = User.Identity?.Name;
-
-            if (string.IsNullOrEmpty(accountEmail))
+            try
             {
-                return BadRequest();
-            }
-
-            var accountId = await accountService.GetIdAccountByEmailAsync(accountEmail);
-             
-            var user = mapper.Map<UserShortDataModel>( await userService.GetUsersByAccountId(accountId));
-
-             
+                var accountEmail = User.Identity?.Name; 
+                if (string.IsNullOrEmpty(accountEmail))
+                {
+                    return BadRequest();
+                } 
+                var accountId = await accountService.GetIdAccountByEmailAsync(accountEmail); 
+                var user = mapper.Map<UserShortDataModel>(await userService.GetUsersByAccountId(accountId)); 
                 return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return NotFound();
+            }
+            
             
         }
 

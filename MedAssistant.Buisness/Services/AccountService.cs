@@ -25,90 +25,142 @@ namespace MedAssistant.Buisness.Services
 
         public async Task<int> CreateAccountAsync(AccountDTO dto)
         {
-            dto.Password = CreateMd5(dto.Password);
-            await unitOfWork.Accounts.AddAsync(mapper.Map<Account>(dto));
+            try
+            {
+                dto.Password = CreateMd5(dto.Password);
+                await unitOfWork.Accounts.AddAsync(mapper.Map<Account>(dto));
 
-            return await unitOfWork.Commit();
+                return await unitOfWork.Commit();
+            }
+            catch (Exception)
+            { 
+                throw;
+            } 
         }
 
         public async Task EditAccountAsync(AccountDTO dto)
         {
-            unitOfWork.Accounts.Update(mapper.Map<Account>(dto));
-            await unitOfWork.Commit();
+            try
+            {
+                unitOfWork.Accounts.Update(mapper.Map<Account>(dto));
+                await unitOfWork.Commit();
+            }
+            catch (Exception)
+            { 
+                throw;
+            } 
         }
 
         public async Task<bool> IsAccountExistAsync(AccountDTO dto)
         {
-            dto.Password = CreateMd5(dto.Password);
-            return await unitOfWork.Accounts.Get().AnyAsync(x => x.Equals(mapper.Map<Account>(dto)));
-             
+            try
+            {
+                dto.Password = CreateMd5(dto.Password);
+                return await unitOfWork.Accounts.Get().AnyAsync(x => x.Equals(mapper.Map<Account>(dto)));
+            }
+            catch (Exception)
+            { 
+                throw;
+            } 
         }
 
 
         public async Task<AccountDTO> GetAccountByIdAsync(int id)
-        { 
-            var account = await unitOfWork.Accounts.GetByIdAsync(id);
-             
+        {
+            try
+            {
+                var account = await unitOfWork.Accounts.GetByIdAsync(id); 
                 return mapper.Map<AccountDTO>(account);
-             
+            }
+            catch (Exception)
+            { 
+                throw;
+            } 
         }
 
         public async Task<int> GetIdAccountByEmailAsync(string email)
         {
-            var accountId =  (await unitOfWork.Accounts.Get().FirstOrDefaultAsync(x => x.Login.Equals(email))).Id;
-
-            return accountId;
-
+            try
+            {
+                var accountId = (await unitOfWork.Accounts.Get().FirstOrDefaultAsync(x => x.Login.Equals(email))).Id; 
+                return accountId;
+            }
+            catch (Exception)
+            { 
+                throw;
+            } 
         }
 
         public bool IsEmailExist(string email)
         {
-
-            var account = unitOfWork.Accounts.Get().Where(x => x.Login.Equals(email)).FirstOrDefault();
-
-            if (account == null)
+            try
             {
-                return false;
+                var account = unitOfWork.Accounts.Get().Where(x => x.Login.Equals(email)).FirstOrDefault();
+
+                if (account == null)
+                {
+                    return false;
+                }
+                else
+                    return true;
             }
-            else
-                return true;
+            catch (Exception)
+            { 
+                throw;
+            } 
         }
 
         public async Task RemoveAccountAsync(AccountDTO dto)
         {
-            unitOfWork.Accounts.Remove(mapper.Map<Account>(dto));
-            await unitOfWork.Commit();
+            try
+            {
+                unitOfWork.Accounts.Remove(mapper.Map<Account>(dto));
+                await unitOfWork.Commit();
+            }
+            catch (Exception)
+            { 
+                throw;
+            } 
         }
 
 
         public async Task<bool> CheckUserPassword(AccountDTO dto)
         {
-            var dbPasswordHash = (await unitOfWork.Accounts.Get().AsNoTracking().FirstOrDefaultAsync(x => x.Login.Equals(dto.Login)))?.Password;
-
-            if (dbPasswordHash != null && CreateMd5(dto.Password).Equals(dbPasswordHash))
+            try
             {
-                return true;
+                var dbPasswordHash = (await unitOfWork.Accounts.Get().AsNoTracking().FirstOrDefaultAsync(x => x.Login.Equals(dto.Login)))?.Password;
+
+                if (dbPasswordHash != null && CreateMd5(dto.Password).Equals(dbPasswordHash))
+                {
+                    return true;
+                }
+                else
+                    return false;
             }
-            else
-                return false;
-
+            catch (Exception)
+            { 
+                throw;
+            } 
         }
-
          
-
 
         private string CreateMd5(string password)
         {
-            var passwordSalt =  "qwe";
+            try
+            {
+                var passwordSalt = "qwe";
 
-            using MD5 md5 = MD5.Create();
-            var inputBytes = System.Text.Encoding.UTF8.GetBytes(password + passwordSalt);
-            var hashBytes = md5.ComputeHash(inputBytes);
+                using MD5 md5 = MD5.Create();
+                var inputBytes = System.Text.Encoding.UTF8.GetBytes(password + passwordSalt);
+                var hashBytes = md5.ComputeHash(inputBytes); 
+                return Convert.ToHexString(hashBytes);
+            }
+            catch (Exception)
+            {
 
-            return Convert.ToHexString(hashBytes);
-        }
-
-
+                throw;
+            } 
+        } 
 
     }
 }

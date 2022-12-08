@@ -115,12 +115,7 @@ namespace MedAssistant.Buisness.Services
             catch (Exception)
             { 
                 throw;
-            }
-
-           
-
-
-
+            } 
         }
 
         public async Task<int> AddMedicalInstitutionAsync(MedicalInstitutionDTO dto)
@@ -142,8 +137,7 @@ namespace MedAssistant.Buisness.Services
             try
             {
                 var Dtos = await unitOfWork.MedicalInstitution.GetAllAsync();
-                return Dtos.Select(x => mapper.Map<MedicalInstitutionDTO>(x)).ToList();
-
+                return Dtos.Select(x => mapper.Map<MedicalInstitutionDTO>(x)).ToList(); 
             }
             catch (Exception)
             {
@@ -155,13 +149,11 @@ namespace MedAssistant.Buisness.Services
         {
             try
             {
-                var entity = mapper.Map<MedicalInstitutionDTO>(await unitOfWork.MedicalInstitution.GetByIdAsync(id));
-
+                var entity = mapper.Map<MedicalInstitutionDTO>(await unitOfWork.MedicalInstitution.GetByIdAsync(id)); 
                 return entity;
             }
             catch (Exception)
-            {
-
+            { 
                 throw;
             }
         }
@@ -175,8 +167,7 @@ namespace MedAssistant.Buisness.Services
                 return result;
             }
             catch (Exception)
-            {
-
+            { 
                 throw;
             }
         }

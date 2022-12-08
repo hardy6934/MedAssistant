@@ -10,19 +10,19 @@
      <form asp-controller="MedicalInstitution" asp-action="UpdateMedicalInstitution" method="post">
 
         <div class="mb-3">
-            <label asp-for="Name" >Name</label>
+            <label asp-for="Name" >Name</label><br/>
             <input asp-for="Name" type="text" id="Name" required>
             <span asp-validation-for="Name" class="text-danger"></span>
 
         </div>
         <div class="mb-3">
-            <label asp-for="Location" >Location of medical institution</label>
+            <label asp-for="Location" >Location of medical institution</label><br/>
             <input asp-for="Location" type="text"   id="Location">
             <span asp-validation-for="Location" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
-            <label asp-for="InfoUrl" >link for information about medical institution</label>
+            <label asp-for="InfoUrl" >link for information about medical institution</label><br/>
             <input asp-for="InfoUrl" type="text"   id="InfoUrl">
             <span asp-validation-for="InfoUrl" class="text-danger"></span>
         </div>

@@ -11,7 +11,7 @@
 
         <div class="mb-3">
             <label asp-for="date" class="form-label">Date of Vaccination</label>
-            <input asp-for="date" type="text"  id="date" required>
+            <input asp-for="date" class="form-control" asp-for="DateTime" value="@DateTime.Now" >
             <span asp-validation-for="date" class="text-danger"></span>
 
         </div>
@@ -25,7 +25,7 @@
              
         <div class="mb-3">
             <label asp-for="RemindDate" class="form-label">RemindDate</label>
-            <input type="datetime"  asp-for="RemindDate"  id="RemindDate">
+            <input asp-for="RemindDate" class="form-control" asp-for="DateTime" value="@DateTime.Now" >
             <span asp-validation-for="RemindDate" class="text-danger"></span>
         </div>
 

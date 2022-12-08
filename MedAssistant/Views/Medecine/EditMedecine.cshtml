@@ -10,13 +10,13 @@
      <form asp-controller="Medecine" asp-action="UpdateMedecine" method="post">
 
         <div class="mb-3">
-            <label asp-for="Name" >Name</label>
+            <label asp-for="Name" >Name</label><br/>
             <input asp-for="Name" type="text" id="Name" required>
             <span asp-validation-for="Name" class="text-danger"></span>
 
         </div>
         <div class="mb-3">
-            <label asp-for="MedecineUrl" >Ссылка на информацию</label>
+            <label asp-for="MedecineUrl" >Ссылка на информацию</label><br/>
             <input asp-for="MedecineUrl" type="text"   id="MedecineUrl">
             <span asp-validation-for="MedecineUrl" class="text-danger"></span>
         </div> 

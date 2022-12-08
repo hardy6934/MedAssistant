@@ -66,8 +66,7 @@ namespace MedAssistant.Controllers
                 var email = HttpContext.User.Identity.Name;
                 var userId = await doctorService.GetUserIdByEmailAdressAsync(email);
                 doctorModel.UserId = userId;
-
-
+                 
                 var entity = await doctorService.AddDoctorAsync(mapper.Map<DoctorDTO>(doctorModel));
 
                 if (entity > 0)
@@ -89,7 +88,6 @@ namespace MedAssistant.Controllers
         {
             try
             {
-
                 var email = HttpContext.User.Identity.Name;
                 var types = await doctorService.GetAllDoctorTypesAsync();
                 var medicalInstitutions = await doctorService.GetAllMedicalInstitutionsAsync();

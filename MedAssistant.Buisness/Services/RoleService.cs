@@ -21,9 +21,16 @@ namespace MedAssistant.Buisness.Services
 
         public async Task<int> FindRoleIdByRoleName(string RoleName)
         {
-            var id =  (await unitOfWork.Role.Get().AsNoTracking().FirstOrDefaultAsync(x => x.Name == RoleName)).Id;
-
+            try
+            {
+                var id = (await unitOfWork.Role.Get().AsNoTracking().FirstOrDefaultAsync(x => x.Name == RoleName)).Id; 
                 return id;
+            }
+            catch (Exception)
+            { 
+                throw;
+            }
+            
         }
     }
 }

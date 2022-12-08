@@ -10,27 +10,27 @@
     <form asp-controller="Vaccination" asp-action="AddVaccination" method="post">
 
         <div class="mb-3">
-            <label asp-for="date" >Date of Vaccination</label>
-            <input asp-for="date" type="text" id="date" required>
+            <label asp-for="date" >Date of Vaccination</label><br/>
+            <input asp-for="date" class="form-control" asp-for="DateTime" value="@DateTime.Now" >
             <span asp-validation-for="date" class="text-danger"></span>
 
         </div>
         <div class="mb-3">
-            <label asp-for="Remind" >Remind</label>
-            <input asp-for="Remind" type="checkbox"   id="Remind">
+            <label asp-for="Remind" >Remind</label><br/>
+            <input asp-for="Remind" type="checkbox"  id="Remind">
             <span asp-validation-for="Remind" class="text-danger"></span>
         </div>
 
             
              
         <div class="mb-3">
-            <label asp-for="RemindDate" >RemindDate</label>
-            <input type="datetime" asp-for="RemindDate" id="RemindDate">
+            <label asp-for="RemindDate" >RemindDate</label><br/>
+            <input asp-for="RemindDate" class="form-control" asp-for="DateTime" value="@DateTime.Now" >
             <span asp-validation-for="RemindDate" class="text-danger"></span>
         </div>
 
         
-        <select asp-for="VaccinationTypeId" >
+        <select asp-for="VaccinationTypeId" ><br/>
              <option selected="selected" disabled = "disabled">Выберите тип Вакцинации</option>
             @foreach(var n in Model.Types)
             {

@@ -5,6 +5,7 @@ using MedAssistant.Helpers.HelpersModels;
 using MedAssistant.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace MedAssistant.Controllers
 {
@@ -22,59 +23,51 @@ namespace MedAssistant.Controllers
         [Authorize(Roles = "Moderator,User,Admin")]
         public async Task<IActionResult> MedicalInstitutionViewAsync(int id)
         {
-            //try
-            //{  
-            var Dtos = await medicalInstitutionService.GetAllMedicalInstitutionsFromDataBaseAsync();
-
-            if (Dtos != null)
+            try
             {
+                var Dtos = await medicalInstitutionService.GetAllMedicalInstitutionsFromDataBaseAsync(); 
 
-                var pageSize = 100;
+                if (Dtos != null)
+                { 
+                    var pageSize = 100; 
+                    var models = Dtos.Select(x => mapper.Map<MedicalInstitutionModel>(x)).ToList(); 
 
-                var models = Dtos.Select(x => mapper.Map<MedicalInstitutionModel>(x)).ToList();
+                    PagingInfo pagingInfo = new PagingInfo();
+                    pagingInfo.CurrentPage = id == 0 ? 1 : id;
+                    pagingInfo.TotalItems = models.Count();
+                    pagingInfo.ItemsPerPage = pageSize;
 
-
-                PagingInfo pagingInfo = new PagingInfo();
-                pagingInfo.CurrentPage = id == 0 ? 1 : id;
-                pagingInfo.TotalItems = models.Count();
-                pagingInfo.ItemsPerPage = pageSize;
-
-                var skip = pageSize * (Convert.ToInt32(id) - 1);
-                MedicalInstitutuinModelForPagination model = new();
-                model.PagingInfo = pagingInfo;
-                model.MedicalInstitutionModels = models.Skip(skip).Take(pageSize).ToList();
-
-
-
-                return View("MedicalInstitutionVew", model);
+                    var skip = pageSize * (Convert.ToInt32(id) - 1);
+                    MedicalInstitutuinModelForPagination model = new();
+                    model.PagingInfo = pagingInfo;
+                    model.MedicalInstitutionModels = models.Skip(skip).Take(pageSize).ToList();
+                     
+                    return View("MedicalInstitutionVew", model);
+                }
+                else
+                    return NotFound();
             }
-            else
-                return NotFound();
-            //}
-            //catch (Exception ex)
-            //{
-            //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-            //    return NotFound();
-            //}
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return BadRequest();
+            } 
         }
 
 
         [Authorize(Roles = "Moderator,User,Admin")]
         [HttpGet]
-        public async Task<IActionResult> AddMedicalInstitutionAsync()
+        public  IActionResult  AddMedicalInstitution()
         {
-            //try
-            //{
-
-            return View("AddMedicalInstitution");
-
-            //}
-            //catch (Exception ex) {
-
-            //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-            //    return BadRequest();
-            //}
-
+            try
+            {
+                return View("AddMedicalInstitution");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return BadRequest();
+            }
         }
 
 
@@ -82,26 +75,25 @@ namespace MedAssistant.Controllers
         [Authorize(Roles = "Moderator,User,Admin")]
         public async Task<IActionResult> AddMedicalInstitutionAsync(MedicalInstitutionModel medicalInstitutionModel)
         {
-            //try { 
-            if (ModelState.IsValid)
+            try
             {
-                var entity = await medicalInstitutionService.AddMedicalInstitutionAsync(mapper.Map<MedicalInstitutionDTO>(medicalInstitutionModel));
-                if (entity > 0)
+                if (ModelState.IsValid)
                 {
-                    return RedirectToAction("MedicalInstitutionView", "MedicalInstitution");
-                }
+                    var entity = await medicalInstitutionService.AddMedicalInstitutionAsync(mapper.Map<MedicalInstitutionDTO>(medicalInstitutionModel));
+                    if (entity > 0)
+                    {
+                        return RedirectToAction("MedicalInstitutionView", "MedicalInstitution");
+                    }
 
+                    return BadRequest();
+                }
                 return BadRequest();
             }
-            return BadRequest();
-
-            //}
-            //catch (Exception ex) {
-
-            //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-            //    return BadRequest();
-            //}
-
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return BadRequest();
+            }
         }
 
 
@@ -109,27 +101,23 @@ namespace MedAssistant.Controllers
         [HttpGet]
         public async Task<IActionResult> UpdateMedicalInstitutionAsync(int id)
         {
-            //try
-            //{
-
-            var entity = mapper.Map<MedicalInstitutionModel>(await medicalInstitutionService.GetMedicalInstitutionByIdAsync(id));
-            if (entity != null)
+            try
             {
-                return View("UpdateMedicalInstitution", entity);
+                var entity = mapper.Map<MedicalInstitutionModel>(await medicalInstitutionService.GetMedicalInstitutionByIdAsync(id));
+                if (entity != null)
+                {
+                    return View("UpdateMedicalInstitution", entity);
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound();
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return BadRequest();
             }
-
-            //}
-            //catch (Exception ex)
-            //{
-
-            //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-            //    return NotFound();
-            //}
-
         }
 
 
@@ -137,30 +125,25 @@ namespace MedAssistant.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateMedicalInstitutionAsync(MedicalInstitutionModel medicalInstitutionModel)
         {
-            //try
-            //{ 
-            if (ModelState.IsValid)
+            try
             {
-                var entity = await medicalInstitutionService.UpdateMedicalInstitutionAsync(mapper.Map<MedicalInstitutionDTO>(medicalInstitutionModel));
-                if (entity > 0)
+                if (ModelState.IsValid)
                 {
-                    return RedirectToAction("MedicalInstitutionView", "MedicalInstitution");
-                }
+                    var entity = await medicalInstitutionService.UpdateMedicalInstitutionAsync(mapper.Map<MedicalInstitutionDTO>(medicalInstitutionModel));
+                    if (entity > 0)
+                    {
+                        return RedirectToAction("MedicalInstitutionView", "MedicalInstitution");
+                    }
 
+                    return BadRequest();
+                } 
                 return BadRequest();
             }
-
-            return BadRequest();
-
-            //}
-            //catch (Exception ex)
-            //{
-
-            //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-            //    return BadRequest();
-            //}
-
-
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return BadRequest();
+            }
         }
 
 
@@ -168,53 +151,50 @@ namespace MedAssistant.Controllers
         [HttpGet]
         public async Task<IActionResult> RemoveMedicalInstitutionAsync(int id)
         {
-            //try {
-
-            var entity = mapper.Map<MedicalInstitutionModel>(await medicalInstitutionService.GetMedicalInstitutionByIdAsync(id));
-            if (entity != null)
-            {
-                return View("RemoveMedicalInstitution", entity);
+            try
+            { 
+                var entity = mapper.Map<MedicalInstitutionModel>(await medicalInstitutionService.GetMedicalInstitutionByIdAsync(id));
+                if (entity != null)
+                {
+                    return View("RemoveMedicalInstitution", entity);
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound();
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return BadRequest();
             }
-
-            //}
-            //catch (Exception ex)
-            //{
-
-            //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-            //    return NotFound();
-            //}
-
         }
 
         [Authorize(Roles = "Moderator,Admin")]
         [HttpPost]
         public async Task<IActionResult> RemoveMedicalInstitutionAsync(MedicalInstitutionModel medicalInstitutionModel)
         {
-            //try
-            //{
-            if (medicalInstitutionModel.Id != 0)
+            try
             {
-
-                if (await medicalInstitutionService.RemoveMedicalInstitutionAsync(mapper.Map<MedicalInstitutionDTO>(medicalInstitutionModel)) > 0)
+                if (medicalInstitutionModel.Id != 0)
                 {
-                    return RedirectToAction("MedicalInstitutionView", "MedicalInstitution");
-                }
-                else
-                    return NotFound();
-            }
-            return NotFound();
-            //}
-            //catch (Exception ex)
-            //{
-            //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-            //    return NotFound();
-            //}
 
+                    if (await medicalInstitutionService.RemoveMedicalInstitutionAsync(mapper.Map<MedicalInstitutionDTO>(medicalInstitutionModel)) > 0)
+                    {
+                        return RedirectToAction("MedicalInstitutionView", "MedicalInstitution");
+                    }
+                    else
+                        return NotFound();
+                }
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return BadRequest();
+            }
         }
+
     }
 }
 

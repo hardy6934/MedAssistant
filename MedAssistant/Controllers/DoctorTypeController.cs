@@ -4,6 +4,7 @@ using MedAssistant.Core.DataTransferObject;
 using MedAssistant.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace MedAssistant.Controllers
 {  
@@ -27,34 +28,36 @@ namespace MedAssistant.Controllers
             [Authorize(Roles = "Moderator,Admin")]
             public async Task<IActionResult> DoctorTypeViewAsync()
             {
-                //try { 
-
-                var dTOs = await doctorTypeService.GetAllDoctorTypes();
-                if (dTOs != null)
+                try
                 {
-                    var models = dTOs.Select(x => mapper.Map<DoctorTypeModel>(x)).ToList();
-                    return View("DoctorTypeView", models);
+                    var dTOs = await doctorTypeService.GetAllDoctorTypes();
+                    if (dTOs != null)
+                    {
+                        var models = dTOs.Select(x => mapper.Map<DoctorTypeModel>(x)).ToList();
+                        return View("DoctorTypeView", models);
+                    } 
+                    return BadRequest();
                 }
-
-                return BadRequest();
+                catch (Exception ex)
+                {
+                    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                    return BadRequest();
+                } 
             }
 
             [Authorize(Roles = "Moderator,Admin")]
             [HttpGet]
             public IActionResult AddDoctorType()
             {
-                //try
-                //{
-
-                return View("AddDoctorType");
-
-                //}
-                //catch (Exception ex) {
-
-                //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-                //    return BadRequest();
-                //}
-
+                try
+                {
+                    return View("AddDoctorType");
+                }
+                catch (Exception ex)
+                {
+                    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                    return NotFound();
+                }
             }
 
 
@@ -62,26 +65,25 @@ namespace MedAssistant.Controllers
             [Authorize(Roles = "Moderator,Admin")]
             public async Task<IActionResult> AddDoctorTypeAsync(DoctorTypeModel doctorTypeModel)
             {
-                //try { 
-                if (ModelState.IsValid)
+                try
                 {
-                    var entity = await doctorTypeService.AddDoctorTypeAsync(mapper.Map<DoctorTypeDTO>(doctorTypeModel));
-                    if (entity > 0)
+                    if (ModelState.IsValid)
                     {
-                        return RedirectToAction("DoctorTypeView", "DoctorType");
-                    }
+                        var entity = await doctorTypeService.AddDoctorTypeAsync(mapper.Map<DoctorTypeDTO>(doctorTypeModel));
+                        if (entity > 0)
+                        {
+                            return RedirectToAction("DoctorTypeView", "DoctorType");
+                        }
 
+                        return BadRequest();
+                    }
                     return BadRequest();
                 }
-                return BadRequest();
-
-                //}
-                //catch (Exception ex) {
-
-                //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-                //    return BadRequest();
-                //}
-
+                catch (Exception ex)
+                {
+                    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                    return BadRequest();
+                }
             }
 
 
@@ -89,27 +91,23 @@ namespace MedAssistant.Controllers
             [HttpGet]
             public async Task<IActionResult> UpdateDoctorTypeAsync(int id)
             {
-                //try
-                //{
-
-                var entity = mapper.Map<DoctorTypeModel>(await doctorTypeService.GetDoctorTypeByIdAsync(id));
-                if (entity != null)
+                try
                 {
-                    return View("UpdateDoctorType", entity);
+                    var entity = mapper.Map<DoctorTypeModel>(await doctorTypeService.GetDoctorTypeByIdAsync(id));
+                    if (entity != null)
+                    {
+                        return View("UpdateDoctorType", entity);
+                    }
+                    else
+                    {
+                        return NotFound();
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
+                    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
                     return NotFound();
                 }
-
-                //}
-                //catch (Exception ex)
-                //{
-
-                //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-                //    return NotFound();
-                //}
-
             }
 
 
@@ -117,30 +115,26 @@ namespace MedAssistant.Controllers
             [HttpPost]
             public async Task<IActionResult> UpdateDoctorTypeAsync(DoctorTypeModel doctorTypeModel)
             {
-                //try
-                //{ 
-                if (ModelState.IsValid)
+                try
                 {
-                    var entity = await doctorTypeService.UpdateDoctorTypeAsync(mapper.Map<DoctorTypeDTO>(doctorTypeModel));
-                    if (entity > 0)
+                    if (ModelState.IsValid)
                     {
-                        return RedirectToAction("DoctorTypeView", "DoctorType");
+                        var entity = await doctorTypeService.UpdateDoctorTypeAsync(mapper.Map<DoctorTypeDTO>(doctorTypeModel));
+                        if (entity > 0)
+                        {
+                            return RedirectToAction("DoctorTypeView", "DoctorType");
+                        }
+
+                        return BadRequest();
                     }
 
                     return BadRequest();
                 }
-
-                return BadRequest();
-
-                //}
-                //catch (Exception ex)
-                //{
-
-                //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-                //    return BadRequest();
-                //}
-
-
+                catch (Exception ex)
+                {
+                    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                    return BadRequest();
+                }
             }
 
 
@@ -148,54 +142,49 @@ namespace MedAssistant.Controllers
             [HttpGet]
             public async Task<IActionResult> RemoveDoctorTypeAsync(int id)
             {
-                //try {
-
-                var entity = mapper.Map<DoctorTypeModel>(await doctorTypeService.GetDoctorTypeByIdAsync(id));
-                if (entity != null)
+                try
                 {
-                    return View("RemoveDoctorType", entity);
+                    var entity = mapper.Map<DoctorTypeModel>(await doctorTypeService.GetDoctorTypeByIdAsync(id));
+                    if (entity != null)
+                    {
+                        return View("RemoveDoctorType", entity);
+                    }
+                    else
+                    {
+                        return NotFound();
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
+                    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
                     return NotFound();
-                }
-
-                //}
-                //catch (Exception ex)
-                //{
-
-                //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-                //    return NotFound();
-                //}
-
+                } 
             }
 
             [Authorize(Roles = "Moderator,Admin")]
             [HttpPost]
             public async Task<IActionResult> RemoveDoctorTypeAsync(DoctorTypeModel doctorTypeModel)
             {
-                //try
-                //{
-                if (doctorTypeModel.Id != 0)
+                try
                 {
-
-                    if (await doctorTypeService.RemoveDoctorTypeAsync(mapper.Map<DoctorTypeDTO>(doctorTypeModel)) > 0)
+                    if (doctorTypeModel.Id != 0)
                     {
-                        return RedirectToAction("DoctorTypeView", "DoctorType");
+
+                        if (await doctorTypeService.RemoveDoctorTypeAsync(mapper.Map<DoctorTypeDTO>(doctorTypeModel)) > 0)
+                        {
+                            return RedirectToAction("DoctorTypeView", "DoctorType");
+                        }
+                        else
+                            return BadRequest();
                     }
-                    else
-                        return NotFound();
+                    return BadRequest();
                 }
-                return NotFound();
-                //}
-                //catch (Exception ex)
-                //{
-                //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-                //    return NotFound();
-                //}
-
-            }
-
+                catch (Exception ex)
+                {
+                    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                    return BadRequest();
+                }
         }
-    
+
+        } 
 }

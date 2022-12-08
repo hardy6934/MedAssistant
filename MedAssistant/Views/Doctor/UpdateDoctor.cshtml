@@ -10,18 +10,18 @@
     <form asp-controller="Doctor" asp-action="UpdateDoctor" method="post">
 
         <div class="mb-3">
-            <label asp-for="FullName" >Full Name</label>
+            <label asp-for="FullName" >Full Name</label><br/>
             <input asp-for="FullName" type="text" id="FullName" required>
             <span asp-validation-for="FullName" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
-            <label asp-for="PhoneNumber" >Phone Number</label>
+            <label asp-for="PhoneNumber" >Phone Number</label><br/>
             <input asp-for="PhoneNumber" type="text" id="PhoneNumber" required>
             <span asp-validation-for="PhoneNumber" class="text-danger"></span>
         </div>
         <div class="mb-3">
-            <select asp-for="DoctorTypeId" >
+            <select asp-for="DoctorTypeId" ><br/>
                  <option selected="selected" disabled = "disabled">Select doctor's type</option>
                 @foreach(var n in Model.ListOfDoctorTypes)
                 {
@@ -30,7 +30,7 @@
             </select>
         </div>
         <div class="mb-3">
-            <select asp-for="MedicalInstitutionId" >
+            <select asp-for="MedicalInstitutionId" ><br/>
                  <option selected="selected" disabled = "disabled">Select medical institution</option>
                 @foreach(var n in Model.ListOfMedicalInstitutionName)
                 {

@@ -11,7 +11,7 @@
 
         <div class="mb-3">
             <label asp-for="Description" >Description</label> <br />
-            <input asp-for="Description" type="text" id="Description" required>
+            <textarea asp-for="Description" data-val-maxlength-max="5000" id="Description"><</textarea>/>
             <span asp-validation-for="Description" class="text-danger"></span> 
         </div>
 
@@ -23,7 +23,7 @@
          
         <div class="mb-3">
             <label asp-for="RemindDate" >RemindDate</label> <br />
-            <input type="datetime" asp-for="RemindDate" id="RemindDate">
+            <input asp-for="RemindDate" class="form-control" asp-for="DateTime" value="@DateTime.Now" >
             <span asp-validation-for="RemindDate" class="text-danger"></span>
         </div>
 

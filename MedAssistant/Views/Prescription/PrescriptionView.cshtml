@@ -5,7 +5,9 @@
 }
 
 <div>
-    <h1>All Prescription</h1>
+     <h1>All Prescription</h1>
+
+     <a class="btn btn-primary" asp-area="" asp-controller="Prescription" asp-action="AddPrescription">AddNewPrescription</a>
 
      @foreach(var n in Model)
      {
@@ -31,13 +33,12 @@
                 <label asp-for="@n.MedicineType" >@n.MedicineType</label>
             </div>
         
-            <a class="btn btn-primary" asp-area="" asp-controller="Prescription" asp-action="AddPrescription">AddNewPrescription</a>
+
             <a class="btn btn-primary" asp-area="" asp-controller="Prescription" asp-action="EditPrescription" asp-route-id = "@n.Id">EditPrescription</a>
             <a class="btn btn-primary" asp-area="" asp-controller="Prescription" asp-action="RemovePrescription" asp-route-id = "@n.Id">RemovePrescription</a>
        </div>
         
      }   
-
- 
+      
  
 </div>

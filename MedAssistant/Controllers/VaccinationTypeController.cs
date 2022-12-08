@@ -4,7 +4,8 @@ using MedAssistant.Core.DataTransferObject;
 using MedAssistant.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
- 
+using Serilog;
+
 namespace MedAssistant.Controllers
 {
     [Authorize(Roles = "Moderator,User,Admin")]
@@ -25,33 +26,36 @@ namespace MedAssistant.Controllers
         [Authorize(Roles = "Moderator,User,Admin")]
         public async Task<IActionResult> VaccinationTypeViewAsync()
         {
-            //try { 
-
-            var dTOs = await vaccinationTypeService.GetAllVaccinationTypes();
-            if (dTOs != null)
+            try
             {
-                var models = dTOs.Select(x => mapper.Map<VaccinationTypeModel>(x)).ToList();
-                return View("VaccinationTypeView", models);
+                var dTOs = await vaccinationTypeService.GetAllVaccinationTypes();
+                if (dTOs != null)
+                {
+                    var models = dTOs.Select(x => mapper.Map<VaccinationTypeModel>(x)).ToList();
+                    return View("VaccinationTypeView", models);
+                }
+                return BadRequest();
             }
-
-            return BadRequest();
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return BadRequest();
+            } 
         }
 
         [Authorize(Roles = "Moderator,User,Admin")]
         [HttpGet]
         public IActionResult AddVaccinationType()
         {
-            //try
-            //{
-
-            return View("AddVaccinationType");
-
-            //}
-            //catch (Exception ex) {
-
-            //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-            //    return BadRequest();
-            //}
+            try
+            { 
+                return View("AddVaccinationType"); 
+            }
+            catch (Exception ex)
+            { 
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return BadRequest();
+            }
 
         }
 
@@ -60,25 +64,26 @@ namespace MedAssistant.Controllers
         [Authorize(Roles = "Moderator,User,Admin")]
         public async Task<IActionResult> AddVaccinationTypeAsync(VaccinationTypeModel vaccinationTypeModel)
         {
-            //try { 
-            if (ModelState.IsValid)
+            try
             {
-                var entity = await vaccinationTypeService.AddVaccinationTypeAsync(mapper.Map<VaccinationTypeDTO>(vaccinationTypeModel));
-                if (entity > 0)
+                if (ModelState.IsValid)
                 {
-                    return RedirectToAction("VaccinationTypeView", "VaccinationType");
-                }
+                    var entity = await vaccinationTypeService.AddVaccinationTypeAsync(mapper.Map<VaccinationTypeDTO>(vaccinationTypeModel));
+                    if (entity > 0)
+                    {
+                        return RedirectToAction("VaccinationTypeView", "VaccinationType");
+                    }
 
+                    return BadRequest();
+                }
+                return BadRequest();
+
+            }
+            catch (Exception ex)
+            { 
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
                 return BadRequest();
             }
-            return BadRequest();
-
-            //}
-            //catch (Exception ex) {
-
-            //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-            //    return BadRequest();
-            //}
 
         }
 
@@ -87,26 +92,23 @@ namespace MedAssistant.Controllers
         [HttpGet]
         public async Task<IActionResult> UpdateVaccinationTypeAsync(int id)
         {
-            //try
-            //{
-
-            var entity = mapper.Map<VaccinationTypeModel>(await vaccinationTypeService.GetVaccinationTypeByIdAsync(id));
-            if (entity != null)
-            {
-                return View("UpdateVaccinationType", entity);
+            try
+            { 
+                var entity = mapper.Map<VaccinationTypeModel>(await vaccinationTypeService.GetVaccinationTypeByIdAsync(id));
+                if (entity != null)
+                {
+                    return View("UpdateVaccinationType", entity);
+                }
+                else
+                {
+                    return NotFound();
+                } 
             }
-            else
-            {
+            catch (Exception ex)
+            { 
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
                 return NotFound();
             }
-
-            //}
-            //catch (Exception ex)
-            //{
-
-            //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-            //    return NotFound();
-            //}
 
         }
 
@@ -115,30 +117,24 @@ namespace MedAssistant.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateVaccinationTypeAsync(VaccinationTypeModel vaccinationTypeModel)
         {
-            //try
-            //{ 
-            if (ModelState.IsValid)
+            try
             {
-                var entity = await vaccinationTypeService.UpdateVaccinationTypeAsync(mapper.Map<VaccinationTypeDTO>(vaccinationTypeModel));
-                if (entity > 0)
+                if (ModelState.IsValid)
                 {
-                    return RedirectToAction("VaccinationTypeView", "VaccinationType");
-                }
-
-                return BadRequest();
+                    var entity = await vaccinationTypeService.UpdateVaccinationTypeAsync(mapper.Map<VaccinationTypeDTO>(vaccinationTypeModel));
+                    if (entity > 0)
+                    {
+                        return RedirectToAction("VaccinationTypeView", "VaccinationType");
+                    } 
+                    return BadRequest();
+                } 
+                return BadRequest(); 
             }
-
-            return BadRequest();
-
-            //}
-            //catch (Exception ex)
-            //{
-
-            //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-            //    return BadRequest();
-            //}
-
-
+            catch (Exception ex)
+            { 
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return BadRequest();
+            } 
         }
 
 
@@ -146,25 +142,23 @@ namespace MedAssistant.Controllers
         [HttpGet]
         public async Task<IActionResult> RemoveVaccinationTypeAsync(int id)
         {
-            //try {
-
-            var entity = mapper.Map<VaccinationTypeModel>(await vaccinationTypeService.GetVaccinationTypeByIdAsync(id));
-            if (entity != null)
-            {
-                return View("RemoveVaccinationType", entity);
+            try
+            { 
+                var entity = mapper.Map<VaccinationTypeModel>(await vaccinationTypeService.GetVaccinationTypeByIdAsync(id));
+                if (entity != null)
+                {
+                    return View("RemoveVaccinationType", entity);
+                }
+                else
+                {
+                    return NotFound();
+                } 
             }
-            else
-            {
+            catch (Exception ex)
+            { 
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
                 return NotFound();
             }
-
-            //}
-            //catch (Exception ex)
-            //{
-
-            //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-            //    return NotFound();
-            //}
 
         }
 
@@ -172,27 +166,27 @@ namespace MedAssistant.Controllers
         [HttpPost]
         public async Task<IActionResult> RemoveVaccinationTypeAsync(VaccinationTypeModel vaccinationTypeModel)
         {
-            //try
-            //{
-            if (vaccinationTypeModel.Id != 0)
+            try
             {
-
-                if (await vaccinationTypeService.RemoveVaccinationTypeAsync(mapper.Map<VaccinationTypeDTO>(vaccinationTypeModel)) > 0)
+                if (vaccinationTypeModel.Id != 0)
                 {
-                    return RedirectToAction("VaccinationTypeView", "VaccinationType");
-                }
-                else
-                    return NotFound();
-            }
-            return NotFound();
-            //}
-            //catch (Exception ex)
-            //{
-            //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-            //    return NotFound();
-            //}
 
-        }
+                    if (await vaccinationTypeService.RemoveVaccinationTypeAsync(mapper.Map<VaccinationTypeDTO>(vaccinationTypeModel)) > 0)
+                    {
+                        return RedirectToAction("VaccinationTypeView", "VaccinationType");
+                    }
+                    else
+                        return NotFound();
+                }
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return NotFound();
+            }
+
+}
 
     }
 }

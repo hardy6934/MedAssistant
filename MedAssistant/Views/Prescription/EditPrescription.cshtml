@@ -10,13 +10,13 @@
     <form asp-controller="Prescription" asp-action="EditPrescription" method="post">
 
         <div class="mb-3">
-            <label asp-for="Dosage" class="form-label">Dosage of Prescription</label>
+            <label asp-for="Dosage" class="form-label">Dosage of Prescription</label><br/>
             <input asp-for="Dosage"  type="text"  id="Dosage" required>
             <span asp-validation-for="Dosage" class="text-danger"></span>
 
         </div>
         <div class="mb-3">
-            <label asp-for="Bought" >Bought</label>
+            <label asp-for="Bought" >Bought</label><br/>
             <input asp-for="Bought"  type="checkbox" id="Bought">
             <span asp-validation-for="Bought" class="text-danger"></span>
         </div>  

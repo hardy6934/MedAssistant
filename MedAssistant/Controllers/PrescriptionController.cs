@@ -25,8 +25,8 @@ namespace MedAssistant.Controllers
 
         public async Task<IActionResult> PrescriptionViewAsync()
         {
-            //try
-            //{ 
+            try
+            {
                 var emailAddress = HttpContext.User.Identity.Name.ToString();
 
                 var Dtos = await prescriptionService.GetPrescriptionsbyUserEmailAsync(emailAddress);
@@ -39,20 +39,19 @@ namespace MedAssistant.Controllers
                 }
                 else
                     return NotFound();
-            //}
-            //catch (Exception ex)
-            //{
-            //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-            //    return NotFound();
-            //}
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return NotFound();
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> AddPrescriptionAsync()
         {
-            //try
-            //{
-
+            try
+            { 
                 var model = new CreatePrescriptionModel();
 
                 var vaccinationTypes = await prescriptionService.GetAllMedicinesAsync();
@@ -60,72 +59,56 @@ namespace MedAssistant.Controllers
                 model.Medicine = vaccinationTypes.Select(dto => new SelectListItem(dto.Name, dto.Id.ToString())).ToList();
 
                 return View(model);
-            //}
-            //catch (Exception ex) {
+            }
+            catch (Exception ex) {
 
-            //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-            //    return BadRequest();
-            //}
-
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return BadRequest();
+            } 
         }
 
 
         [HttpPost]
         public async Task<IActionResult> AddPrescriptionAsync(PrescriptionModel prescriptionModel)
         {
-            //try { 
-             
-                    var emailAddress = HttpContext.User.Identity.Name.ToString();
-                 
-                    var userid = await prescriptionService.GetUserIdByEmailAdressAsync(emailAddress);
+            try 
+            {  
+                var emailAddress = HttpContext.User.Identity.Name.ToString(); 
+                var userid = await prescriptionService.GetUserIdByEmailAdressAsync(emailAddress); 
+                prescriptionModel.UserId =   userid; 
+                var entity = await prescriptionService.CreatePrescriptionAsync(mapper.Map<PrescriptionDTO>(prescriptionModel)); 
+                if (entity > 0)
+                {
+                    return RedirectToAction("PrescriptionView", "Prescription");
+                }  
+                return BadRequest(); 
+            }
+            catch (Exception ex)
+            { 
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return BadRequest();
+            }
 
-                    prescriptionModel.UserId =   userid;
-
-                    var entity = await prescriptionService.CreatePrescriptionAsync(mapper.Map<PrescriptionDTO>(prescriptionModel));
-
-
-                    if (entity > 0)
-                    {
-                        return RedirectToAction("PrescriptionView", "Prescription");
-                    } 
-
-                    return BadRequest();
-
-            //}
-            //catch (Exception ex) {
-
-            //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-            //    return BadRequest();
-            //}
-
-}
+        }
 
 
 
         [HttpGet]
         public async Task<IActionResult> EditPrescriptionAsync(int id)
         {
-            //try
-            //{
-
-                var model = await prescriptionService.GetPrescriptionByIdAsync(id);
-
-                var Medicines = await prescriptionService.GetAllMedicinesAsync();
-
-                model.Names = Medicines.Select(dto => new SelectListItem(dto.Name, dto.Id.ToString())).ToList();
-
-                var ent = mapper.Map<CreatePrescriptionModel>(model);
-
-                return View(ent);
-
-            //}
-            //catch (Exception ex)
-            //{
-
-            //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-            //    return NotFound();
-            //}
-
+            try
+            { 
+                var model = await prescriptionService.GetPrescriptionByIdAsync(id); 
+                var Medicines = await prescriptionService.GetAllMedicinesAsync(); 
+                model.Names = Medicines.Select(dto => new SelectListItem(dto.Name, dto.Id.ToString())).ToList(); 
+                var ent = mapper.Map<CreatePrescriptionModel>(model); 
+                return View(ent); 
+            }
+            catch (Exception ex)
+            { 
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return NotFound();
+            } 
         }        
 
 
@@ -133,35 +116,26 @@ namespace MedAssistant.Controllers
         [HttpPost]
         public async Task<IActionResult> EditPrescriptionAsync(PrescriptionModel prescriptionModel)
         {
-            //try
-            //{ 
+            try
+            {
                 if (ModelState.IsValid)
                 {
-                    var emailAddress = HttpContext.User.Identity.Name.ToString();
-
-                    var userid = prescriptionService.GetUserIdByEmailAdressAsync(emailAddress);
-
-                    prescriptionModel.UserId = await userid;
-
-                    var entity = await prescriptionService.UpdatePrescriptionAsync(mapper.Map<PrescriptionDTO>(prescriptionModel));
-
-
+                    var emailAddress = HttpContext.User.Identity.Name.ToString(); 
+                    var userid = prescriptionService.GetUserIdByEmailAdressAsync(emailAddress); 
+                    prescriptionModel.UserId = await userid; 
+                    var entity = await prescriptionService.UpdatePrescriptionAsync(mapper.Map<PrescriptionDTO>(prescriptionModel)); 
                     if (entity > 0)
                     {
                         return RedirectToAction("PrescriptionView", "Prescription");
-                    }
-
+                    } 
                 }
+                return BadRequest(); 
+            }
+            catch (Exception ex)
+            { 
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
                 return BadRequest();
-
-            //}
-            //catch (Exception ex)
-            //{
-
-            //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-            //    return BadRequest();
-            //}
-
+            } 
         }
 
         
@@ -170,50 +144,44 @@ namespace MedAssistant.Controllers
         [HttpGet]
         public async Task<IActionResult> RemovePrescriptionAsync(int id)
         {
-            //try {
-
-                var Dto = await prescriptionService.GetPrescriptionByIdAsync(id);
-
+            try
+            { 
+                var Dto = await prescriptionService.GetPrescriptionByIdAsync(id); 
                 if (Dto != null)
                 {
                     return View("RemovePrescription", mapper.Map<PrescriptionModel>(Dto));
                 }
+                return NotFound(); 
+            }
+            catch (Exception ex)
+            { 
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
                 return NotFound();
-
-            //}
-            //catch (Exception ex)
-            //{
-
-            //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-            //    return NotFound();
-            //}
-
+            } 
         }
 
 
         [HttpPost]
         public async Task<IActionResult> RemovePrescriptionAsync(PrescriptionModel prescriptionModel)
         {
-            //try
-            //{
+            try
+            {
                 if (prescriptionModel.Id != 0)
-                {
-
+                { 
                     if (await prescriptionService.RemovePrescriptionAsync(prescriptionModel.Id) > 0)
                     {
                         return RedirectToAction("PrescriptionView", "Prescription");
                     }
                     else
-                        return NotFound();
+                        return BadRequest();
                 }
-                return NotFound();
-            //}
-            //catch (Exception ex)
-            //{
-            //    Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
-            //    return NotFound();
-            //}
-
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return BadRequest();
+            } 
         }
 
 
