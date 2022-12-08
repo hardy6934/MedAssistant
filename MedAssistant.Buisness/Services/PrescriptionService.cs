@@ -35,7 +35,11 @@ namespace MedAssistant.Buisness.Services
         {
             try
             {
-                return await unitOfWork.Medicines.Get().Select(x => mapper.Map<MedicineDTO>(x)).ToListAsync();
+                List<MedicineDTO> list = new();
+
+                list.AddRange(unitOfWork.Medicines.Get().Select(x => mapper.Map<MedicineDTO>(x)).AsParallel().ToList());
+                return list;
+                 
             }
             catch (Exception)
             { 

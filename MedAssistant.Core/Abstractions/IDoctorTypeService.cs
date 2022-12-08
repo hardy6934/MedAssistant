@@ -14,5 +14,6 @@ namespace MedAssistant.Core.Abstractions
         Task<int> AddDoctorTypeAsync(DoctorTypeDTO dto);
         Task<int> UpdateDoctorTypeAsync(DoctorTypeDTO dto);
         Task<int> RemoveDoctorTypeAsync(DoctorTypeDTO dto);
+        Task GetAllDoctorTypesFromMedTutorial();
     }
 }

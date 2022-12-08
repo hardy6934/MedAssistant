@@ -4,12 +4,19 @@
         <name>MedAssistant.WebAPI</name>
     </assembly>
     <members>
+        <member name="M:MedAssistant.WebAPI.Controllers.DoctorTypeController.AddDoctorTypes">
+            <summary>
+            Add new doctor types from https://med-tutorial.ru/med-doctors Monthly
+            </summary>
+            <returns>OK</returns>
+        </member>
         <member name="M:MedAssistant.WebAPI.Controllers.MedecinesController.AddMedicines">
             <summary>
             Add new medecines from tabletka.by Monthly
             </summary>
             <returns>OK</returns>
         </member>
+        <!-- Badly formed XML comment ignored for member "M:MedAssistant.WebAPI.Controllers.MedicalInstitutionsController.AddMedInstitutionAsync" -->
         <member name="M:MedAssistant.WebAPI.Controllers.VaccinationController.GetVaccinationsByEmail(System.String)">
             <summary>
              Get all vaccinations for concret User by email

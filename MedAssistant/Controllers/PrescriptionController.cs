@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Serilog;
 using Serilog.Events;
+using System.Threading;
 
 namespace MedAssistant.Controllers
 {
@@ -55,8 +56,9 @@ namespace MedAssistant.Controllers
                 var model = new CreatePrescriptionModel();
 
                 var vaccinationTypes = await prescriptionService.GetAllMedicinesAsync();
+                 
 
-                model.Medicine = vaccinationTypes.Select(dto => new SelectListItem(dto.Name, dto.Id.ToString())).ToList();
+                model.Medicine = vaccinationTypes.Select(dto => new SelectListItem(dto.Name, dto.Id.ToString())).AsParallel().ToList();
 
                 return View(model);
             }

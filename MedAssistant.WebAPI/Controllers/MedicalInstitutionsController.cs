@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Hangfire;
 using MedAssistant.Core.Abstractions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,12 +20,17 @@ namespace MedAssistant.WebAPI.Controllers
             this.medicalInstitutionService = medicalInstitutionService;
         }
 
+
+        /// <summary>
+        /// Add new medical institutions from https://clinics.medsovet.info/belarus/bolnicy?cat=0&page=1 Monthly
+        /// </summary>
+        /// <returns>OK</returns>
         [HttpPost]
         public async Task<IActionResult> AddMedInstitutionAsync()
         {
             try
             {
-                await medicalInstitutionService.AddMedicalInstitutionsAsync();
+                RecurringJob.AddOrUpdate(() => medicalInstitutionService.AddMedicalInstitutionsAsync(), Cron.Monthly); 
                 return Ok();
             }
             catch (Exception ex)

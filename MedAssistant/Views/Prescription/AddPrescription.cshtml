@@ -22,7 +22,7 @@
         </div>
          
         <select asp-for="MedicineId" >
-             <option selected="selected" disabled = "disabled">Выберите название препората</option>
+            <option selected="selected" disabled = "disabled">Выберите название препората</option>
             @foreach(var n in Model.Medicine)
             {
                 <option  value="@n.Value">@n.Text </option> 

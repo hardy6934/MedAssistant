@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HtmlAgilityPack;
 using MedAssistant.Core.Abstractions;
 using MedAssistant.Core.DataTransferObject;
 using MedAssistant.Data.Repositories;
@@ -92,5 +93,51 @@ namespace MedAssistant.Buisness.Services
                 throw;
             }
         }
+
+
+        public async Task GetAllDoctorTypesFromMedTutorial()
+        {
+            try
+            {
+                List<DoctorTypeDTO> dtos = new();
+                List<string> list = new();
+                var web = new HtmlWeb();
+                 
+
+                    string url = "https://med-tutorial.ru/med-doctors";
+                    var HtmlDoc = web.Load(url);
+                    var nodes = HtmlDoc.DocumentNode.SelectNodes("//li").Where(x => x.HasClass("doc_item")).ToList();
+
+                    if (nodes.Any())
+                    {
+                        foreach (var node in nodes)
+                        { 
+                            var type = node.SelectNodes("a").LastOrDefault()?.InnerText; 
+
+                            if (type != null)
+                            {
+                            dtos.Add(
+                                new DoctorTypeDTO
+                                {
+                                    Type = type.Trim()
+                                }) ;
+                            }
+                        }
+                    }
+
+                var oldDoctorsTypes = unitOfWork.DoctorType.Get().Select(x => x.Type).Distinct().ToArray();
+                var entities = dtos.Where(x => !oldDoctorsTypes.Contains(x.Type)).Select(dto => mapper.Map<DoctorType>(dto)).ToArray();
+
+                await unitOfWork.DoctorType.AddRangeAsync(entities);
+                await unitOfWork.Commit();
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
+
     }
 }
