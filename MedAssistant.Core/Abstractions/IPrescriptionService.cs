@@ -15,6 +15,7 @@ namespace MedAssistant.Core.Abstractions
         Task<int> CreatePrescriptionAsync(PrescriptionDTO prescriptionDTO);
         Task<int> UpdatePrescriptionAsync(PrescriptionDTO dto);
         Task<PrescriptionDTO> GetPrescriptionByIdAsync(int id);
-        Task<int> RemovePrescriptionAsync(int id); 
+        Task<int> RemovePrescriptionAsync(int id);
+        int FindMedecineIdByName(string name);
     }
 }

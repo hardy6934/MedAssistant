@@ -22,13 +22,15 @@
         </div>  
 
         
-        <select asp-for="MedicineId" class="form-select" aria-label="Default select example" >
+        @*<select asp-for="MedicineId" class="form-select" aria-label="Default select example" >
             
             @foreach(var name in Model.Medicine)
             {
                 <option value="@name.Value">@name.Text </option> 
             }
-        </select>
+        </select>*@
+
+         
          
 
         <input type="submit" class="btn btn-primary" value="Submit">

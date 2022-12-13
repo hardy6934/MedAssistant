@@ -11,6 +11,8 @@ namespace MedAssistant.Models
         public string MedicineId { get; set; }
         public List<SelectListItem> Medicine { get; set; }
 
+        public string? MedicineName { get;set; }
+
         public int UserId { get; set; }
 
     }

@@ -48,6 +48,28 @@ namespace MedAssistant.Controllers
             }
         }
 
+        [Produces("application/json")]
+        [HttpGet]
+        public async Task<ActionResult> AutocompleteSearchMedecinesAsync(string term)
+        {
+            try
+            {
+                var medecines = await prescriptionService.GetAllMedicinesAsync();
+
+                var models = medecines.Where(med => med.Name.Contains(term))
+                                .Select(med => new { value = med.Name })
+                                .Distinct();
+
+                return Ok(models);
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return BadRequest();
+            }
+
+        }
+
         [HttpGet]
         public async Task<IActionResult> AddPrescriptionAsync()
         {
@@ -76,8 +98,10 @@ namespace MedAssistant.Controllers
             try 
             {  
                 var emailAddress = HttpContext.User.Identity.Name.ToString(); 
-                var userid = await prescriptionService.GetUserIdByEmailAdressAsync(emailAddress); 
-                prescriptionModel.UserId =   userid; 
+                var userid = await prescriptionService.GetUserIdByEmailAdressAsync(emailAddress);
+                var MedecineId = prescriptionService.FindMedecineIdByName(prescriptionModel.MedicineName);
+                prescriptionModel.UserId =   userid;
+                prescriptionModel.MedicineId = MedecineId;
                 var entity = await prescriptionService.CreatePrescriptionAsync(mapper.Map<PrescriptionDTO>(prescriptionModel)); 
                 if (entity > 0)
                 {

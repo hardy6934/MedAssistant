@@ -28,12 +28,7 @@
                 <label asp-for="@n.MedicineName" >@n.MedicineName</label>
             </div>
 
-             <div >
-                <label asp-for="@n.MedicineType" >Medicine Type</label> <br/>
-                <label asp-for="@n.MedicineType" >@n.MedicineType</label>
-            </div>
-        
-
+               
             <a class="btn btn-primary" asp-area="" asp-controller="Prescription" asp-action="EditPrescription" asp-route-id = "@n.Id">EditPrescription</a>
             <a class="btn btn-primary" asp-area="" asp-controller="Prescription" asp-action="RemovePrescription" asp-route-id = "@n.Id">RemovePrescription</a>
        </div>

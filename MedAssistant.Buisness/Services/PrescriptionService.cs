@@ -46,7 +46,12 @@ namespace MedAssistant.Buisness.Services
                 throw;
             } 
         }
-         
+
+        public int FindMedecineIdByName(string name)
+        { 
+            var id = unitOfWork.Medicines.FindBy(x=>x.Name.Equals(name)).FirstOrDefault().Id;
+            return id;
+        }
 
         public async Task<List<PrescriptionDTO>> GetPrescriptionsbyUserEmailAsync(string email)
         {
