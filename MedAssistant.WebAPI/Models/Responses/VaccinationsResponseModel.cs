@@ -8,6 +8,7 @@
         public DateTime? RemindDate { get; set; }
         public int UserId { get; set; } 
         public int VaccinationTypeId { get; set; }
-        
+        public string VaccinationType { get; set; }
+         
     }
 }
