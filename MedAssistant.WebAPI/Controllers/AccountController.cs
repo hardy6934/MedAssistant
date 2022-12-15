@@ -72,8 +72,7 @@ namespace MedAssistant.WebAPI.Controllers
             }
               
         }
-
-
+         
         [HttpGet("GetUser")]
         [Authorize(Roles = "Moderator,User,Admin")]
         [ProducesResponseType(typeof(UserResponseModel), StatusCodes.Status200OK)]
@@ -91,26 +90,7 @@ namespace MedAssistant.WebAPI.Controllers
             return NotFound();
 
         }
-
-
-        //[HttpPut("EditUsers")]
-        //[ProducesResponseType(typeof(Nullable), StatusCodes.Status200OK)]
-        //[ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
-        //public async Task<IActionResult> EditUsersAsync([FromBody]UserRequestModel userRequestModel)
-        //{
-        //    var model = await userService.GetUserByIdAsync(userRequestModel.Id);
-
-        //    var entity = await userService.UpdateUserAsync(mapper.Map<UserDTO>(model));
-
-        //    if (entity > 0)
-        //    {
-        //        return Ok();
-        //    }
-
-        //    return BadRequest();
-
-        //}
-
+         
     }
 }
  

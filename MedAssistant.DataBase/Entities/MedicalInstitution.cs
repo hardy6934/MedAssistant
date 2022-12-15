@@ -11,7 +11,7 @@ namespace MedAssistant.DataBase.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         public string? Location { get; set; }
-        public string InfoUrl { get; set; }
+        public string? InfoUrl { get; set; }
 
         public List<Doctor> Doctors { get; set; }
     }

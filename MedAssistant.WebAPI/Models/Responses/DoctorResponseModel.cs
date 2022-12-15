@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MedAssistant.Core.DataTransferObject
+﻿namespace MedAssistant.WebAPI.Models.Responses
 {
-    public class DoctorDTO
+    public class DoctorResponseModel
     {
         public int Id { get; set; }
         public string FullName { get; set; }
@@ -18,7 +12,5 @@ namespace MedAssistant.Core.DataTransferObject
         public string MedicalInstitutionName { get; set; }
 
         public int UserId { get; set; }
-
-         
-     }
+    }
 }

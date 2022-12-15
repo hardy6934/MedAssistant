@@ -73,6 +73,7 @@ namespace MedAssistant.WebAPI
             builder.Services.AddScoped<INoteTypeService, NoteTypeService>();
             builder.Services.AddScoped<IDoctorTypeService, DoctorTypeService>();
             builder.Services.AddScoped<IMedicineService, MedicineService>();
+            builder.Services.AddScoped<IVaccinationTypeService, VaccinationTypeService>();
             builder.Services.AddScoped<IJWTUtil, JWTUtilSha256>();
 
             //Dependency Injection GenericRepository

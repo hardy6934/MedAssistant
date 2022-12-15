@@ -61,7 +61,7 @@ namespace MedAssistant.Data.Abstractions.Repositories
 
         public virtual async Task<T?> GetByIdAsync(int id)
         {
-            return await DbSet.FirstOrDefaultAsync(x => x.Id.Equals(id));
+            return await DbSet.AsNoTracking().FirstOrDefaultAsync(x => x.Id.Equals(id));
         }
 
         public virtual async Task PatchAsync(int id, List<PatchModel> patchData)

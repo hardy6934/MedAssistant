@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using MedAssistant.Core.Abstractions;
 using MedAssistant.Core.DataTransferObject;
-using MedAssistant.Models;
 using MedAssistant.WebAPI.Models.Requests;
 using MedAssistant.WebAPI.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
@@ -14,39 +13,40 @@ namespace MedAssistant.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class VaccinationController : ControllerBase
+    public class PrescriptionController : ControllerBase
     {
+        private readonly IPrescriptionService prescriptionService;
         private readonly IMapper mapper;
-        private readonly IVaccinationService vaccinationService;
 
-        public VaccinationController(IMapper mapper, IVaccinationService vaccinationService)
+
+        public PrescriptionController(IPrescriptionService prescriptionService, IMapper mapper)
         {
-
+            this.prescriptionService = prescriptionService;
             this.mapper = mapper;
-            this.vaccinationService = vaccinationService;
-
         }
+
+          
 
         /// <summary>
         /// Add new doctor type 
         /// </summary>
         /// <returns>OK(model)</returns>
-        [HttpPost("CreateVaccination")]
-        [ProducesResponseType(typeof(VaccinationRequestModel), StatusCodes.Status200OK)]
+        [HttpPost("CreatePrescription")]
+        [Authorize]
+        [ProducesResponseType(typeof(PrescriptionRequestModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> CreateVaccination([FromBody] VaccinationRequestModel vaccinationRequestModel)
+        public async Task<IActionResult> AddPrescription([FromBody] PrescriptionRequestModel prescriptionRequestModel)
         {
             try
             {
-                if (vaccinationRequestModel != null)
+                if (prescriptionRequestModel != null)
                 {
-                    int entity = await vaccinationService.CreateVaccinationAsync(mapper.Map<VaccinationDTO>(vaccinationRequestModel));
+                    int entity = await prescriptionService.CreatePrescriptionAsync(mapper.Map<PrescriptionDTO>(prescriptionRequestModel));
 
                     if (entity > 0)
                     {
-                        return Ok(vaccinationRequestModel);
+                        return Ok(prescriptionRequestModel);
                     }
                     else return BadRequest();
                 }
@@ -65,20 +65,20 @@ namespace MedAssistant.WebAPI.Controllers
         /// Update doctor type 
         /// </summary>
         /// <returns>204</returns>
-        [HttpPut("UpdateVaccination")]
+        [HttpPut("UpdatePrescription")]
+        [Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> UpdateVaccination([FromQuery] int id, [FromBody] VaccinationRequestModel vaccinationRequestModel)
+        public async Task<IActionResult> UpdatePrescription([FromQuery] int id, [FromBody] PrescriptionRequestModel prescriptionRequestModel)
         {
             try
             {
-                if (vaccinationRequestModel != null)
+                if (prescriptionRequestModel != null)
                 {
-                    var model = mapper.Map<VaccinationDTO>(vaccinationRequestModel);
+                    var model = mapper.Map<PrescriptionDTO>(prescriptionRequestModel);
                     model.Id = id;
-                    await vaccinationService.UpdateVaccinationAsync(model);
+                    await prescriptionService.UpdatePrescriptionAsync(model);
                 }
                 return StatusCode(204);
             }
@@ -93,18 +93,18 @@ namespace MedAssistant.WebAPI.Controllers
         /// Delete doctor type 
         /// </summary>
         /// <returns>OK(model)</returns>
-        [HttpDelete("DeleteVaccination")]
+        [HttpDelete("DeletePrescription")]
+        [Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> DeleteVaccination(int id)
+        public async Task<IActionResult> DeletePrescription(int id)
         {
             try
             {
                 if (id != 0)
                 { 
-                    await vaccinationService.RemoveVaccinationAsync(id);
+                    await prescriptionService.RemovePrescriptionAsync(id);
                 }
 
                 return StatusCode(204);
@@ -121,18 +121,18 @@ namespace MedAssistant.WebAPI.Controllers
         /// Get doctor type by id
         /// </summary>
         /// <returns>OK(model)</returns>
-        [HttpGet("GetVaccinationById")]
-        [ProducesResponseType(typeof(MedecinesResponseModel), StatusCodes.Status200OK)]
+        [HttpGet("GetPrescriptionById")]
+        [Authorize]
+        [ProducesResponseType(typeof(PrescriptionsResponseModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetVaccinationById(int id)
+        public async Task<IActionResult> GetPrescriptionById(int id)
         {
             try
             {
                 if (id != 0)
                 {
-                    var model = mapper.Map<VaccinationsResponseModel>(await vaccinationService.GetVaccinationByIdAsync(id));
+                    var model = mapper.Map<PrescriptionsResponseModel>(await prescriptionService.GetPrescriptionByIdAsync(id));
                     return Ok(model);
                 }
 
@@ -150,21 +150,20 @@ namespace MedAssistant.WebAPI.Controllers
         /// Get all doctor types 
         /// </summary>
         /// <returns>OK(models)</returns>
-        [HttpGet("GetAllVaccinations")]
-        [Authorize]
-        [ProducesResponseType(typeof(List<VaccinationsResponseModel>), StatusCodes.Status200OK)]
+        [HttpGet("GetAllPrescriptionsForUser")]
+        [Authorize] 
+        [ProducesResponseType(typeof(List<PrescriptionsResponseModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetAllVaccinations()
+        public async Task<IActionResult> GetAllPrescriptionsForUser()
         {
             try
             {
                 var claims = User.Identity as ClaimsIdentity;
                 var email = claims.Claims.Where(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Select(x => x.Value).FirstOrDefault();
 
-                var models = await vaccinationService.GetVaccinationsbyUserEmailAsync(email);
-                return Ok(models.Select(x => mapper.Map<VaccinationsResponseModel>(x)));
+                var models = await prescriptionService.GetPrescriptionsbyUserEmailAsync(email);
+                return Ok(models.Select(x => mapper.Map<PrescriptionsResponseModel>(x)));
             }
             catch (Exception ex)
             {
@@ -172,7 +171,6 @@ namespace MedAssistant.WebAPI.Controllers
                 return StatusCode(500);
             }
         }
-
          
     }
-} 
+}

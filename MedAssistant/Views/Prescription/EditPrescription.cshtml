@@ -22,13 +22,10 @@
         </div>  
 
         
-        @*<select asp-for="MedicineId" class="form-select" aria-label="Default select example" >
-            
-            @foreach(var name in Model.Medicine)
-            {
-                <option value="@name.Value">@name.Text </option> 
-            }
-        </select>*@
+        <div class="mb-3">
+            <label asp-for="MedicineName" >Name of Medecine</label><br/>
+            <input asp-for="MedicineName" id="medecineName" type = "text" placeholder = "Start writing" />
+        </div>
 
          
          
@@ -42,4 +39,19 @@
 {
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+ 
+
+         <script >
+          $( function() {
+            $( "#medecineName" ).autocomplete({
+              source: 'AutocompleteSearchMedecines'
+            });
+          } );
+      </script>
+
 }

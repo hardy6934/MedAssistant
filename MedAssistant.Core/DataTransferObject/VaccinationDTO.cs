@@ -18,9 +18,6 @@ namespace MedAssistant.Core.DataTransferObject
         public int VaccinationTypeId { get; set; }      
         public string VaccinationType { get; set; }
         public List<SelectListItem> Types { get; set; }
-
-
-
-
+         
     }
 }

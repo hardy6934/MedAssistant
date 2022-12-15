@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using MedAssistant.Core.DataTransferObject;
 using MedAssistant.DataBase.Entities;
+using MedAssistant.WebAPI.Models.Requests;
+using MedAssistant.WebAPI.Models.Responses;
 
 namespace MedAssistant.MappingProfiles
 {
@@ -9,11 +11,11 @@ namespace MedAssistant.MappingProfiles
         public PrescriptionProfile()
         {
 
-            //CreateMap<Prescription, PrescriptionDTO>()
-            //    .ForMember(dto => dto.MedicineName, opt => opt.MapFrom(prescription => prescription.Medicine.Name))
-            //    .ForMember(dto =>dto.MedicineType, opt =>opt.MapFrom(prescription =>prescription.Medicine.MedicineType.Type));
-            //CreateMap<PrescriptionDTO, Prescription>();
+            CreateMap<PrescriptionRequestModel, PrescriptionDTO>();
+            CreateMap<PrescriptionDTO, PrescriptionRequestModel>();
 
+            CreateMap<PrescriptionsResponseModel, PrescriptionDTO>();
+            CreateMap<PrescriptionDTO, PrescriptionsResponseModel>();
 
         } 
     }

@@ -93,6 +93,13 @@ namespace MedAssistant.Buisness.Services
             
         }
 
+        public async Task<List<RoleDTO>> GetAllRolesAsync()
+        { 
+            var dtos = await _unitOfWork.Role.GetAllAsync(); 
+
+            return dtos.Select(x=> _mapper.Map<RoleDTO>(x)).ToList();
+        }
+
 
         
     }

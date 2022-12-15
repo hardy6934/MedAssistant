@@ -21,14 +21,7 @@
             <span asp-validation-for="Bought" class="text-danger"></span>
         </div>
          
-       @* <select asp-for="MedicineId" >
-            <option selected="selected" disabled = "disabled">Выберите название препората</option>
-            @foreach(var n in Model.Medicine)
-            {
-                <option  value="@n.Value">@n.Text </option> 
-            }
-        </select>*@
-
+         
         <div class="mb-3">
             <label asp-for="MedicineName" >Name of Medecine</label><br/>
             <input asp-for="MedicineName" id="medecineName" type = "text" placeholder = "Start writing" />

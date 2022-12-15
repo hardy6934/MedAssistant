@@ -17,7 +17,7 @@ namespace MedAssistant.Core.Abstractions
         UserDTO CreateDefaultUserUserAsync(int IdAccount, int IdRole);
         Task<UserDTO> GetUsersByAccountId(int AccountId);
         Task<int> UpdateUserAsync(UserDTO dto);
-
+        Task<List<RoleDTO>> GetAllRolesAsync();
 
     }
 }

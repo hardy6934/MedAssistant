@@ -4,12 +4,13 @@ using MedAssistant.Core.DataTransferObject;
 using MedAssistant.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Serilog;
 using System.Security.Claims;
 
 namespace MedAssistant.Controllers
 {
-    [Authorize(Roles = "Moderator,User,Admin")]
+    [Authorize(Roles = "User")]
     public class UserController : Controller
     {
         private readonly IMapper _mapper;
@@ -84,6 +85,48 @@ namespace MedAssistant.Controllers
                 return NotFound();
             }  
         }
+
+
+        //[HttpGet]
+        //public async Task<IActionResult> EditUsersRoleAsync(int id)
+        //{
+        //    try
+        //    {
+                 
+        //        var model =_mapper.Map<EditUsersRoleModel>( await _userService.GetUserByIdAsync(id));
+                 
+        //        var roles = await _userService.GetAllRolesAsync();
+        //        model.Roles = roles.Select(dto => new SelectListItem(dto.Name, dto.Id.ToString())).ToList();
+
+                
+        //        return View(_mapper.Map<UserModel>(model));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+        //        return NotFound();
+        //    }
+        //}
+
+        //[HttpPost]
+        //public async Task<IActionResult> EditUsersRoleAsync(UserModel model)
+        //{
+        //    try
+        //    {
+        //        var entity = await _userService.UpdateUserAsync(_mapper.Map<UserDTO>(model));
+
+        //        if (entity > 0)
+        //        {
+        //            return RedirectToAction("UserView", "User");
+        //        }
+        //        return BadRequest();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+        //        return NotFound();
+        //    }
+        //}
 
     }
 }

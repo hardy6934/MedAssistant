@@ -19,6 +19,9 @@ namespace MedAssistant.MappingProfiles
 
             CreateMap<UserDTO, UserShortDataModel>();
 
+            CreateMap<UserDTO, EditUsersRoleModel>();
+            CreateMap<EditUsersRoleModel, UserDTO>();
+
         }
     }
 }

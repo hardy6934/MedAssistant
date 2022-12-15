@@ -1,0 +1,55 @@
+﻿ @model UserModel
+
+@{
+    ViewData["Title"] = "Update User's Role";
+}
+
+<div>
+    <h1>Create User</h1>
+
+    <form asp-controller="User" asp-action="EditUsersRole" method="post">
+
+       <div class="mb-3">
+            <input type="hidden" asp-for="Id" class="form-control" id="Id">
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="FullName" class="form-label">FullName</label>
+            <label asp-for = "FullName" class = "form-label">@Model.FullName</label>
+        </div>
+
+        <div class="mb-3">
+           <label asp-for="Birthday" class="form-label">Birthday</label>
+            <label asp-for="Birthday" class="form-label">@Model.Birthday</label>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Location" class="form-label">Location</label>
+            <label asp-for="Location" class="form-label">@Model.Location</label>
+         </div>
+
+         <div>
+             <label asp-for="AccountLogin" class="form-label">AccountLogin</label>
+             <label asp-for="AccountLogin" class="form-label">@Model.AccountLogin</label>
+         </div>
+         
+
+        <div class="mb-3">
+            <input type="hidden" asp-for="AccountId" class="form-control" id="AccountId">
+        </div>
+
+        <div class="mb-3">
+            <input type="hidden" asp-for="RoleId" class="form-control" id="RoleId">
+        </div>
+          
+        <input type="submit" class="btn btn-primary" value="Submit">
+        
+
+    </form>
+</div>
+
+@section Scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

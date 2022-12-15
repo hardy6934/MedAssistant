@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using MedAssistant.Core.DataTransferObject;
 using MedAssistant.DataBase.Entities;
+using MedAssistant.WebAPI.Models.Requests;
+using MedAssistant.WebAPI.Models.Responses;
 
 namespace MedAssistant.MappingProfiles
 {
@@ -8,9 +10,11 @@ namespace MedAssistant.MappingProfiles
     {
         public MedicalInstitutionProfile() {
 
-            CreateMap<MedicalInstitution, MedicalInstitutionDTO>();
-            CreateMap<MedicalInstitutionDTO, MedicalInstitution>();
+            CreateMap<MedicalInstitutionRequestModel, MedicalInstitutionDTO>();
+            CreateMap<MedicalInstitutionDTO, MedicalInstitutionRequestModel>();
 
+            CreateMap<MedicalInstitutionResponseModel, MedicalInstitutionDTO>();
+            CreateMap<MedicalInstitutionDTO, MedicalInstitutionResponseModel>();
 
         }
     }
