@@ -67,6 +67,41 @@ namespace MedAssistant.Buisness.Services
             } 
         }
 
+        public async Task<List<UserDTO>> GetAllUsers()
+        {
+            try
+            {
+                var users = await _unitOfWork.Users.Get().Include(x=>x.Account).Include(x=>x.Role).ToListAsync(); 
+                return users.Select(x => _mapper.Map<UserDTO>(x)).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<int> ChangeUserRoleByEmail(string email, string newRole)
+        {
+            try
+            {
+                var accountId = _unitOfWork.Accounts.FindBy(ac => ac.Login.Equals(email)).FirstOrDefault().Id;
+                var user = await _unitOfWork.Users.FindBy(us => us.AccountId.Equals(accountId)).FirstOrDefaultAsync();
+
+                var role = await _unitOfWork.Role.FindBy(x=>x.Name.Equals(newRole)).AsNoTracking().FirstOrDefaultAsync();
+                if (role != null && user != null)
+                {
+                    user.RoleId = role.Id;
+                    _unitOfWork.Users.Update(user);
+                    return await _unitOfWork.Commit();
+                }
+                return 0;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public async Task<UserDTO> GetUserByIdAsync(int id)
         {
             try

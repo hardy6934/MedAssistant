@@ -11,6 +11,9 @@ namespace MedAssistant.WebAPI.MappingProfiles
             CreateMap<UserDTO, UserResponseModel>();
             CreateMap<UserResponseModel, UserDTO>();
 
+            CreateMap<UserDTO, UserResponseModel>();
+            CreateMap<UserResponseModel, UserDTO>();
+
         }
     }
 }

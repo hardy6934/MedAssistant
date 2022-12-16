@@ -73,23 +73,7 @@ namespace MedAssistant.WebAPI.Controllers
               
         }
          
-        [HttpGet("GetUser")]
-        [Authorize(Roles = "Moderator,User,Admin")]
-        [ProducesResponseType(typeof(UserResponseModel), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetUser(string email)
-        {
-            var account = await accountService.GetIdAccountByEmailAsync(email);
-            var user = await userService.GetUsersByAccountId(account);
-
-            if (user != null)
-            {
-                return Ok(mapper.Map<UserResponseModel>(user));
-            }
-
-            return NotFound();
-
-        }
+         
          
     }
 }
