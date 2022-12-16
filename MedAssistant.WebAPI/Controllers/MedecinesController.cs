@@ -4,6 +4,7 @@ using MedAssistant.Core.Abstractions;
 using MedAssistant.Core.DataTransferObject;
 using MedAssistant.WebAPI.Models.Requests;
 using MedAssistant.WebAPI.Models.Responses;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
@@ -50,6 +51,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// </summary>
         /// <returns>OK(model)</returns>
         [HttpPost("CreateMedecine")]
+        [Authorize]
         [ProducesResponseType(typeof(MedicinesRequestModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
@@ -84,6 +86,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// </summary>
         /// <returns>204</returns>
         [HttpPut("UpdateMedicine")]
+        [Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
@@ -112,6 +115,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// </summary>
         /// <returns>OK(model)</returns>
         [HttpDelete("DeleteMedicine")]
+        [Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
@@ -141,6 +145,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// </summary>
         /// <returns>OK(model)</returns>
         [HttpGet("GetMedicineById")]
+        [Authorize]
         [ProducesResponseType(typeof(MedecinesResponseModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
@@ -170,6 +175,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// </summary>
         /// <returns>OK(models)</returns>
         [HttpGet("GetAllMedicines")]
+        [Authorize]
         [ProducesResponseType(typeof(List<MedecinesResponseModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
@@ -194,6 +200,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// </summary>
         /// <returns>OK(models)</returns>
         [HttpGet("GetMedecinesByPortions")]
+        [Authorize]
         [ProducesResponseType(typeof(List<MedecinesResponseModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]

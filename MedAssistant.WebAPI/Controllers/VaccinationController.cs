@@ -32,6 +32,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// </summary>
         /// <returns>OK(model)</returns>
         [HttpPost("CreateVaccination")]
+        [Authorize]
         [ProducesResponseType(typeof(VaccinationRequestModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
@@ -66,6 +67,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// </summary>
         /// <returns>204</returns>
         [HttpPut("UpdateVaccination")]
+        [Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
@@ -94,6 +96,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// </summary>
         /// <returns>OK(model)</returns>
         [HttpDelete("DeleteVaccination")]
+        [Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
@@ -122,6 +125,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// </summary>
         /// <returns>OK(model)</returns>
         [HttpGet("GetVaccinationById")]
+        [Authorize]
         [ProducesResponseType(typeof(MedecinesResponseModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]

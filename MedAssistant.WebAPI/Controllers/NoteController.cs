@@ -31,6 +31,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// </summary>
         /// <returns>OK(model)</returns>
         [HttpPost("CreateNote")]
+        [Authorize]
         [ProducesResponseType(typeof(NoteRequestModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
@@ -65,6 +66,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// </summary>
         /// <returns>204</returns>
         [HttpPut("UpdateNote")]
+        [Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
@@ -93,6 +95,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// </summary>
         /// <returns>OK(model)</returns>
         [HttpDelete("DeleteNote")]
+        [Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
@@ -121,6 +124,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// </summary>
         /// <returns>OK(model)</returns>
         [HttpGet("GetNoteById")]
+        [Authorize]
         [ProducesResponseType(typeof(NoteResponseModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]

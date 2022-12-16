@@ -6,6 +6,7 @@ using MedAssistant.WebAPI.Models.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
+using System.Security.Claims;
 
 namespace MedAssistant.WebAPI.Controllers
 {
@@ -36,17 +37,24 @@ namespace MedAssistant.WebAPI.Controllers
         {
             try
             {
-                if (noteTypeRequestModel != null)
+                var claims = User.Identity as ClaimsIdentity;
+                var role = claims.Claims.Where(x => x.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Select(x => x.Value).FirstOrDefault();
+                if (role == "Moderator" || role == "Admin")
                 {
-                    int entity = await noteTypeService.AddNoteTypeAsync(mapper.Map<NoteTypeDTO>(noteTypeRequestModel));
-
-                    if (entity > 0)
+                    if (noteTypeRequestModel != null)
                     {
-                        return Ok(noteTypeRequestModel);
+                        int entity = await noteTypeService.AddNoteTypeAsync(mapper.Map<NoteTypeDTO>(noteTypeRequestModel));
+
+                        if (entity > 0)
+                        {
+                            return Ok(noteTypeRequestModel);
+                        }
+                        else return BadRequest();
                     }
                     else return BadRequest();
                 }
-                else return BadRequest();
+                else
+                    return StatusCode(403);
 
 
             }
@@ -70,13 +78,20 @@ namespace MedAssistant.WebAPI.Controllers
         {
             try
             {
-                if (noteTypeRequestModel != null)
+                var claims = User.Identity as ClaimsIdentity;
+                var role = claims.Claims.Where(x => x.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Select(x => x.Value).FirstOrDefault();
+                if (role == "Moderator" || role == "Admin")
                 {
-                    var model = mapper.Map<NoteTypeDTO>(noteTypeRequestModel);
-                    model.Id = id;
-                    await noteTypeService.UpdateNoteTypeAsync(model);
+                    if (noteTypeRequestModel != null)
+                    {
+                        var model = mapper.Map<NoteTypeDTO>(noteTypeRequestModel);
+                        model.Id = id;
+                        await noteTypeService.UpdateNoteTypeAsync(model);
+                    }
+                    return StatusCode(204);
                 }
-                return StatusCode(204);
+                else
+                    return StatusCode(403);
             }
             catch (Exception ex)
             {
@@ -98,13 +113,19 @@ namespace MedAssistant.WebAPI.Controllers
         {
             try
             {
-                if (id != 0)
+                var claims = User.Identity as ClaimsIdentity;
+                var role = claims.Claims.Where(x => x.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Select(x => x.Value).FirstOrDefault();
+                if (role == "Moderator" || role == "Admin")
                 {
-                    var model = await noteTypeService.GetNoteTypeByIdAsync(id);
-                    await noteTypeService.RemoveNoteTypeAsync(model);
+                    if (id != 0)
+                    {
+                        var model = await noteTypeService.GetNoteTypeByIdAsync(id);
+                        await noteTypeService.RemoveNoteTypeAsync(model);
+                    } 
+                    return StatusCode(204);
                 }
-
-                return StatusCode(204);
+                else
+                    return StatusCode(403);
             }
             catch (Exception ex)
             {
@@ -127,13 +148,19 @@ namespace MedAssistant.WebAPI.Controllers
         {
             try
             {
-                if (id != 0)
+                var claims = User.Identity as ClaimsIdentity;
+                var role = claims.Claims.Where(x => x.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Select(x => x.Value).FirstOrDefault();
+                if (role == "Moderator" || role == "Admin")
                 {
-                    var model = mapper.Map<NoteTypeResponseModel>(await noteTypeService.GetNoteTypeByIdAsync(id));
-                    return Ok(model);
+                    if (id != 0)
+                    {
+                        var model = mapper.Map<NoteTypeResponseModel>(await noteTypeService.GetNoteTypeByIdAsync(id));
+                        return Ok(model);
+                    } 
+                    return NotFound();
                 }
-
-                return NotFound();
+                else
+                    return StatusCode(403);
             }
             catch (Exception ex)
             {
@@ -156,8 +183,15 @@ namespace MedAssistant.WebAPI.Controllers
         {
             try
             {
-                var models = await noteTypeService.GetAllNoteTypes();
-                return Ok(models.Select(x => mapper.Map<NoteTypeResponseModel>(x)));
+                var claims = User.Identity as ClaimsIdentity;
+                var role = claims.Claims.Where(x => x.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Select(x => x.Value).FirstOrDefault();
+                if (role == "Moderator" || role == "Admin")
+                {
+                    var models = await noteTypeService.GetAllNoteTypes();
+                    return Ok(models.Select(x => mapper.Map<NoteTypeResponseModel>(x)));
+                }
+                else
+                    return StatusCode(403);
             }
             catch (Exception ex)
             {

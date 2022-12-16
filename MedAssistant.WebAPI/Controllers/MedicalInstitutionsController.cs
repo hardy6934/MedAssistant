@@ -4,6 +4,7 @@ using MedAssistant.Core.Abstractions;
 using MedAssistant.Core.DataTransferObject;
 using MedAssistant.WebAPI.Models.Requests;
 using MedAssistant.WebAPI.Models.Responses;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
@@ -49,6 +50,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// </summary>
         /// <returns>OK(model)</returns>
         [HttpPost("CreateMedicalInstitution")]
+        [Authorize]
         [ProducesResponseType(typeof(MedicalInstitutionRequestModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
@@ -83,6 +85,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// </summary>
         /// <returns>204</returns>
         [HttpPut("UpdateMedicalInstitution")]
+        [Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
@@ -111,6 +114,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// </summary>
         /// <returns>OK(model)</returns>
         [HttpDelete("DeleteMedicalInstitution")]
+        [Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
@@ -140,6 +144,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// </summary>
         /// <returns>OK(model)</returns>
         [HttpGet("GetMedicalInstitutionById")]
+        [Authorize]
         [ProducesResponseType(typeof(MedicalInstitutionResponseModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
@@ -169,6 +174,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// </summary>
         /// <returns>OK(models)</returns>
         [HttpGet("GetAllMedicalInstitution")]
+        [Authorize]
         [ProducesResponseType(typeof(List<MedicalInstitutionResponseModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]

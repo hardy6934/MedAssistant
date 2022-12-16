@@ -7,6 +7,7 @@ using MedAssistant.WebAPI.Models.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
+using System.Security.Claims;
 
 namespace MedAssistant.WebAPI.Controllers
 {
@@ -55,19 +56,25 @@ namespace MedAssistant.WebAPI.Controllers
         {
             try
             {
-                if (doctorTypeRequestModel != null)
+                var claims = User.Identity as ClaimsIdentity;
+                var role = claims.Claims.Where(x => x.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Select(x => x.Value).FirstOrDefault();
+                if (role == "Moderator" || role == "Admin")
                 {
-                    int entity = await doctorTypeService.AddDoctorTypeAsync(mapper.Map<DoctorTypeDTO>(doctorTypeRequestModel));
-
-                    if (entity > 0)
+                    if (doctorTypeRequestModel != null)
                     {
-                        return Ok(doctorTypeRequestModel);
+                        int entity = await doctorTypeService.AddDoctorTypeAsync(mapper.Map<DoctorTypeDTO>(doctorTypeRequestModel));
+
+                        if (entity > 0)
+                        {
+                            return Ok(doctorTypeRequestModel);
+                        }
+                        else return BadRequest();
                     }
                     else return BadRequest();
                 }
-                else return BadRequest();
-
-
+                else
+                    return StatusCode(403);
+                 
             }
             catch (Exception ex)
             {
@@ -89,13 +96,20 @@ namespace MedAssistant.WebAPI.Controllers
         {
             try
             {
-                if (doctorTypeRequestModel != null)
+                var claims = User.Identity as ClaimsIdentity;
+                var role = claims.Claims.Where(x => x.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Select(x => x.Value).FirstOrDefault();
+                if (role == "Moderator" || role == "Admin")
                 {
-                    var model = mapper.Map<DoctorTypeDTO>(doctorTypeRequestModel);
-                    model.Id = id;
-                    await doctorTypeService.UpdateDoctorTypeAsync(model);
+                    if (doctorTypeRequestModel != null)
+                    {
+                        var model = mapper.Map<DoctorTypeDTO>(doctorTypeRequestModel);
+                        model.Id = id;
+                        await doctorTypeService.UpdateDoctorTypeAsync(model);
+                    }
+                    return StatusCode(204);
                 }
-                return StatusCode(204);
+                else
+                    return StatusCode(403);
             }
             catch (Exception ex)
             {
@@ -117,13 +131,19 @@ namespace MedAssistant.WebAPI.Controllers
         {
             try
             {
-                if (id != 0)
+                var claims = User.Identity as ClaimsIdentity;
+                var role = claims.Claims.Where(x => x.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Select(x => x.Value).FirstOrDefault();
+                if (role == "Moderator" || role == "Admin")
                 {
+                    if (id != 0)
+                    {
                      var model = await doctorTypeService.GetDoctorTypeByIdAsync(id);
                      await doctorTypeService.RemoveDoctorTypeAsync(model); 
+                    } 
+                    return StatusCode(204);
                 }
-
-                return StatusCode(204);
+                else
+                    return StatusCode(403);
             }
             catch (Exception ex)
             {
@@ -146,13 +166,20 @@ namespace MedAssistant.WebAPI.Controllers
         {
             try
             {
-                if (id != 0)
+                var claims = User.Identity as ClaimsIdentity;
+                var role = claims.Claims.Where(x => x.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Select(x => x.Value).FirstOrDefault();
+                if (role == "Moderator" || role == "Admin")
                 {
-                    var model = mapper.Map<ResponseDoctorTypeModel>(await doctorTypeService.GetDoctorTypeByIdAsync(id));
-                    return Ok(model);
-                }
+                    if (id != 0)
+                    {
+                        var model = mapper.Map<ResponseDoctorTypeModel>(await doctorTypeService.GetDoctorTypeByIdAsync(id));
+                        return Ok(model);
+                    }
 
-               return NotFound();
+                    return NotFound();
+                }
+                else
+                    return StatusCode(403);
             }
             catch (Exception ex)
             {
@@ -175,8 +202,15 @@ namespace MedAssistant.WebAPI.Controllers
         {
             try
             {
-                var models = await doctorTypeService.GetAllDoctorTypes();  
-                return Ok(models.Select(x=> mapper.Map<ResponseDoctorTypeModel>(x)));
+                var claims = User.Identity as ClaimsIdentity;
+                var role = claims.Claims.Where(x => x.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Select(x => x.Value).FirstOrDefault();
+                if (role == "Moderator" || role == "Admin")
+                {
+                    var models = await doctorTypeService.GetAllDoctorTypes();  
+                    return Ok(models.Select(x=> mapper.Map<ResponseDoctorTypeModel>(x)));
+                }
+                else
+                    return StatusCode(403);
             }
             catch (Exception ex)
             {

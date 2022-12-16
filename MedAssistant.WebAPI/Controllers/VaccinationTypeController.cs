@@ -3,9 +3,11 @@ using MedAssistant.Core.Abstractions;
 using MedAssistant.Core.DataTransferObject;
 using MedAssistant.WebAPI.Models.Requests;
 using MedAssistant.WebAPI.Models.Responses;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
+using System.Security.Claims;
 
 namespace MedAssistant.WebAPI.Controllers
 {
@@ -28,6 +30,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// </summary>
         /// <returns>OK(model)</returns>
         [HttpPost("CreateVaccinationType")]
+        [Authorize]
         [ProducesResponseType(typeof(VaccinationTypeRequestModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
@@ -36,18 +39,24 @@ namespace MedAssistant.WebAPI.Controllers
         {
             try
             {
-                if (vaccinationTypeRequestModel != null)
-                {
-                    int entity = await vaccinationTypeService.AddVaccinationTypeAsync(mapper.Map<VaccinationTypeDTO>(vaccinationTypeRequestModel));
-
-                    if (entity > 0)
+                var claims = User.Identity as ClaimsIdentity;
+                var role = claims.Claims.Where(x => x.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Select(x => x.Value).FirstOrDefault();
+                if (role == "Moderator" || role == "Admin")
+                { 
+                    if (vaccinationTypeRequestModel != null)
                     {
-                        return Ok(vaccinationTypeRequestModel);
+                        int entity = await vaccinationTypeService.AddVaccinationTypeAsync(mapper.Map<VaccinationTypeDTO>(vaccinationTypeRequestModel));
+
+                        if (entity > 0)
+                        {
+                            return Ok(vaccinationTypeRequestModel);
+                        }
+                        else return BadRequest();
                     }
                     else return BadRequest();
                 }
-                else return BadRequest();
-
+                else
+                    return StatusCode(403);
 
             }
             catch (Exception ex)
@@ -62,6 +71,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// </summary>
         /// <returns>204</returns>
         [HttpPut("UpdateVaccinationType")]
+        [Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
@@ -70,13 +80,20 @@ namespace MedAssistant.WebAPI.Controllers
         {
             try
             {
-                if (vaccinationTypeRequestModel != null)
+                var claims = User.Identity as ClaimsIdentity;
+                var role = claims.Claims.Where(x => x.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Select(x => x.Value).FirstOrDefault();
+                if (role == "Moderator" || role == "Admin")
                 {
-                    var model = mapper.Map<VaccinationTypeDTO>(vaccinationTypeRequestModel);
-                    model.Id = id;
-                    await vaccinationTypeService.UpdateVaccinationTypeAsync(model);
+                    if (vaccinationTypeRequestModel != null)
+                    {
+                        var model = mapper.Map<VaccinationTypeDTO>(vaccinationTypeRequestModel);
+                        model.Id = id;
+                        await vaccinationTypeService.UpdateVaccinationTypeAsync(model);
+                    }
+                    return StatusCode(204);
                 }
-                return StatusCode(204);
+                else
+                    return StatusCode(403);
             }
             catch (Exception ex)
             {
@@ -90,6 +107,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// </summary>
         /// <returns>OK(model)</returns>
         [HttpDelete("DeleteVaccinationType")]
+        [Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
@@ -98,13 +116,19 @@ namespace MedAssistant.WebAPI.Controllers
         {
             try
             {
-                if (id != 0)
+                var claims = User.Identity as ClaimsIdentity;
+                var role = claims.Claims.Where(x => x.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Select(x => x.Value).FirstOrDefault();
+                if (role == "Moderator" || role == "Admin")
                 {
-                    var model = await vaccinationTypeService.GetVaccinationTypeByIdAsync(id);
-                    await vaccinationTypeService.RemoveVaccinationTypeAsync(model);
+                    if (id != 0)
+                    {
+                        var model = await vaccinationTypeService.GetVaccinationTypeByIdAsync(id);
+                        await vaccinationTypeService.RemoveVaccinationTypeAsync(model);
+                    } 
+                    return StatusCode(204);
                 }
-
-                return StatusCode(204);
+                else
+                    return StatusCode(403);
             }
             catch (Exception ex)
             {
@@ -119,6 +143,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// </summary>
         /// <returns>OK(model)</returns>
         [HttpGet("GetVaccinationTypeById")]
+        [Authorize]
         [ProducesResponseType(typeof(VaccinationTypeResponseModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
@@ -127,13 +152,19 @@ namespace MedAssistant.WebAPI.Controllers
         {
             try
             {
-                if (id != 0)
+                var claims = User.Identity as ClaimsIdentity;
+                var role = claims.Claims.Where(x => x.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Select(x => x.Value).FirstOrDefault();
+                if (role == "Moderator" || role == "Admin")
                 {
-                    var model = mapper.Map<VaccinationTypeResponseModel>(await vaccinationTypeService.GetVaccinationTypeByIdAsync(id));
-                    return Ok(model);
+                    if (id != 0)
+                    {
+                        var model = mapper.Map<VaccinationTypeResponseModel>(await vaccinationTypeService.GetVaccinationTypeByIdAsync(id));
+                        return Ok(model);
+                    } 
+                    return NotFound();
                 }
-
-                return NotFound();
+                else
+                    return StatusCode(403);
             }
             catch (Exception ex)
             {
@@ -148,6 +179,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// </summary>
         /// <returns>OK(models)</returns>
         [HttpGet("GetAllVaccinationTypes")]
+        [Authorize]
         [ProducesResponseType(typeof(List<VaccinationTypeResponseModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
@@ -156,8 +188,15 @@ namespace MedAssistant.WebAPI.Controllers
         {
             try
             {
-                var models = await vaccinationTypeService.GetAllVaccinationTypes();
-                return Ok(models.Select(x => mapper.Map<VaccinationTypeResponseModel>(x)));
+                var claims = User.Identity as ClaimsIdentity;
+                var role = claims.Claims.Where(x => x.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Select(x => x.Value).FirstOrDefault();
+                if (role == "Moderator" || role == "Admin")
+                {
+                    var models = await vaccinationTypeService.GetAllVaccinationTypes();
+                    return Ok(models.Select(x => mapper.Map<VaccinationTypeResponseModel>(x)));
+                }
+                else
+                    return StatusCode(403);
             }
             catch (Exception ex)
             {
