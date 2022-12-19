@@ -17,8 +17,15 @@ body {
   margin-bottom: 60px;
 }
 
+.Indexintro {
+   
+    width: 100%;
+    height: 100vh;
+    background-image: url(img//1614388188_15-p-svetlii-meditsinskii-fon-16.jpg);
+    background-size: cover;
+}
 
-
+ 
 
 .pagingDiv > a {
     display: inline-block;
@@ -32,7 +39,7 @@ body {
 }
 
     .pagingDiv > a:hover {
-        background: #0D64FD; 
+        background: #0D64FD;
     }
 
     .pagingDiv > a.active {

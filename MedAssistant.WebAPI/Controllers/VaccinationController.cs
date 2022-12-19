@@ -28,10 +28,10 @@ namespace MedAssistant.WebAPI.Controllers
         }
 
         /// <summary>
-        /// Add new doctor type 
+        /// Add new vaccination 
         /// </summary>
         /// <returns>OK(model)</returns>
-        [HttpPost("CreateVaccination")]
+        [HttpPost]
         [Authorize]
         [ProducesResponseType(typeof(VaccinationRequestModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
@@ -66,7 +66,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// Update doctor type 
         /// </summary>
         /// <returns>204</returns>
-        [HttpPut("UpdateVaccination")]
+        [HttpPut("{id}")]
         [Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
@@ -95,7 +95,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// Delete doctor type 
         /// </summary>
         /// <returns>OK(model)</returns>
-        [HttpDelete("DeleteVaccination")]
+        [HttpDelete("{id}")]
         [Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
@@ -124,7 +124,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// Get doctor type by id
         /// </summary>
         /// <returns>OK(model)</returns>
-        [HttpGet("GetVaccinationById")]
+        [HttpGet("{id}")]
         [Authorize]
         [ProducesResponseType(typeof(MedecinesResponseModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
@@ -154,7 +154,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// Get all doctor types 
         /// </summary>
         /// <returns>OK(models)</returns>
-        [HttpGet("GetAllVaccinations")]
+        [HttpGet]
         [Authorize]
         [ProducesResponseType(typeof(List<VaccinationsResponseModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]

@@ -51,7 +51,7 @@ namespace MedAssistant.Data.Abstractions.Repositories
 
         public virtual IQueryable<T> Get()
         {
-            return DbSet;
+            return DbSet.AsNoTracking();
         }
 
         public virtual async Task<IEnumerable<T>> GetAllAsync()

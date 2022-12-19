@@ -82,7 +82,7 @@ namespace MedAssistant.Buisness.Services
         {
             try
             {
-                var accountId = (await unitOfWork.Accounts.Get().FirstOrDefaultAsync(x => x.Login.Equals(email))).Id; 
+                var accountId = (await unitOfWork.Accounts.Get().AsNoTracking().FirstOrDefaultAsync(x => x.Login.Equals(email))).Id; 
                 return accountId;
             }
             catch (Exception)
@@ -128,7 +128,7 @@ namespace MedAssistant.Buisness.Services
         {
             try
             {
-                var dbPasswordHash = (await unitOfWork.Accounts.Get().AsNoTracking().FirstOrDefaultAsync(x => x.Login.Equals(dto.Login)))?.Password;
+                var dbPasswordHash = (await unitOfWork.Accounts.Get().FirstOrDefaultAsync(x => x.Login.Equals(dto.Login)))?.Password;
 
                 if (dbPasswordHash != null && CreateMd5(dto.Password).Equals(dbPasswordHash))
                 {
@@ -142,7 +142,22 @@ namespace MedAssistant.Buisness.Services
                 throw;
             } 
         }
-         
+
+        public async Task<int> UpdateUserPasswordAsync(AccountDTO dto)
+        {
+            try
+            {
+                dto.Id = (await unitOfWork.Accounts.Get().FirstOrDefaultAsync(x => x.Login.Equals(dto.Login))).Id; 
+                dto.Password = CreateMd5(dto.Password);
+                unitOfWork.Accounts.Update(mapper.Map<Account>(dto));
+                return await unitOfWork.Commit();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
 
         private string CreateMd5(string password)
         {

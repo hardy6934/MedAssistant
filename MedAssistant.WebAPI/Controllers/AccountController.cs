@@ -34,7 +34,7 @@ namespace MedAssistant.WebAPI.Controllers
             this.jwtutil = jwtutil;
         }
 
-        [HttpPost("CreateAccount")]
+        [HttpPost]
         public async Task<IActionResult> Create([FromBody] RegAccountRequestModel request)
         {
             try

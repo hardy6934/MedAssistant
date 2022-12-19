@@ -47,7 +47,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// Add new doctor type 
         /// </summary>
         /// <returns>OK(model)</returns>
-        [HttpPost("CreateDoctorType")]
+        [HttpPost("DoctorType")]
         [ProducesResponseType(typeof(DoctorTypeRequestModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
@@ -87,7 +87,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// Update doctor type 
         /// </summary>
         /// <returns>204</returns>
-        [HttpPut("UpdateDoctorType")]
+        [HttpPut]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
@@ -119,10 +119,10 @@ namespace MedAssistant.WebAPI.Controllers
         }
 
         /// <summary>
-        /// Delete doctor type 
+        /// Delete doctor type by id
         /// </summary>
         /// <returns>OK(model)</returns>
-        [HttpDelete("DeleteDoctorType")]
+        [HttpDelete("{id}")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
@@ -157,7 +157,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// Get doctor type by id
         /// </summary>
         /// <returns>OK(model)</returns>
-        [HttpGet("GetTypeById")]
+        [HttpGet("{id}")]
         [ProducesResponseType(typeof(ResponseDoctorTypeModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
@@ -193,7 +193,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// Get all doctor types 
         /// </summary>
         /// <returns>OK(models)</returns>
-        [HttpGet("GetAllTypes")]
+        [HttpGet]
         [ProducesResponseType(typeof(List<ResponseDoctorTypeModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]

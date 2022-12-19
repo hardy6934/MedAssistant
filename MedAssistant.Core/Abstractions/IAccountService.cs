@@ -25,5 +25,6 @@ namespace MedAssistant.Core.Abstractions
         Task<AccountDTO> GetAccountByIdAsync(int id);
 
         Task<int> GetIdAccountByEmailAsync(string email);
+        Task<int> UpdateUserPasswordAsync(AccountDTO dto);
     }
 }

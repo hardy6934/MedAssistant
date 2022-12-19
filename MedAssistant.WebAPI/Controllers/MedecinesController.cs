@@ -47,16 +47,16 @@ namespace MedAssistant.WebAPI.Controllers
 
         
         /// <summary>
-        /// Add new doctor type 
+        /// Add new medecine
         /// </summary>
         /// <returns>OK(model)</returns>
-        [HttpPost("CreateMedecine")]
+        [HttpPost("Medecines")]
         [Authorize]
         [ProducesResponseType(typeof(MedicinesRequestModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> AddMedicineType([FromBody] MedicinesRequestModel medicinesRequestModel)
+        public async Task<IActionResult> AddMedicine([FromBody] MedicinesRequestModel medicinesRequestModel)
         {
             try
             {
@@ -82,16 +82,16 @@ namespace MedAssistant.WebAPI.Controllers
         }
 
         /// <summary>
-        /// Update doctor type 
+        /// Update medecine 
         /// </summary>
         /// <returns>204</returns>
-        [HttpPut("UpdateMedicine")]
+        [HttpPut("{id}")]
         [Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> UpdateMedicineType([FromQuery] int id, [FromBody] MedicinesRequestModel medicinesRequestModel)
+        public async Task<IActionResult> UpdateMedicine([FromQuery] int id, [FromBody] MedicinesRequestModel medicinesRequestModel)
         {
             try
             {
@@ -111,16 +111,16 @@ namespace MedAssistant.WebAPI.Controllers
         }
 
         /// <summary>
-        /// Delete doctor type 
+        /// Delete medecine 
         /// </summary>
         /// <returns>OK(model)</returns>
-        [HttpDelete("DeleteMedicine")]
+        [HttpDelete("{id}")]
         [Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> DeleteMedicineType(int id)
+        public async Task<IActionResult> DeleteMedicine(int id)
         {
             try
             {
@@ -141,10 +141,10 @@ namespace MedAssistant.WebAPI.Controllers
 
 
         /// <summary>
-        /// Get doctor type by id
+        /// Get medecine by id
         /// </summary>
         /// <returns>OK(model)</returns>
-        [HttpGet("GetMedicineById")]
+        [HttpGet("{id}")]
         [Authorize]
         [ProducesResponseType(typeof(MedecinesResponseModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
@@ -171,10 +171,10 @@ namespace MedAssistant.WebAPI.Controllers
 
 
         /// <summary>
-        /// Get all doctor types 
+        /// Get all medecines 
         /// </summary>
         /// <returns>OK(models)</returns>
-        [HttpGet("GetAllMedicines")]
+        [HttpGet]
         [Authorize]
         [ProducesResponseType(typeof(List<MedecinesResponseModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
@@ -199,7 +199,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// Get medicines by portions 
         /// </summary>
         /// <returns>OK(models)</returns>
-        [HttpGet("GetMedecinesByPortions")]
+        [HttpGet("{page}/{count}")]
         [Authorize]
         [ProducesResponseType(typeof(List<MedecinesResponseModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]

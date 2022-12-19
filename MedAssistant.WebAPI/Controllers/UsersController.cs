@@ -26,7 +26,7 @@ namespace MedAssistant.WebAPI.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet("GetUser")]
+        [HttpGet("{email}")]
         [Authorize]
         [ProducesResponseType(typeof(UserResponseModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
@@ -53,7 +53,7 @@ namespace MedAssistant.WebAPI.Controllers
         }
 
 
-        [HttpGet("GetAllUsers")]
+        [HttpGet]
         [Authorize]
         [ProducesResponseType(typeof(UserResponseModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
@@ -83,16 +83,16 @@ namespace MedAssistant.WebAPI.Controllers
             {
                 Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
                 return StatusCode(500);
-            } 
+            }
         }
 
-        [HttpGet("ChangeUserRoleByEmail")]
+        [HttpPatch("{email}/{newRole}")]
         [Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> ChangeUserRoleByEmail( string email, string newRole)
+        public async Task<IActionResult> ChangeUserRoleByEmail(string email, string newRole)
         {
             try
             {
@@ -116,11 +116,11 @@ namespace MedAssistant.WebAPI.Controllers
             {
                 Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
                 return StatusCode(500);
-            } 
+            }
         }
 
 
-        [HttpGet("UpdateUser")]
+        [HttpPut("{id}")]
         [Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]

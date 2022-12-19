@@ -30,12 +30,12 @@ namespace MedAssistant.WebAPI.Controllers
         /// Add new doctor  
         /// </summary>
         /// <returns>OK(model)</returns>
-        [HttpPost("CreateDoctor")]
+        [HttpPost]
         [Authorize]
         [ProducesResponseType(typeof(DoctorRequestModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> AddMedicineType([FromBody] DoctorRequestModel doctorRequestModel)
+        public async Task<IActionResult> AddDoctor([FromBody] DoctorRequestModel doctorRequestModel)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// Update doctor  
         /// </summary>
         /// <returns>204</returns>
-        [HttpPut("UpdateDoctor")]
+        [HttpPut]
         [Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
@@ -89,10 +89,10 @@ namespace MedAssistant.WebAPI.Controllers
         }
 
         /// <summary>
-        /// Delete doctor type 
+        /// Delete doctor by id
         /// </summary>
         /// <returns>OK(model)</returns>
-        [HttpDelete("DeleteDoctor")]
+        [HttpDelete("{id}")]
         [Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
@@ -119,10 +119,10 @@ namespace MedAssistant.WebAPI.Controllers
 
 
         /// <summary>
-        /// Get doctor type by id
+        /// Get doctor by id
         /// </summary>
         /// <returns>OK(model)</returns>
-        [HttpGet("GetDoctorById")]
+        [HttpGet("{id}")]
         [Authorize]
         [ProducesResponseType(typeof(DoctorResponseModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
@@ -148,10 +148,10 @@ namespace MedAssistant.WebAPI.Controllers
 
 
         /// <summary>
-        /// Get all doctor types 
+        /// Get all doctor  
         /// </summary>
         /// <returns>OK(models)</returns>
-        [HttpGet("GetAllDoctorsForUser")]
+        [HttpGet]
         [Authorize]
         [ProducesResponseType(typeof(List<DoctorResponseModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]

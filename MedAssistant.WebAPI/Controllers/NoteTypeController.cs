@@ -28,7 +28,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// Add new note type 
         /// </summary>
         /// <returns>OK(model)</returns>
-        [HttpPost("CreateNoteType")]
+        [HttpPost]
         [ProducesResponseType(typeof(NoteTypeRequestModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
@@ -69,7 +69,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// Update new note type 
         /// </summary>
         /// <returns>204</returns>
-        [HttpPut("UpdateNoteType")]
+        [HttpPut]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
@@ -104,7 +104,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// Delete note type 
         /// </summary>
         /// <returns>OK(model)</returns>
-        [HttpDelete("DeleteNoteType")]
+        [HttpDelete("{id}")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
@@ -139,7 +139,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// Get note type by id
         /// </summary>
         /// <returns>OK(model)</returns>
-        [HttpGet("GetTypeById")]
+        [HttpGet("{id}")]
         [ProducesResponseType(typeof(NoteTypeResponseModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
@@ -174,7 +174,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// Get all note types 
         /// </summary>
         /// <returns>OK(models)</returns>
-        [HttpGet("GetAllTypes")]
+        [HttpGet]
         [ProducesResponseType(typeof(List<NoteTypeResponseModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]

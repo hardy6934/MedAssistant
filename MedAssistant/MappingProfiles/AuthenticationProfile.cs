@@ -17,6 +17,8 @@ namespace MedAssistant.MappingProfiles
             CreateMap<AccountDTO, AuthenticationModel>();
             CreateMap<AuthenticationModel, AccountDTO>();
 
+            CreateMap<ChangePasswordModel, AccountDTO>().ForMember(dto => dto.Password, opt => opt.MapFrom(change => change.Oldpassword)); 
+
         }
     }
 }

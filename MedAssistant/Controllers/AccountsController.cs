@@ -17,13 +17,16 @@ namespace MedAssistant.Controllers
         private readonly IAccountService accountService;
         private readonly IUserService userService;
         private readonly IRoleService roleService;
+        private readonly IEmailService emailService;
         private readonly IMapper mapper;
 
         public AccountsController(IAccountService accountService,
             IMapper mapper,
             IUserService userService,
-            IRoleService roleService)
+            IRoleService roleService,
+            IEmailService emailService)
         {
+            this.emailService = emailService;
             this.accountService = accountService;
             this.mapper = mapper;
             this.userService = userService;
@@ -246,8 +249,125 @@ namespace MedAssistant.Controllers
                 Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
                 return NotFound();
             }
-            
-            
+             
+        }
+
+        [HttpGet]
+        public IActionResult ForgottenPassword()
+        {
+            try
+            {
+                return View();
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return NotFound();
+            }
+
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> ResetPassword(EmailRecoveryPasswordModel emailRecoveryPasswordModel)
+        {
+            try
+            {
+                var path = "https://" + HttpContext.Request.Host.Value;
+                path += "/Accounts/ResetPasswordForm";
+
+                emailService.SendEmailForRecoveryPassword(emailRecoveryPasswordModel.Login, path);
+                 
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return NotFound();
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ResetPasswordForm()
+        {
+            try
+            {
+                return View("ResetPassword");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return NotFound();
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(RegistrationModel registrationModel)
+        {
+            try
+            {
+                if (registrationModel != null)
+                {
+                    var result = await accountService.UpdateUserPasswordAsync(mapper.Map<AccountDTO>(registrationModel));
+                    return RedirectToAction("Authentication", "Accounts");
+                }
+                else return BadRequest();
+
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return NotFound();
+            }
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> ChangePassword()
+        {
+            try
+            {
+                return View();
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return NotFound();
+            }
+        }
+
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> ChangePassword(ChangePasswordModel changePasswordModel)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (HttpContext.User.Identity.Name == changePasswordModel.Login)
+                    {
+                        var isPasswordCorrect = await accountService.CheckUserPassword(mapper.Map<AccountDTO>(changePasswordModel));
+                        if (isPasswordCorrect == true)
+                        {
+                            AccountDTO accountDTO = new();
+                            accountDTO.Login = changePasswordModel.Login;
+                            accountDTO.Password = changePasswordModel.Newpassword; 
+                            var result = await accountService.UpdateUserPasswordAsync(accountDTO);
+                            return RedirectToAction("Authentication", "Accounts");
+                        }
+                        else return BadRequest();
+                    } 
+                    else return BadRequest();
+                }
+                else return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
+                return NotFound();
+            }
         }
 
 

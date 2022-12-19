@@ -23,7 +23,7 @@
          
         <div class="mb-3">
             <label asp-for="RemindDate" >RemindDate</label> <br />
-            <input asp-for="RemindDate" class="form-control" asp-for="DateTime" value="@DateTime.Now" >
+            <input asp-for="RemindDate" class="form-control" asp-for="DateTime" value=@Model.RemindDate?.ToString("yyyy-MM-dd HH:mm:ss") >
             <span asp-validation-for="RemindDate" class="text-danger"></span>
         </div>
          

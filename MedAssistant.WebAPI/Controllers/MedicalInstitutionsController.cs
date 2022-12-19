@@ -26,7 +26,7 @@ namespace MedAssistant.WebAPI.Controllers
 
 
         /// <summary>
-        /// Add new medical institutions from https://clinics.medsovet.info/belarus/bolnicy?cat=0&page=1 Monthly
+        /// Add new medical institutions from site Monthly
         /// </summary>
         /// <returns>OK</returns>
         [HttpPost]
@@ -36,7 +36,7 @@ namespace MedAssistant.WebAPI.Controllers
             {
                 RecurringJob.AddOrUpdate(() => medicalInstitutionService.AddMedicalInstitutionsAsync(), Cron.Monthly); 
                 return Ok();
-            }
+            } 
             catch (Exception ex)
             {
                 Log.Error($"{ex.Message}. {Environment.NewLine}  {ex.StackTrace}");
@@ -49,7 +49,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// Add new Medical institution 
         /// </summary>
         /// <returns>OK(model)</returns>
-        [HttpPost("CreateMedicalInstitution")]
+        [HttpPost("MedicalInstitutions")]
         [Authorize]
         [ProducesResponseType(typeof(MedicalInstitutionRequestModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
@@ -84,7 +84,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// Update Medical institution 
         /// </summary>
         /// <returns>204</returns>
-        [HttpPut("UpdateMedicalInstitution")]
+        [HttpPut]
         [Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
@@ -113,7 +113,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// Delete Medical institution 
         /// </summary>
         /// <returns>OK(model)</returns>
-        [HttpDelete("DeleteMedicalInstitution")]
+        [HttpDelete("{id}")]
         [Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
@@ -143,7 +143,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// Get Medical institution by id
         /// </summary>
         /// <returns>OK(model)</returns>
-        [HttpGet("GetMedicalInstitutionById")]
+        [HttpGet("{id}")]
         [Authorize]
         [ProducesResponseType(typeof(MedicalInstitutionResponseModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
@@ -173,7 +173,7 @@ namespace MedAssistant.WebAPI.Controllers
         /// Get all Medical institutions 
         /// </summary>
         /// <returns>OK(models)</returns>
-        [HttpGet("GetAllMedicalInstitution")]
+        [HttpGet]
         [Authorize]
         [ProducesResponseType(typeof(List<MedicalInstitutionResponseModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]

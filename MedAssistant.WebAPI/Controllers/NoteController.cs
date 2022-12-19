@@ -27,10 +27,10 @@ namespace MedAssistant.WebAPI.Controllers
         }
 
         /// <summary>
-        /// Add new doctor type 
+        /// Add new note 
         /// </summary>
         /// <returns>OK(model)</returns>
-        [HttpPost("CreateNote")]
+        [HttpPost]
         [Authorize]
         [ProducesResponseType(typeof(NoteRequestModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
@@ -62,10 +62,10 @@ namespace MedAssistant.WebAPI.Controllers
         }
 
         /// <summary>
-        /// Update doctor type 
+        /// Update note
         /// </summary>
         /// <returns>204</returns>
-        [HttpPut("UpdateNote")]
+        [HttpPut]
         [Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
@@ -91,10 +91,10 @@ namespace MedAssistant.WebAPI.Controllers
         }
 
         /// <summary>
-        /// Delete doctor type 
+        /// Delete note by id
         /// </summary>
         /// <returns>OK(model)</returns>
-        [HttpDelete("DeleteNote")]
+        [HttpDelete("{id}")]
         [Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
@@ -120,10 +120,10 @@ namespace MedAssistant.WebAPI.Controllers
 
 
         /// <summary>
-        /// Get doctor type by id
+        /// Get note by id
         /// </summary>
         /// <returns>OK(model)</returns>
-        [HttpGet("GetNoteById")]
+        [HttpGet("{id}")]
         [Authorize]
         [ProducesResponseType(typeof(NoteResponseModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
@@ -150,10 +150,10 @@ namespace MedAssistant.WebAPI.Controllers
 
 
         /// <summary>
-        /// Get all doctor types 
+        /// Get all notes   
         /// </summary>
         /// <returns>OK(models)</returns>
-        [HttpGet("GetAllNotes")]
+        [HttpGet]
         [Authorize]
         [ProducesResponseType(typeof(List<NoteResponseModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]

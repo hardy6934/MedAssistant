@@ -10,7 +10,7 @@ using System.Security.Claims;
 
 namespace MedAssistant.Controllers
 {
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = "User,Admin,Moderator")]
     public class UserController : Controller
     {
         private readonly IMapper _mapper;
@@ -26,7 +26,7 @@ namespace MedAssistant.Controllers
             this.accountService = accountService;
         }
 
-        public async Task<IActionResult> UserView()
+         public async Task<IActionResult> UserView()
         {
             try
             {
@@ -37,9 +37,7 @@ namespace MedAssistant.Controllers
                 var model = await _userService.GetUsersByAccountId(idaccount);
 
                 if (model != null)
-                {
-
-
+                { 
                     return View(_mapper.Map<UserModel>(model));
                 }
                 return NotFound();
@@ -52,7 +50,7 @@ namespace MedAssistant.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditUsersAsync(int id)
+         public async Task<IActionResult> EditUsersAsync(int id)
         {
             try
             {
@@ -67,7 +65,7 @@ namespace MedAssistant.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditUsersAsync(UserModel model)
+         public async Task<IActionResult> EditUsersAsync(UserModel model)
         {
             try
             {

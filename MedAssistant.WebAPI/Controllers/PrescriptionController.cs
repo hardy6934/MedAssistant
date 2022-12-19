@@ -28,10 +28,10 @@ namespace MedAssistant.WebAPI.Controllers
           
 
         /// <summary>
-        /// Add new doctor type 
+        /// Add new prescription
         /// </summary>
         /// <returns>OK(model)</returns>
-        [HttpPost("CreatePrescription")]
+        [HttpPost]
         [Authorize]
         [ProducesResponseType(typeof(PrescriptionRequestModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
@@ -62,10 +62,10 @@ namespace MedAssistant.WebAPI.Controllers
         }
 
         /// <summary>
-        /// Update doctor type 
+        /// Update prescription 
         /// </summary>
         /// <returns>204</returns>
-        [HttpPut("UpdatePrescription")]
+        [HttpPut]
         [Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
@@ -90,10 +90,10 @@ namespace MedAssistant.WebAPI.Controllers
         }
 
         /// <summary>
-        /// Delete doctor type 
+        /// Delete prescription 
         /// </summary>
         /// <returns>OK(model)</returns>
-        [HttpDelete("DeletePrescription")]
+        [HttpDelete("{id}")]
         [Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
@@ -118,10 +118,10 @@ namespace MedAssistant.WebAPI.Controllers
 
 
         /// <summary>
-        /// Get doctor type by id
+        /// Get prescription by id
         /// </summary>
         /// <returns>OK(model)</returns>
-        [HttpGet("GetPrescriptionById")]
+        [HttpGet("{id}")]
         [Authorize]
         [ProducesResponseType(typeof(PrescriptionsResponseModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
@@ -147,10 +147,10 @@ namespace MedAssistant.WebAPI.Controllers
 
 
         /// <summary>
-        /// Get all doctor types 
+        /// Get all Prescriptions 
         /// </summary>
         /// <returns>OK(models)</returns>
-        [HttpGet("GetAllPrescriptionsForUser")]
+        [HttpGet]
         [Authorize] 
         [ProducesResponseType(typeof(List<PrescriptionsResponseModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
