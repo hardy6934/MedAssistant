@@ -29,7 +29,7 @@ namespace MedAssistant.Controllers
 
                 if (Dtos != null)
                 { 
-                    var pageSize = 100;
+                    var pageSize = 75;
 
                     var models = Dtos.Select(x => mapper.Map<MedicineModel>(x)).ToList();
                      

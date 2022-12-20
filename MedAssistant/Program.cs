@@ -62,6 +62,7 @@ namespace MedAssistant
             builder.Services.AddScoped<IMedicineService, MedicineService>();
             builder.Services.AddScoped<IVaccinationTypeService, VaccinationTypeService>();
             builder.Services.AddScoped<IEmailService, EmailService>();
+            builder.Services.AddScoped<IEventsForCalendarService, EventsForCalendarService>();
 
             //Dependency Injection GenericRepository
             builder.Services.AddScoped<IRepository<User>, Repository<User>>();

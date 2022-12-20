@@ -5,7 +5,7 @@
 }
 
 <div>
-    <h1>All Vaccinations</h1>
+    <h1>All Notes</h1>
 
     <a class="btn btn-primary" asp-area="" asp-controller="Note" asp-action="AddNote">Add New Note</a>
 
@@ -23,30 +23,66 @@
                 <label asp-for="@n.Description" >@n.Description</label>
             </div>
 
+            @if(@n.DoctorName != null)
+            {
             <div >
                 <label asp-for="@n.DoctorName" >Doctors Name</label> <br/>
                 <label asp-for="@n.DoctorName" >@n.DoctorName</label>
             </div>
-
+            }
+            else {
+             <div >
+                <label asp-for="@n.DoctorName" >Doctors Name</label> <br/>
+                <label asp-for="@n.DoctorName" >not selected</label>
+            </div>
+            }
+            
+             @if(@n.DoctorPhone != null)
+            {
             <div >
                 <label asp-for="@n.DoctorPhone" >Doctor's Phone</label> <br/>
                 <label asp-for="@n.DoctorPhone" >@n.DoctorPhone</label>
             </div>
+            }
+            else {
+            <div >
+                <label asp-for="@n.DoctorPhone" >Doctor's Phone</label> <br/>
+                <label asp-for="@n.DoctorPhone" >not selected</label>
+            </div>
+            }
 
+            @if(@n.MedicalInstitution != null)
+            {
             <div >
                 <label asp-for="@n.MedicalInstitution" >MedicalInstitution</label> <br/>
                 <label asp-for="@n.MedicalInstitution" >@n.MedicalInstitution</label>
             </div>
+            }
+            else {
+            <div >
+                <label asp-for="@n.MedicalInstitution" >MedicalInstitution</label> <br/>
+                <label asp-for="@n.MedicalInstitution" >not selected</label>
+            </div>
+            }
            
             <div>
                  <label asp-for="@n.Remind">Remind</label> <br/>
                 <input asp-for="@n.Remind" type="checkbox"  value = "@n.Remind"/>
             </div>
 
+            @if(@n.RemindDate != null)
+            {
             <div >
                 <label asp-for="@n.RemindDate">RemindDate</label> <br/>
                 <label asp-for="@n.RemindDate" >@n.RemindDate </label>
             </div>
+            }
+            else {
+            <div >
+                <label asp-for="@n.RemindDate">RemindDate</label> <br/>
+                <label asp-for="@n.RemindDate" >not selected </label>
+            </div>
+            }
              
             
             <a class="btn btn-primary" asp-area="" asp-controller="Note" asp-action="UpdateNote" asp-route-id = "@n.Id">Update Note</a>

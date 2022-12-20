@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MedAssistant.Core;
 using MedAssistant.Core.DataTransferObject;
 using MedAssistant.DataBase.Entities;
 using MedAssistant.Models;
@@ -23,6 +24,9 @@ namespace MedAssistant.MappingProfiles
 
             CreateMap<NoteDTO, CreateNoteModel>();
             CreateMap<CreateNoteModel, NoteDTO>();
+
+            CreateMap<NoteDTO, Event>().ForMember(x => x.Date, x => x.MapFrom(note => note.RemindDate))
+                .ForMember(x => x.Name, x => x.MapFrom(note => note.NoteType));
 
         }
 

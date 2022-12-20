@@ -269,7 +269,7 @@ namespace MedAssistant.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> ResetPassword(EmailRecoveryPasswordModel emailRecoveryPasswordModel)
+        public  IActionResult  ResetPassword(EmailRecoveryPasswordModel emailRecoveryPasswordModel)
         {
             try
             {
@@ -288,7 +288,7 @@ namespace MedAssistant.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ResetPasswordForm()
+        public  IActionResult  ResetPasswordForm()
         {
             try
             {
@@ -324,7 +324,7 @@ namespace MedAssistant.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> ChangePassword()
+        public  IActionResult ChangePassword()
         {
             try
             {

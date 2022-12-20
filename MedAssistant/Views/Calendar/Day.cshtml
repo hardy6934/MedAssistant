@@ -1,0 +1,21 @@
+﻿
+@using MedAssistant.Models.Calendar
+@model DayModel
+
+<div class="day @(this.Model.IsNotCurrentMonth ? "not-current-month" : null) @(this.Model.IsWeekendOrHoliday ? "weekend-or-holiday" : null) @(this.Model.IsToday ? "today" : null)">
+  <div class="date">
+    @Model.Date.Day.ToString("00")
+  </div>
+  <div class="events">
+
+     
+        @foreach (var @event in this.Model.Events)
+        {
+            @if (@Model.Date.Day == @event.Date.Day && @Model.Date.Month == @event.Date.Month)
+            {
+               @Html.Partial("Event", @event)
+            }
+        }
+    
+  </div>
+</div>

@@ -5,7 +5,7 @@
     ViewData["Title"] = "Medical institutions";
 }
 
-<div>
+<div class = "container">
     <h1>All Medecines</h1>
      
    @if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
@@ -13,9 +13,10 @@
         <a class="btn btn-primary" asp-area="" asp-controller="MedicalInstitution" asp-action="AddMedicalInstitution">Add medical institution</a> 
      }
      
+     <div class="row">
      @foreach(var n in Model.MedicalInstitutionModels)
      { 
-            <div style= "border:solid 1px; margin-bottom:20px " class ="vaccination-preview" >
+            <div style= "border:solid 1px; margin-bottom:20px; margin-right:10px; min-width:470px; " class ="col-12 col-sm-10 col-md-6 col-lg-4 col-xl-3" >
 
                 <div >  
                     <label asp-for="@n.Name">Medical institution name</label> <br/>
@@ -28,7 +29,7 @@
                 </div> 
                 
                 <div>
-                    <a class="btn btn-primary" href ="@n.InfoUrl" style="text-decoration:none">More about medical institution</a> 
+                    <a href ="@n.InfoUrl" style="text-decoration:none">More about medical institution</a> 
                 </div>
              
                 @if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
@@ -37,9 +38,10 @@
                     <a class="btn btn-primary" asp-area="" asp-controller="MedicalInstitution" asp-action="RemoveMedicalInstitution" asp-route-id = "@n.Id">Remove medical institution</a>
                 }
                 
-           </div > 
-       
+           </div >  
      }     
+
+     </div>
     
       
            <div class="pagingDiv" page-model="@Model.PagingInfo" page-action="MedicalInstitutionView" page-classes-enabled="true" page-class="paging" page-class-selected="active"> </div> 

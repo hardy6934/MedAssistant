@@ -5,40 +5,45 @@
     ViewData["Title"] = "Medecines";
 }
 
-<div>
+<div class="container">
     <h1>All Medecines</h1>
      
      @if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
      {
-        <a class="btn btn-primary" asp-area="" asp-controller="Medecine" asp-action="AddMedecine">AddMedecine</a> 
+        <a style="margin-bottom:10px" class="btn btn-primary" asp-area="" asp-controller="Medecine" asp-action="AddMedecine">AddMedecine</a> 
      }
-  
-     @foreach(var n in Model.MedicineModel)
-     { 
-            <div style= "border:solid 1px; margin-bottom:20px " class ="vaccination-preview">
+        
+    <div class="row" >
+        @foreach(var n in Model.MedicineModel)
+        { 
+                <div style= "border:solid 1px; margin-bottom:10px; margin-right:10px; min-width:330px;" class ="col-12 col-sm-10 col-md-6 col-lg-4 col-xl-3">
 
-                <div >  
-                    <label asp-for="@n.Name">Medecine Name</label> <br/>
-                    <label asp-for = "@n.Name" >@n.Name</label>
-                </div>
+                    <div >  
+                        <label asp-for="@n.Name">Medecine Name</label> <br/>
+                        <label asp-for = "@n.Name" >@n.Name</label>
+                    </div>
 
-                <div>
-                    <a class="btn btn-primary" href ="@n.MedecineUrl" style="text-decoration:none">More about medecine</a> 
-                </div> 
+                    <div>
+                        <a   href ="@n.MedecineUrl" style="text-decoration:none">More about medical institution</a> 
+                    </div>
              
-            @if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
-            {
-                <a class="btn btn-primary" asp-area="" asp-controller="Medecine" asp-action="UpdateMedecine" asp-route-id = "@n.Id">UpdateMedecine</a>
-                <a class="btn btn-primary" asp-area="" asp-controller="Medecine" asp-action="RemoveMedecine" asp-route-id = "@n.Id">RemoveMedecine</a> 
-            }
-
-           </div> 
+                    
+                @if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
+                {
+                    <div>
+                    <a class="btn btn-primary" asp-area="" asp-controller="Medecine" asp-action="UpdateMedecine" asp-route-id = "@n.Id">UpdateMedecine</a>
+                    <a class="btn btn-primary" asp-area="" asp-controller="Medecine" asp-action="RemoveMedecine" asp-route-id = "@n.Id">RemoveMedecine</a> 
+                    </div>
+                }
+                 </div> 
+        }
+     </div> 
        
-     }     
-    
+          
+  
       
            <div class="pagingDiv" page-model="@Model.PagingInfo" page-action="MedecinesView" page-classes-enabled="true" page-class="paging" page-class-selected="active"> </div> 
- </div>
+</div>
 
  
    
