@@ -19,6 +19,7 @@ namespace MedAssistant.Buisness.Services
                 msg.IsBodyHtml = true;
                 client.Host = "smtp.yandex.com";
                 NetworkCredential basicauthenticationinfo = new NetworkCredential("mailer.aleksandar@yandex.com", "124832qwe");
+                //katyaForMedAsistant
                 client.UseDefaultCredentials = false;
                 client.Port = int.Parse("587");
                 client.EnableSsl = true; 

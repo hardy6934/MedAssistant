@@ -51,7 +51,6 @@ namespace MedAssistant.WebAPI.Controllers
         /// </summary>
         /// <returns>OK(model)</returns>
         [HttpPost("Medecines")]
-        [Authorize]
         [ProducesResponseType(typeof(MedicinesRequestModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
@@ -145,7 +144,6 @@ namespace MedAssistant.WebAPI.Controllers
         /// </summary>
         /// <returns>OK(model)</returns>
         [HttpGet("{id}")]
-        [Authorize]
         [ProducesResponseType(typeof(MedecinesResponseModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
@@ -180,7 +178,7 @@ namespace MedAssistant.WebAPI.Controllers
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetAllTypes()
+        public async Task<IActionResult> GetAllMedicines()
         {
             try
             {
@@ -200,7 +198,6 @@ namespace MedAssistant.WebAPI.Controllers
         /// </summary>
         /// <returns>OK(models)</returns>
         [HttpGet("{page}/{count}")]
-        [Authorize]
         [ProducesResponseType(typeof(List<MedecinesResponseModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]

@@ -86,13 +86,13 @@ namespace MedAssistant.WebAPI.Controllers
             }
         }
 
-        [HttpPatch("{email}/{newRole}")]
+        [HttpPatch("Users")]
         [Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> ChangeUserRoleByEmail(string email, string newRole)
+        public async Task<IActionResult> ChangeUserRoleByEmail([FromQuery] string email, string newRole)
         {
             try
             {

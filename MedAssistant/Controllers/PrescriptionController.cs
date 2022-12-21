@@ -16,11 +16,13 @@ namespace MedAssistant.Controllers
     {
         private readonly IMapper mapper;
         private readonly IPrescriptionService prescriptionService;
-
-        public PrescriptionController(IPrescriptionService prescriptionService, IMapper mapper)
+        private readonly IMedicineService medicineService;
+         
+        public PrescriptionController(IPrescriptionService prescriptionService, IMapper mapper, IMedicineService medicineService)
         {
             this.mapper = mapper;
             this.prescriptionService = prescriptionService;
+             this.medicineService = medicineService;
         }
 
 
@@ -125,8 +127,7 @@ namespace MedAssistant.Controllers
             try
             { 
                 var model = await prescriptionService.GetPrescriptionByIdAsync(id); 
-                var Medicines = await prescriptionService.GetAllMedicinesAsync(); 
-                model.Names = Medicines.Select(dto => new SelectListItem(dto.Name, dto.Id.ToString())).ToList(); 
+                 
                 var ent = mapper.Map<CreatePrescriptionModel>(model); 
                 return View(ent); 
             }
@@ -147,8 +148,9 @@ namespace MedAssistant.Controllers
                 if (ModelState.IsValid)
                 {
                     var emailAddress = HttpContext.User.Identity.Name.ToString(); 
-                    var userid = prescriptionService.GetUserIdByEmailAdressAsync(emailAddress); 
-                    prescriptionModel.UserId = await userid; 
+                    var userid = await prescriptionService.GetUserIdByEmailAdressAsync(emailAddress); 
+                    prescriptionModel.UserId = userid;
+                    prescriptionModel.MedicineId = prescriptionService.FindMedecineIdByName(prescriptionModel.MedicineName);
                     var entity = await prescriptionService.UpdatePrescriptionAsync(mapper.Map<PrescriptionDTO>(prescriptionModel)); 
                     if (entity > 0)
                     {
